@@ -1,0 +1,14 @@
+{% extends "base.html" %}
+
+{% block head %}
+<link href="{{ editor_style }}" rel="stylesheet">
+{% endblock %}
+
+{% block body %}
+<!-- Исходный код скрипта: scripts/editor.ts -->
+<script src="{{ editor_script }}"></script>
+{% endblock %}
+
+{% block content %}
+<button onclick="createBlock()">+</button>
+{% endblock %}

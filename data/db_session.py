@@ -7,10 +7,14 @@ from os import pardir, makedirs, path
 SqlAlchemyBase = dec.declarative_base()
 
 
+__factory: ... = None
+
+
 def global_init(db_file):
-    global create_session
+    global __factory
+
     if not db_file or not db_file.strip():
-        raise Exception("Необходимо указать файл базы данных.")
+        raise IOError("Необходимо указать файл базы данных.")
 
     makedirs(path.abspath(path.join(db_file, pardir)), exist_ok=True)
 
@@ -18,9 +22,13 @@ def global_init(db_file):
     print(f"Подключение к базе данных по адресу {conn_str}")
 
     engine = sa.create_engine(conn_str, echo=False)
+    __factory = orm.sessionmaker(bind=engine)
 
     from . import __all_models
 
     SqlAlchemyBase.metadata.create_all(engine)
 
-    create_session = orm.sessionmaker(bind=engine)
+
+def create_session() -> orm.Session:
+    global __factory
+    return __factory()

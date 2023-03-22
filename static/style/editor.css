@@ -1,0 +1,19 @@
+.block {
+    position: absolute;
+    z-index: 0;
+    background-color: #f1f1f1;
+    border: none;
+    text-align: center;
+}
+
+.blockheader {
+    padding: 5px;
+    cursor: move;
+    z-index: 1;
+    background-color: #2196F3;
+    color: #fff;
+}
+
+.block:hover {
+    z-index: 2;
+}
