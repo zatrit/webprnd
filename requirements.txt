@@ -1,5 +1,8 @@
 cryptography
 sqlalchemy
 argparse
-logging
 flask
+flask_cors
+# logging должно быть внизу, чтобы в случае ошибки не обрывать
+# все остальные установки
+logging

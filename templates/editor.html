@@ -1,12 +1,13 @@
 {% extends "base.html" %}
 
 {% block head %}
-<link href="{{ editor_style }}" rel="stylesheet">
+<link href="/static/style/editor.css" rel="stylesheet">
 {% endblock %}
 
 {% block body %}
 <!-- Исходный код скрипта: scripts/editor.ts -->
-<script src="{{ editor_script }}"></script>
+<script src="https://cdn.jsdelivr.net/npm/pixi.js@7.x/dist/pixi.min.js" crossorigin="anonymous"></script>
+<script src="/static/script/editor.js"></script>
 {% endblock %}
 
 {% block content %}

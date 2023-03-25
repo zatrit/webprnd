@@ -1,24 +1,34 @@
+import PIXI from "pixi.js";
+
+const app = new PIXI.Application<HTMLCanvasElement>({ background: '#1099bb' });
+app.view.classList.add("background");
+document.body.appendChild(app.view);
+
 function createBlock() {
-    var block = document.createElement("div");
+    const container = document.getElementById("container-main");
+    const block = document.createElement("div");
     block.classList.add("block")
 
-    var blockHeader = document.createElement("div");
+    const blockHeader = document.createElement("div");
     blockHeader.classList.add("blockheader");
     blockHeader.innerHTML = "Very long string aaaa";
     block.appendChild(blockHeader);
 
-    var button = document.createElement("p");
-    button.innerHTML = "Hello, World!";
-    block.appendChild(button)
+    const blockLabel = document.createElement("p");
+    blockLabel.classList.add("blocklabel");
+    blockLabel.contentEditable = "true";
+    blockLabel.spellcheck = false;
+    blockLabel.innerHTML = "Редактируемая область";
+    block.appendChild(blockLabel)
 
-    document.body.appendChild(block);
+    container?.appendChild(block);
 
     dragElement(block, blockHeader);
 }
 
 // https://www.w3schools.com/howto/howto_js_draggable.asp
 function dragElement(element: HTMLDivElement, header: HTMLDivElement | null = null) {
-    var pos1 = 0, pos2 = 0, pos3 = 0, pos4 = 0;
+    let pos1 = 0, pos2 = 0, pos3 = 0, pos4 = 0;
     // Если передан header, настроить обработчик для него
     // Иначе для element
     (header || element).onmousedown = dragMouseDown;

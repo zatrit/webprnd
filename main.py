@@ -1,13 +1,17 @@
 import pages
 from flask import Flask
 from pathlib import Path
+import mimetypes
+
+# Исправляет неверный MIME-тип для скриптов и стилей
+mimetypes.add_type('text/css', '.css')
+mimetypes.add_type('text/javascript', '.js')
 
 key = Path(".key")
 key = key.read_text() if key.exists() else ""  # type: ignore
 
 app = Flask(__name__)
 app.config["SECRET_KEY"] = key
-
 
 app.register_blueprint(pages.blueprint)
 
