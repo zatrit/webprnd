@@ -1,0 +1,43 @@
+.block {
+    position: absolute;
+    z-index: 0;
+    background-color: var(--bs-tertiary-bg);
+    border: none;
+    text-align: center;
+    border-radius: 10px;
+    user-select: none;
+    overflow: hidden;
+}
+
+.blockheader {
+    padding: 5px 10px;
+    cursor: move;
+    z-index: 1;
+    background-color: var(--bs-green);
+    color: var(--bs-tertiary-bg);
+}
+
+.toolbar {
+    background-color: var(--bs-gray-300);
+    border-radius: 10px;
+    margin-top: 10%;
+}
+
+.blocklabel {
+    line-height: 1.5;
+    margin: 5px 10px 10px;
+}
+
+.background {
+    position: absolute;
+    margin: -12px;
+    z-index: -999;
+    width: 105%;
+    height: 105%;
+}
+
+body {
+    display: inline-flex;
+    overflow: hidden;
+    white-space: nowrap;
+}

@@ -1,15 +1,10 @@
 {% extends "base.html" %}
 
 {% block head %}
-<link href="/static/style/editor.css" rel="stylesheet">
-{% endblock %}
-
-{% block body %}
-<!-- Исходный код скрипта: scripts/editor.ts -->
-<script src="https://cdn.jsdelivr.net/npm/pixi.js@7.x/dist/pixi.min.js" crossorigin="anonymous"></script>
-<script src="/static/script/editor.js"></script>
+<link href="{{ static('style/editor.css') }}" rel="stylesheet">
 {% endblock %}
 
 {% block content %}
-<button onclick="createBlock()">+</button>
+<!-- Исходный код скрипта: scripts/editor.ts -->
+<script src="{{ static('script/editor.js') }}"></script>
 {% endblock %}

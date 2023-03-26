@@ -1,11 +1,13 @@
 from pathlib import Path
 from flask import Blueprint, render_template
 
+from util import flask_static
+
 blueprint = Blueprint(
     "pages",
     __name__,
     template_folder="templates",
-    static_folder="static"
+    static_folder="static",
 )
 
 static_folder: str = blueprint.static_url_path.lstrip("/")  # type: ignore
@@ -14,7 +16,8 @@ static_folder: str = blueprint.static_url_path.lstrip("/")  # type: ignore
 @blueprint.route("/editor")
 def editor():
     params = {
-        "title": "Редактор"
+        "title": "Редактор",
+        "static": flask_static
     }
     return render_template("editor.html", **params)
 
