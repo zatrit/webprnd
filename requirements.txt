@@ -1,6 +1,4 @@
-cryptography
 sqlalchemy
 argparse
 flask
-flask_cors
 cryptography
