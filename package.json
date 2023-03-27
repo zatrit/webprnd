@@ -1,0 +1,9 @@
+{
+  "dependencies": {
+    "@types/vis": "^4.21.24"
+  },
+  "devDependencies": {
+    "minify": "^9.2.0",
+    "typescript": "^5.0.2"
+  }
+}

@@ -1,3 +1,4 @@
+#!/usr/bin/env python
 import pages
 from flask import Flask
 from pathlib import Path
@@ -21,12 +22,12 @@ def main():
 
     parser = ArgumentParser()
     parser.add_argument("--port", type=int, default=5000)
-    parser.add_argument("--no-scripts-check", dest="scripts_check",
+    parser.add_argument("--no-content-check", dest="content_check",
                         action="store_false", default=True)
 
     args = parser.parse_args()
 
-    if args.scripts_check and not pages.scripts_check():
+    if args.content_check and not pages.content_check():
         exit()
 
     from data.db_session import global_init

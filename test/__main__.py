@@ -6,6 +6,6 @@ import sys
 import pytest
 
 sys.path.append("..")
-os.chdir("test/")
+os.chdir(os.path.split(__file__)[0])
 
 pytest.main()

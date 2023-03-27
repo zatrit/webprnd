@@ -32,7 +32,7 @@
 ## Архитектура
 
 1. Всё логика сайта состоит из сервисов, работающих с помощью 
-[flask.Blueprint](https://flask.palletsprojects.com/en/2.2.x/blueprints/).
+[flask.Blueprint](https://flask.palletsprojects.com/en/latest/blueprints/).
 На данный момент выделены следующие сервисы: _(пока-что никакие)_
 2. Все модели для баз данных находятся в *data/*
 3. ```# type: ignore``` и прочие подобные комментарии нужны для
@@ -40,8 +40,8 @@
 Благодаря ему я могу писать код без ошибок в VSCode
 4. Для запуска всех тестов используйте команду ```py test``` или
 ```python test```
-5. Принцип работы фронтэнда этого проекта расписан в [compile_script.py](compile_scripts.py)
+5. Принцип работы фронтэнда этого проекта расписан в [build.py](build.py)
 
 ## Ссылки
 
-* Перетаскиваемый элемент https://www.w3schools.com/howto/howto_js_draggable.asp
+* Репозиторий на GitHub: https://github.com/zatrit/webprnd

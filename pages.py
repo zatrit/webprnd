@@ -1,7 +1,5 @@
 from pathlib import Path
-from flask import Blueprint, render_template
-
-from util import flask_static
+from flask import Blueprint, render_template, url_for
 
 blueprint = Blueprint(
     "pages",
@@ -22,11 +20,16 @@ def editor():
     return render_template("editor.html", **params)
 
 
-def scripts_check() -> bool:
-    exists = Path("static/script").exists()
+def content_check() -> bool:
+    exists = Path("static/").exists()
     if not exists:
-        print("Вероятно, необходимые для работы сайта скрипты не скомпилированы.",
-              "Чтобы запустить сервер, игнорируя это сообщение, используйте --no-scripts-check.",
-              "Вы можете скомпилировать скрипты c помощью compile_scripts.py, или же скачать уже готовые:",
+        print("Вероятно, необходимый для работы сайта веб-контент не скомпилирован.",
+              "Чтобы запустить сервер, игнорируя это сообщение, используйте --no-content-check.",
+              "Вы можете скомпилировать веб-контент c помощью build.py, или же скачать:",
               "PLACEHOLDER", sep="\n")
     return exists
+
+
+# Функция для упрощения доступа к статическому контенту страницы
+def flask_static(file: str):
+    return url_for("static", filename=file)

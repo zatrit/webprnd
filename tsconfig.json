@@ -6,8 +6,8 @@
     "moduleResolution": "node", /* Specify how TypeScript looks up a file from a given module specifier. */
     /* Language and Environment */
     "target": "es6", /* Set the JavaScript language version for emitted JavaScript and include compatible library declarations. */
-    "rootDir": "./web/script", /* Specify the root folder within your source files. */
-    "outDir": "./static/script", /* Specify an output folder for all emitted files. */
+    "rootDir": "./web/", /* Specify the root folder within your source files. */
+    "outDir": "./static/", /* Specify an output folder for all emitted files. */
     "esModuleInterop": true, /* Emit additional JavaScript to ease support for importing CommonJS modules. This enables 'allowSyntheticDefaultImports' for type compatibility. */
     "forceConsistentCasingInFileNames": true, /* Ensure that casing is correct in imports. */
     "removeComments": true,
