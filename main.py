@@ -1,5 +1,6 @@
 #!/usr/bin/env python
 import pages
+import api
 from flask import Flask
 from pathlib import Path
 import mimetypes
@@ -15,6 +16,7 @@ app = Flask(__name__)
 app.config["SECRET_KEY"] = key
 
 app.register_blueprint(pages.blueprint)
+app.register_blueprint(api.blueprint)
 
 
 def main():

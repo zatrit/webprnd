@@ -1,9 +1,8 @@
 {
   "dependencies": {
-    "@types/vis": "^4.21.24"
+    "vis-network": "^9.1.6"
   },
   "devDependencies": {
-    "minify": "^9.2.0",
-    "typescript": "^5.0.2"
+    "esbuild": "^0.17.14"
   }
 }

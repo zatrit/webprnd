@@ -1,5 +1,5 @@
 #!/usr/bin/env python
-# Для работы скрипта необходимы такие пакеты Node.js, как typescript и minify
+# Для работы скрипта необходимы такие пакеты Node.js, как esbuild
 
 # Я не очень хорошо разбираюсь в JavaScript, поэтому вероятно чего-то не знаю.
 # Но мне нужна библиотека VisJS для работы сайта
@@ -9,82 +9,60 @@
 # чтобы установить все зависимости проекта
 
 # И так, к причинам существования этого скрипта:
-# 1. Большинство упаковщиков (Java|Type)Script не понимают, какие функции
-# мне нужны, а какие нет
-# 2. Я верю в то, что у CDN'ов сервера быстрее, чем у меня, и если загружать
+# 1. Я верю в то, что у CDN'ов сервера быстрее, чем у меня, и если загружать
 # JavaScript-библиотеки с помощью JSDelivr/Unpkg, то это оптимизирует загрузку страницы
 
 # И теперь к функционалу этого скрипта:
-# Он компилирует все* .ts скрипты, удаляет из них import'ы кода, которые
-# браузер не может найти, минимизирует файлы и стилей и завершается с кодом 0
-
-# Контент веб-страниц находится в папке web/
-
-# (*) на момент написания скрипта 1
+# Он компилирует онтент веб-страниц, находящийся в папке web/ с помощью
+# esbuild. Если не передан параметр --dont-minify, минимизирует их во
+# время компиляции
 
 from os import path, makedirs
 from glob import glob
 import sys
 import json5 as json
-from subprocess import DEVNULL, check_output, run as run_process
+from subprocess import check_output
 from argparse import ArgumentParser
 
 parser = ArgumentParser()
-parser.add_argument("--tsc", type=str, default="tsc",
-                    help="Компилятор TypeScript")
-parser.add_argument("--config", type=str,
-                    default="tsconfig.json", help="Файл tsconfig.json")
+parser.add_argument("--node-bin", type=str, default="./node_modules/.bin/",
+                    help="Путь к каталогу с исполняемыми файлами Node")
 parser.add_argument("--dont-minify", default=True,
                     dest="minify", action="store_false",
-                    help="Выключает минификацию скриптов")
+                    help="Выключает минификацию скриптов с помощью esbuild")
+parser.add_argument("--out-dir", type=str, default="static/",
+                    help="Выходной путь")
+parser.add_argument("--src-dir", type=str, default="web/",
+                    help="Входной путь")
+parser.add_argument("--encoding", type=str, default="utf8")
 args = parser.parse_args()
 
 shell = sys.platform in ("win32", "cygwin")
 
 
-def minify(content: str, kind: str) -> bytes:
+def build(content: str, kind: str) -> bytes:
+    proc_args = [path.join(args.node_bin, "esbuild"), "--loader=" +
+                 kind, "--platform=browser"]
     if args.minify:
-        return check_output(
-            ["minify", "--" + kind, script_file], input=content.encode("utf8"), shell=shell)
-    else:
-        return content.encode("utf8")
+        proc_args.append("--minify")
+    return check_output(proc_args, input=content.encode(args.encoding), shell=shell)
 
 
-run_options = {"stdout": DEVNULL, "shell": shell}
+# Компилирует все файлы определённого типа
+def compile_tree(patt: str, kind: str, line_filter=None, out_ext=None):
+    for src_file in glob(patt, root_dir=args.src_dir, recursive=True):
+        print(src_file)
+        dest_file = path.join(args.out_dir, ".".join(
+            (path.splitext(src_file)[0], out_ext or kind)))
 
-# Компиляция скриптов с помощью tsc
-assert run_process([args.tsc, "-p", args.config], **run_options).returncode == 0, \
-    "TypeScript не установлен или не удалось скомпилировать .ts скрипты"
+        makedirs(path.split(dest_file)[0], exist_ok=True)
 
-# Проерка на наличие minify
-assert not args.minify or run_process(["minify", "-v"], **run_options).returncode == 0, \
-    "minify не установлен, используйте npm install или параметр --dont-minify"
+        with open(path.join(args.src_dir, src_file), "r", encoding=args.encoding) as file:
+            lines = "".join(filter(line_filter, file))
 
-with open(args.config, "r") as tsconfig:
-    compile_options = json.load(tsconfig)["compilerOptions"]  # type: ignore
-    out_dir = compile_options["outDir"]
-    src_dir = compile_options["rootDir"]
+        with open(dest_file, "wb") as file:
+            file.write(build(lines, kind))
 
-makedirs(out_dir, exist_ok=True)
-
-for script_file in glob("**/*.js", root_dir=out_dir, recursive=True):
-    print(script_file)
-    script_file = path.join(out_dir, script_file)
-
-    with open(script_file, "r", encoding="utf8") as file:
-        lines = "".join(
-            filter(lambda line: not line.startswith("import "), file))
-
-    with open(script_file, "wb") as file:
-        file.write(minify(lines, "js"))
-
-for style_file in glob("**/*.css", root_dir=src_dir, recursive=True):
-    print(style_file)
-    dest_file = path.join(out_dir, style_file)
-    makedirs(path.split(dest_file)[0], exist_ok=True)
-
-    with open(path.join(src_dir, style_file), "r", encoding="utf8") as file:
-        lines = file.read()
-
-    with open(dest_file, "wb") as file:
-        file.write(minify(lines, "css"))
+compile_tree("**/*.ts", "ts",
+             lambda line: not line.startswith("import "), out_ext="js")
+compile_tree("**/*.css", "css")

@@ -1,4 +1,5 @@
 sqlalchemy
 argparse
 flask
+flask-restful
 cryptography

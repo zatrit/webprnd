@@ -1,3 +1,10 @@
+:root {
+    /* https://lospec.com/palette-list/aren32 */
+    --aren-black: #1a1516;
+    --aren-cyan: #92e8c0;
+    --aren-dark-blue: #1d2235;
+}
+
 body {
-    background-color: var(--bs-gray-100);
+    background: var(--aren-black);
 }

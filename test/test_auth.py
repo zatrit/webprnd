@@ -10,7 +10,7 @@ def test_token():
 
 
 def test_validation():
-    token = b"gAAAAABkIWRruyMEU5DnZq_VVzWU-TxIRQiyyRo07vLeQcZNc8Xz2DbNoz8J4sWIpYVQQ4501I5dGnu01MJ80iLFM0ryeUcYe19AJ48HSwmjYUs09ztjyhkH42qq-glkS-NfE0SHPzOX"
+    token = b"gAAAAABkIevPM4FnUHng5mSjUye8FPTcqNm4mtaDqx7Rq8EnX1TQwEO8LRhqP15aX-avvNo626VEWMXMUIN9zZZkYoecxmkWR87WEtC7HYB6ZWMF6tvJwusSJVcTV2moBK4gXq93V-mY"
     assert auth.validate(token, login, password_hash)
 
 

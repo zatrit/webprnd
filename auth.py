@@ -20,7 +20,7 @@ def __fernet_for(login: bytes) -> Fernet:
 
 
 def __unencryped_token(login_hash: bytes, password_hash: bytes) -> bytes:
-    return __concatenate(login_hash, password_hash).to_bytes(33, "big")
+    return __concatenate(login_hash, password_hash).to_bytes(32, "big")
 
 
 def token_for(login: bytes, password_hash: bytes) -> bytes:
@@ -39,7 +39,7 @@ def validate(token: bytes, login: bytes, password_hash: bytes) -> bool:
         decrypted_token = fernet.decrypt(token)
 
         login_hash = sha256(login).digest()
-        summ = __concatenate(login_hash, password_hash).to_bytes(33, "big")
+        summ = __concatenate(login_hash, password_hash).to_bytes(32, "big")
 
         return summ == decrypted_token
     except:
