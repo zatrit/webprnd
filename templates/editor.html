@@ -2,12 +2,19 @@
 
 {% block head %}
 <link href="{{ static('style/editor.css') }}" rel="stylesheet">
-<link href=" https://cdn.jsdelivr.net/npm/vis-network@latest/styles/vis-network.min.css " rel="stylesheet">
-<script type="text/javascript" src="https://cdn.jsdelivr.net/npm/vis-network@9.1.6/standalone/umd/vis-network.min.js"></script>
+<script type="text/javascript"
+    src="https://cdn.jsdelivr.net/npm/vis-network@9.1.6/standalone/umd/vis-network.min.js"></script>
 <!-- Исходный код скрипта: web/script/editor.ts -->
 <script src="{{ static('script/editor.js') }}"></script>
 {% endblock %}
 
 {% block content %}
-<div id="editor-container"></div>
+<div class="row">
+    <div class="col-9 border-primary mb-3">
+        <div id="editor-container"></div>
+    </div>
+    <div class="col-3 bg-dark">
+        <button class="btn btn-info" onclick="addNode()">+</button>
+    </div>
+</div>
 {% endblock %}

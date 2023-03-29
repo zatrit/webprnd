@@ -10,7 +10,7 @@
 
 # И так, к причинам существования этого скрипта:
 # 1. Я верю в то, что у CDN'ов сервера быстрее, чем у меня, и если загружать
-# JavaScript-библиотеки с помощью JSDelivr/Unpkg, то это оптимизирует загрузку страницы
+# JavaScript-библиотеки с помощью JSDelivr, то это оптимизирует загрузку страницы
 
 # И теперь к функционалу этого скрипта:
 # Он компилирует онтент веб-страниц, находящийся в папке web/ с помощью
@@ -20,7 +20,6 @@
 from os import path, makedirs
 from glob import glob
 import sys
-import json5 as json
 from subprocess import check_output
 from argparse import ArgumentParser
 
@@ -37,12 +36,12 @@ parser.add_argument("--src-dir", type=str, default="web/",
 parser.add_argument("--encoding", type=str, default="utf8")
 args = parser.parse_args()
 
-shell = sys.platform in ("win32", "cygwin")
+shell = sys.platform == "win32"
 
 
 def build(content: str, kind: str) -> bytes:
-    proc_args = [path.join(args.node_bin, "esbuild"), "--loader=" +
-                 kind, "--platform=browser"]
+    proc_args = [path.join(args.node_bin, "esbuild").replace("/", path.sep),
+                 "--loader=" + kind, "--platform=browser"]
     if args.minify:
         proc_args.append("--minify")
     return check_output(proc_args, input=content.encode(args.encoding), shell=shell)
@@ -62,6 +61,7 @@ def compile_tree(patt: str, kind: str, line_filter=None, out_ext=None):
 
         with open(dest_file, "wb") as file:
             file.write(build(lines, kind))
+
 
 compile_tree("**/*.ts", "ts",
              lambda line: not line.startswith("import "), out_ext="js")
