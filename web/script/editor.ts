@@ -45,6 +45,9 @@ document.addEventListener("DOMContentLoaded", () => {
         else if (e.code == "Delete") {
             deleteSelected();
         }
+        else if (e.code == "KeyA" && e.ctrlKey) {
+            selectAll();
+        }
         else if (e.code == "KeyA") {
             connectSelected();
         }
@@ -72,6 +75,10 @@ function deleteSelected() {
         nodes.remove(n);
     });
     selection.edges.forEach(e => edges.remove(e));
+}
+
+function selectAll() {
+    network.selectNodes(nodes.getIds());
 }
 
 function connectSelected() {

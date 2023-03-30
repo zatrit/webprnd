@@ -11,13 +11,25 @@ blueprint = Blueprint(
 static_folder: str = blueprint.static_url_path.lstrip("/")  # type: ignore
 
 
+@blueprint.route("/")
 @blueprint.route("/editor")
 def editor():
     params = {
         "title": "Редактор",
-        "theme": "darkly",
+        "theme": get_theme()
     }
     return render_template("editor.html", **params)
+
+
+@blueprint.app_errorhandler(404)
+def page_not_found(_):
+    return render_template('not_found.html', theme=get_theme()), 404
+
+
+# Функция для упрощения доступа к статическому контенту страницы
+@blueprint.app_template_global()
+def static(file: str):
+    return url_for("static", filename=file)
 
 
 def content_check() -> bool:
@@ -31,7 +43,5 @@ def content_check() -> bool:
     return exists
 
 
-# Функция для упрощения доступа к статическому контенту страницы
-@blueprint.app_template_global()
-def static(file: str):
-    return url_for("static", filename=file)
+def get_theme() -> str:
+    return "darkly"

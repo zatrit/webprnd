@@ -10,13 +10,14 @@
 
 {% block content %}
 <div class="row">
-    <div class="col-9 border-primary mb-3">
+    <div class="col-9">
         <div id="editor-container"></div>
     </div>
     <div class="col-3 bg-dark">
         <button class="btn btn-info" onclick="addNode()">+</button>
         <button class="btn btn-info" onclick="deleteSelected()">-</button>
         <button class="btn btn-info" onclick="connectSelected()">Соед.</button>
+        <button class="btn btn-info" onclick="selectAll()">Все</button>
     </div>
 </div>
 {% endblock %}
