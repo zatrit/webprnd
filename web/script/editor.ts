@@ -76,7 +76,11 @@ function deleteSelected() {
 
 function connectSelected() {
     pairwise(network.getSelectedNodes(), (cur, next) => {
-        edgeCounter++;
-        edges.add({ id: edgeCounter, from: cur, to: next });
+        if (!(network.getConnectedNodes(cur) as vis.IdType[]).some(i => i == next)) {
+            edgeCounter++;
+            edges.add({ id: edgeCounter, from: cur, to: next });
+        }
     });
+
+    network.unselectAll();
 }
