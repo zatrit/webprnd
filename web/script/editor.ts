@@ -39,9 +39,6 @@ document.addEventListener("DOMContentLoaded", () => {
     network = new vis.Network(container, data, options);
 
     document.onkeydown = e => {
-        console.log(e.code);
-        
-
         if (e.code == "KeyN") {
             addNode();
         }
@@ -63,10 +60,7 @@ function pairwise<T>(arr: T[], func: (cur: T, next: T) => void) {
 
 function addNode() {
     nodeCounter++;
-    edgeCounter++;
-
     nodes.add({ id: nodeCounter, label: "Node " + nodeCounter });
-    edges.add({ id: edgeCounter, from: nodeCounter - 1, to: nodeCounter });
 }
 
 function deleteSelected() {
