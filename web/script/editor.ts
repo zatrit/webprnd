@@ -1,6 +1,9 @@
 import * as vis from "vis-network";
 
-let counter: number = 0;
+let nodeCounter: number = 0;
+let edgeCounter: number = 0;
+let network: vis.Network;
+
 const nodesArray = [{ id: 0, label: "Node 0" }];
 const nodes = new vis.DataSet<vis.Node>(nodesArray);
 const edges = new vis.DataSet<vis.Edge>([]);
@@ -22,17 +25,64 @@ document.addEventListener("DOMContentLoaded", () => {
                 color: style.getPropertyValue("--bs-body-color"),
             },
         },
+        edges: {
+            arrows: {
+                to: true,
+            },
+            smooth: false
+        },
         interaction: {
             multiselect: true,
         },
     };
 
-    const network = new vis.Network(container, data, options);
+    network = new vis.Network(container, data, options);
+
+    document.onkeydown = e => {
+        console.log(e.code);
+        
+
+        if (e.code == "KeyN") {
+            addNode();
+        }
+        else if (e.code == "Delete") {
+            deleteSelected();
+        }
+        else if (e.code == "KeyA") {
+            connectSelected();
+        }
+    };
 });
 
-function addNode() {
-    counter++;
+/** https://stackoverflow.com/a/31973533/12245612 */
+function pairwise<T>(arr: T[], func: (cur: T, next: T) => void) {
+    for (let i = 0; i < arr.length - 1; i++) {
+        func(arr[i], arr[i + 1])
+    }
+}
 
-    nodes.add({ id: counter, label: "Node " + counter });
-    edges.add({ id: counter, from: counter - 1, to: counter })
+function addNode() {
+    nodeCounter++;
+    edgeCounter++;
+
+    nodes.add({ id: nodeCounter, label: "Node " + nodeCounter });
+    edges.add({ id: edgeCounter, from: nodeCounter - 1, to: nodeCounter });
+}
+
+function deleteSelected() {
+    const selection = network.getSelection();
+    selection.nodes.forEach(n => {
+        // По какой-то причине vis.js не удаляет сам соединения
+        // поэтому это прописано здесь
+        network.getConnectedEdges(n).forEach(e => edges.remove(e));
+        nodes.remove(n);
+    });
+    selection.edges.forEach(e => edges.remove(e));
+}
+
+function connectSelected() {
+    pairwise(network.getSelectedNodes(), (cur, next) => {
+        edgeCounter++;
+        edges.add({ id: edgeCounter, from: cur, to: next });
+    });
 }

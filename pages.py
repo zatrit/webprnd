@@ -15,7 +15,7 @@ static_folder: str = blueprint.static_url_path.lstrip("/")  # type: ignore
 def editor():
     params = {
         "title": "Редактор",
-        "static": flask_static
+        "theme": "darkly",
     }
     return render_template("editor.html", **params)
 
@@ -32,5 +32,6 @@ def content_check() -> bool:
 
 
 # Функция для упрощения доступа к статическому контенту страницы
-def flask_static(file: str):
+@blueprint.app_template_global()
+def static(file: str):
     return url_for("static", filename=file)

@@ -3,7 +3,7 @@
 {% block head %}
 <link href="{{ static('style/editor.css') }}" rel="stylesheet">
 <script type="text/javascript"
-    src="https://cdn.jsdelivr.net/npm/vis-network@9.1.6/standalone/umd/vis-network.min.js"></script>
+    src="https://cdn.jsdelivr.net/npm/vis-network/standalone/umd/vis-network.min.js"></script>
 <!-- Исходный код скрипта: web/script/editor.ts -->
 <script src="{{ static('script/editor.js') }}"></script>
 {% endblock %}
@@ -15,6 +15,8 @@
     </div>
     <div class="col-3 bg-dark">
         <button class="btn btn-info" onclick="addNode()">+</button>
+        <button class="btn btn-info" onclick="deleteSelected()">-</button>
+        <button class="btn btn-info" onclick="connectSelected()">Соед.</button>
     </div>
 </div>
 {% endblock %}
