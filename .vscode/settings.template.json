@@ -1,0 +1,5 @@
+{
+    "python.analysis.typeCheckingMode": "basic",
+    "js/ts.implicitProjectConfig.strictNullChecks": true,
+    "js/ts.implicitProjectConfig.strictFunctionTypes": true
+}

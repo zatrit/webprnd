@@ -29,7 +29,7 @@
 ```bash
 # Создаём виртуальную среду и активируем её
 python -m venv .venv 
-source .venv/.bin/activate
+source .venv/bin/activate
 # Устанавливаем нужные пакеты
 pip install -r requirements.txt
 pip install -r dev-requirements.txt
