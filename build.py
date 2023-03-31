@@ -65,4 +65,5 @@ def compile_tree(patt: str, kind: str, line_filter=None, out_ext=None):
 
 compile_tree("**/*.ts", "ts",
              lambda line: not line.startswith("import "), out_ext="js")
+compile_tree("**/*.js", "js")
 compile_tree("**/*.css", "css")
