@@ -3,7 +3,3 @@
     height: 100vh;
     background: var(--bs-body-bg);
 }
-
-.vis-node {
-    color: var(--bs-body-color);
-}
