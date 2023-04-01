@@ -34,6 +34,8 @@ source .venv/bin/activate
 pip install -r requirements.txt
 pip install -r dev-requirements.txt
 npm install
+# Записываем стандартное значение в конфиг
+echo "SECRET_KEY = \"\"" > config.toml
 # Компилируем фронт-энд проекта
 ./build.py
 # Запускаем сервер

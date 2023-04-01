@@ -161,7 +161,7 @@ cython_debug/
 
 # Специфичные для проекта файлы
 db/
-.key
+config.toml
 static/**
 !static/favicon.ico
 

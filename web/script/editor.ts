@@ -1,11 +1,14 @@
-import * as vis from "vis-network";
+import vis from "vis-network";
 
 let nodeCounter: number = 0;
 let edgeCounter: number = 0;
 let network: vis.Network;
 let container: HTMLCanvasElement;
 
-const nodes = new vis.DataSet<vis.Node>([]);
+const nodes = new vis.DataSet<vis.Node>([
+    // Нода с ID 0 - вывод
+    { id: 0, label: "Вывод" }
+]);
 const edges = new vis.DataSet<vis.Edge>([]);
 
 document.addEventListener("DOMContentLoaded", () => {
@@ -23,6 +26,7 @@ document.addEventListener("DOMContentLoaded", () => {
             borderWidth: 0,
             font: {
                 color: style.getPropertyValue("--bs-body-color"),
+                face: style.getPropertyValue("--bs-body-font-family"),
             },
         },
         edges: {
@@ -73,9 +77,9 @@ function addNode() {
     container.style.cursor = "cell";
 
     container.onmousedown = e => {
-        const p = network.DOMtoCanvas(e);
+        const { x, y } = network.DOMtoCanvas(e);
         nodeCounter++;
-        nodes.add({ id: nodeCounter, label: "Node " + nodeCounter, x: p.x, y: p.y });
+        nodes.add({ id: nodeCounter, label: "Node " + nodeCounter, x, y });
         if (!e.shiftKey) {
             container.onmousedown = null;
             container.style.cursor = "default";
@@ -88,6 +92,10 @@ function deleteSelected() {
     selection.nodes.map(n => {
         // По какой-то причине vis.js не удаляет сам соединения
         // поэтому это прописано здесь
+        // Нода с ID 0 не должна быть удалена, так как является выводом
+        if (n == 0) {
+            return;
+        }
         network.getConnectedEdges(n).forEach(e => edges.remove(e));
         nodes.remove(n);
     });

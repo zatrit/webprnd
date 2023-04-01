@@ -1,19 +1,16 @@
 #!/usr/bin/env python
+import toml
 import pages
 import api
 from flask import Flask
-from pathlib import Path
 import mimetypes
 
 # Исправляет неверный MIME-тип для скриптов и стилей
 mimetypes.add_type('text/css', '.css')
 mimetypes.add_type('text/javascript', '.js')
 
-key = Path(".key")
-key = key.read_text() if key.exists() else ""  # type: ignore
-
 app = Flask(__name__)
-app.config["SECRET_KEY"] = key
+app.config.from_file("config.toml", toml.load, True)
 
 app.register_blueprint(pages.blueprint)
 app.register_blueprint(api.blueprint)

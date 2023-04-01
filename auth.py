@@ -6,8 +6,7 @@ from hashlib import sha256
 
 
 def __concatenate(*hashes: bytes) -> int:
-    to_mod, *to_sum = sorted(
-        map(lambda _hash: int.from_bytes(_hash, "big"), hashes))
+    to_mod, *to_sum = sorted(map(int.from_bytes, hashes))
     return sum(to_sum) % to_mod
 
 
