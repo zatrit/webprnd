@@ -1,5 +1,5 @@
 {
-    "$schema": "https://zatrit.pythonanywhere.com/static/json/project.schema.json",
+    "$schema": "project.schema.json",
     "nodes": [
         {
             "type": "output",

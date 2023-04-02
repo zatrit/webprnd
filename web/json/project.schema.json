@@ -1,6 +1,6 @@
 {
     "$schema": "http://json-schema.org/schema",
-    "$id": "https://zatrit.pythonanywhere.com/static/json/project.schema.json",
+    "$id": "project.schema.json",
     "title": "Проект для WebPRND",
     "description": "Содержит данные для вычисления случайных чисел, может быть использован на сайте или же как запрос для API (нужен токен)",
     "type": "object",
