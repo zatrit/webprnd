@@ -6,7 +6,7 @@ let network: vis.Network;
 let container: HTMLCanvasElement;
 
 const nodes = new vis.DataSet<vis.Node>([
-    // Нода с ID 0 - вывод
+    /* Нода с ID 0 - вывод, который нельзя удалить */
     { id: 0, label: "Вывод" }
 ]);
 const edges = new vis.DataSet<vis.Edge>([]);
@@ -45,7 +45,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
     network = new vis.Network(container, data, options);
 
-    document.onkeydown = e => {
+    document.addEventListener("keydown", e => {
         if (e.code == "KeyN") {
             addNode();
         }
@@ -63,7 +63,7 @@ document.addEventListener("DOMContentLoaded", () => {
         else if (e.code == "Escape") {
             network.unselectAll();
         }
-    };
+    });
 });
 
 /** https://stackoverflow.com/a/31973533/12245612 */
@@ -76,15 +76,16 @@ function pairwise<T>(arr: T[], func: (cur: T, next: T) => void) {
 function addNode() {
     container.style.cursor = "cell";
 
-    container.onmousedown = e => {
+    let listener: (e: MouseEvent) => void;
+    container.addEventListener("mousedown", listener = e => {
         const { x, y } = network.DOMtoCanvas(e);
         nodeCounter++;
         nodes.add({ id: nodeCounter, label: "Node " + nodeCounter, x, y });
         if (!e.shiftKey) {
-            container.onmousedown = null;
+            container.removeEventListener("mousedown", listener);
             container.style.cursor = "default";
         }
-    }
+    });
 }
 
 function deleteSelected() {

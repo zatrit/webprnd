@@ -1,0 +1,35 @@
+{
+    "$schema": "https://zatrit.pythonanywhere.com/static/json/project.schema.json",
+    "nodes": [
+        {
+            "type": "output",
+            "name": "json",
+            "id": 0,
+            "uses": [
+                1,
+                2
+            ],
+            "props": {
+                "pretify": true
+            }
+        },
+        {
+            "type": "seed",
+            "name": "time",
+            "id": 1
+        },
+        {
+            "type": "random",
+            "name": "linear_congruential",
+            "id": 2,
+            "uses": [
+                1
+            ],
+            "props": {
+                "a": 1664525,
+                "c": 1013904223,
+                "m": 2147483647
+            }
+        }
+    ]
+}

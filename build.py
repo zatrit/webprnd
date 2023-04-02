@@ -17,9 +17,11 @@
 # esbuild. Если не передан параметр --dont-minify, минимизирует их во
 # время компиляции
 
+from io import BytesIO, StringIO
 from os import path, makedirs
 from glob import glob
 import sys
+import ujson
 from subprocess import check_output
 from argparse import ArgumentParser
 
@@ -39,16 +41,25 @@ args = parser.parse_args()
 shell = sys.platform == "win32"
 
 
-def build(content: str, kind: str) -> bytes:
-    proc_args = [path.join(args.node_bin, "esbuild").replace("/", path.sep),
-                 "--loader=" + kind, "--platform=browser"]
+def node_path(file: str):
+    return path.join(args.node_bin, file).replace("/", path.sep)
+
+
+def esbuild(content: str, kind: str) -> bytes:
+    proc_args = [node_path("esbuild"), "--loader=" +
+                 kind, "--platform=browser"]
     if args.minify:
         proc_args.append("--minify")
     return check_output(proc_args, input=content.encode(args.encoding), shell=shell)
 
 
+def minify_json(content: str, kind: str) -> bytes:
+    assert kind == "json", "Каким-то образом, в minify_json был передан не json"
+    return ujson.dumps(ujson.loads(content)).encode("utf8")
+
+
 # Компилирует все файлы определённого типа
-def compile_tree(patt: str, kind: str, line_filter=None, out_ext=None):
+def compile_tree(patt: str, kind: str, line_filter=None, out_ext=None, action=esbuild):
     for src_file in glob(patt, root_dir=args.src_dir, recursive=True):
         print(src_file)
         dest_file = path.join(args.out_dir, ".".join(
@@ -60,10 +71,10 @@ def compile_tree(patt: str, kind: str, line_filter=None, out_ext=None):
             lines = "".join(filter(line_filter, file))
 
         with open(dest_file, "wb") as file:
-            file.write(build(lines, kind))
+            file.write(action(lines, kind))
 
 
 compile_tree("**/*.ts", "ts",
              lambda line: not line.startswith("import "), out_ext="js")
-compile_tree("**/*.js", "js")
+compile_tree("**/*.json", "json", action=minify_json)
 compile_tree("**/*.css", "css")

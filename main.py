@@ -10,6 +10,7 @@ mimetypes.add_type('text/css', '.css')
 mimetypes.add_type('text/javascript', '.js')
 
 app = Flask(__name__)
+app.config.update(SESSION_COOKIE_SECURE=True)
 app.config.from_file("config.toml", toml.load, True)
 
 app.register_blueprint(pages.blueprint)

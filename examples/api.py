@@ -1,6 +1,7 @@
 #!/usr/bin/python
 # Это пример использования API данного проекта
 # Пока что не готов
+import json
 import requests
 from argparse import ArgumentParser
 import urllib.parse as urlparse
@@ -20,7 +21,7 @@ data = {
             "id": 0,
             "uses": [1, 2],
             "props": {
-                "pretify": True
+                "pretify": True,
             }
         },
         {
@@ -45,4 +46,4 @@ data = {
 url = urlparse.urljoin(args.host, "/api/v1/random")
 response = requests.post(url, json=data)
 
-print(json := response.json())
+print(response.content)
