@@ -1,11 +1,10 @@
 {% extends "base.html" %}
 
 {% block head %}
-<link href="{{ static('style/editor.css') }}" rel="stylesheet">
-<script type="text/javascript"
-    src="https://cdn.jsdelivr.net/npm/vis-network/standalone/umd/vis-network.min.js"></script>
+<link href="{{ static('style/editor.css') }}" rel="stylesheet" crossorigin="anonymous">
+
 <!-- Исходный код скрипта: web/script/editor.ts -->
-<script src="{{ static('script/editor.js') }}"></script>
+<script src="{{ static('script/editor.js') }}" type="module"></script>
 {% endblock %}
 
 {% block content %}
@@ -14,10 +13,12 @@
         <div id="editor-container"></div>
     </div>
     <div class="col-3 bg-dark">
-        <button class="btn btn-info" onclick="addNode()">+</button>
-        <button class="btn btn-info" onclick="deleteSelected()">-</button>
-        <button class="btn btn-info" onclick="connectSelected()">Соед.</button>
-        <button class="btn btn-info" onclick="selectAll()">Все</button>
+        <button class="btn btn-info" id="btn_add">+</button>
+        <button class="btn btn-info" id="btn_delete">-</button>
+        <button class="btn btn-info" id="btn_connect">Соед.</button>
+        <button class="btn btn-info" id="btn_select_all">Все</button>
+
+        <input type="file" id="fileInput">
     </div>
 </div>
 {% endblock %}

@@ -1,6 +1,17 @@
-import Ajv, { JSONSchemaType } from 'ajv'
-import { plainToClass } from 'class-transformer'
+import Ajv from 'ajv';
 
-document.addEventListener("DOMContentLoaded", () => {
-    
-});
+class Node {
+    id: number;
+    type: string;
+    name: string;
+    uses: number[];
+}
+
+class Project {
+    nodes: Node[]
+}
+
+export function initProject(fileInput: HTMLInputElement) {
+    const ajv = new Ajv();
+    const host = window.location.host;
+}
