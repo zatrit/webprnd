@@ -1,0 +1,50 @@
+#logo {
+	position: fixed;
+	width: 10%;
+	height: 10%;
+	top: 30px;
+	left: 30px;
+}
+
+#title {
+	/* WebPRND */
+
+	font-weight: 700;
+	color: var(--bs-gray-100);
+}
+
+#desc {
+	/* Реализация CoolPRND как веб-приложения с помощью Flask. */
+
+	font-weight: 400;
+	color: var(--bs-gray-200);
+}
+
+#line-bottom {
+	transform: scale(1, -1);
+	margin-top: 3vh;
+}
+
+/* https://stackoverflow.com/a/16548601/12245612 */
+#background {
+	z-index: -999;
+	min-height: 100%;
+	width: 100%;
+	height: auto;
+	position: fixed;
+	top: 0;
+	left: 0;
+	filter: blur(8px);
+}
+
+.no-select {
+	/* Эти поля должны идти именно в таком порядке, так как
+	иначе сайт сломается, вероятно, странная особенность Firefox */
+	user-select: none;
+	pointer-events: none;
+}
+
+.line {
+	width: 44.5vh;
+	height: 44.5vh;
+}

@@ -71,3 +71,4 @@ build("script/editor.ts", esbuild("--bundle",
       "--platform=browser", "--format=iife"), "js")
 build("**/*.css", esbuild())
 build("**/*.json", shutil.copy)
+build("**/*.svg", shutil.copy)

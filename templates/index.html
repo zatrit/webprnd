@@ -1,0 +1,22 @@
+{% extends "base.html" %}
+
+{% block head %}
+<link rel="stylesheet" href="{{ static('style/index.css') }}" type="text/css">
+{% endblock %}
+
+{% block content %}
+<img src="https://wallup.net/wp-content/uploads/2018/03/23/566310-sky-landscape-road-sunset.jpg" id="background"
+  class="no-select" alt="">
+<img id="logo" class="no-select" src="{{ static('img/logo.svg') }}">
+
+<div class="row justify-content-md-center align-items-center">
+  <div class="col col-lg-5">
+    <h1 id="title" class="display-1">{{ title }}</h1>
+    <p id="desc" class="display-4">Реализация CoolPRND как веб-приложения с помощью Flask.</p>
+  </div>
+  <div class="col col-lg-5">
+    <img class="line no-select" id="line-top" src="{{ static('img/index_line.svg') }}">
+    <img class="line no-select" id="line-bottom" src="{{ static('img/index_line.svg') }}">
+  </div>
+</div>
+{% endblock %}

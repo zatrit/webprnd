@@ -12,6 +12,15 @@ static_folder: str = blueprint.static_url_path.lstrip("/")  # type: ignore
 
 
 @blueprint.route("/")
+@blueprint.route("/index")
+def index():
+    params = {
+        "title": "WebPRND",
+        "theme": get_theme()
+    }
+    return render_template("index.html", **params)
+
+
 @blueprint.route("/editor")
 def editor():
     params = {
