@@ -1,5 +1,5 @@
 {
-    "$schema": "http://json-schema.org/schema",
+    "$schema": "http://json-schema.org/draft-07/schema",
     "$id": "project.schema.json",
     "title": "Проект для WebPRND",
     "description": "Содержит данные для вычисления случайных чисел, может быть использован на сайте или же как запрос для API (нужен токен)",
@@ -10,6 +10,7 @@
             "type": "string"
         },
         "nodes": {
+            "type": "array",
             "description": "Список элементов, используемых для генерации случайных чисел",
             "minItems": 1,
             "uniqueItems": true,
@@ -31,7 +32,8 @@
                         "type": "string"
                     },
                     "props": {
-                        "type": "object"
+                        "type": "object",
+                        "additionalProperties": true
                     },
                     "uses": {
                         "type": "array",

@@ -1,5 +1,5 @@
-import { initNetwork } from "./network"
-import { initProject } from "./project"
+import { initNetwork } from "./network";
+import { initProject } from "./project";
 
 document.addEventListener("DOMContentLoaded", () => {
     const fileInput = document.getElementById('fileInput') as HTMLInputElement;

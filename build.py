@@ -45,7 +45,8 @@ def esbuild(*additional_args: str):
         esbuild_path = node_path("esbuild")
         proc_args = [esbuild_path, source, "--outfile="+out, *additional_args]
         if args.minify:
-            proc_args += ["--minify"]
+            proc_args += ["--minify", "--drop:console", "--drop:debugger",
+                          "--ignore-annotations", "--mangle-props=_$", "--tree-shaking=true"]
 
         run(proc_args, shell=shell, stdout=DEVNULL, check=True)
 
@@ -66,6 +67,7 @@ def build(pattern: str, action: BuildAction, out_ext: str | None = None):
         action(path.join(root_dir, filename), out_file)
 
 
-build("script/editor.ts", esbuild("--bundle", "--platform=browser", "--format=iife"), "js")
+build("script/editor.ts", esbuild("--bundle",
+      "--platform=browser", "--format=iife"), "js")
 build("**/*.css", esbuild())
 build("**/*.json", shutil.copy)

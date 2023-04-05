@@ -1,20 +1,38 @@
 import { DataSet } from "vis-data";
 import vis from "vis-network";
+import { Node, NodeType } from "./project";
+
+class VisProjectNode<T extends keyof NodeType> {
+    node: Node<T>;
+    id: number;
+    label: string;
+    x?: number;
+    y?: number;
+
+    constructor(node: Node<T>, x?: number, y?: number) {
+        this.node = node;
+        this.label = node.name;
+        this.id = node.id;
+
+        if (x) { this.x = x; }
+        if (y) { this.y = y; }
+    }
+}
 
 let nodeCounter: number = 0;
 let edgeCounter: number = 0;
 let network: vis.Network;
 let container: HTMLCanvasElement;
 
-const nodes = new DataSet<vis.Node>([
-    /* Нода с ID 0 - вывод, который нельзя удалить */
-    { id: 0, label: "Вывод" }
-]);
+const nodes = new DataSet<VisProjectNode<any>>([new VisProjectNode({ id: 0, name: "Вывод", type: "output" })]);
 const edges = new DataSet<vis.Edge>([]);
 
 export function initNetwork(_container: HTMLCanvasElement) {
     container = _container;
 
+    /* Так как файл компилируется в формает IIFE, то
+    HTML не имеет доступа к функциям, так что их
+    можно указать из скрипта */
     [
         { id: "btn_add", callback: addNode },
         { id: "btn_delete", callback: deleteSelected },
@@ -29,8 +47,8 @@ export function initNetwork(_container: HTMLCanvasElement) {
 
     const data = { nodes, edges, };
     const options: vis.Options = {
-        height: '100%',
-        width: '100%',
+        height: "100%",
+        width: "100%",
         physics: false,
         nodes: {
             color: style.getPropertyValue("--bs-info"),
@@ -58,6 +76,8 @@ export function initNetwork(_container: HTMLCanvasElement) {
     network = new vis.Network(container, data, options);
 
     document.addEventListener("keydown", e => {
+        console.log(e);
+
         if (e.code == "KeyN") {
             addNode();
         }
@@ -92,7 +112,7 @@ export function addNode() {
     container.addEventListener("mousedown", listener = e => {
         const { x, y } = network.DOMtoCanvas(e);
         nodeCounter++;
-        nodes.add({ id: nodeCounter, label: "Node " + nodeCounter, x, y });
+        nodes.add(new VisProjectNode({ name: "Node " + nodeCounter, id: nodeCounter, type: "random" }, x, y));
         if (!e.shiftKey) {
             container.removeEventListener("mousedown", listener);
             container.style.cursor = "default";

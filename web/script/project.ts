@@ -1,17 +1,19 @@
-import Ajv from 'ajv';
-
-class Node {
-    id: number;
-    type: string;
-    name: string;
-    uses: number[];
+export class NodeType {
+    "random": string;
+    "output": string;
+    "seed": string;
 }
 
-class Project {
-    nodes: Node[]
+export class Node<T extends keyof NodeType> {
+    id: number;
+    type: T;
+    name: string;
+    uses?: number[];
 }
 
 export function initProject(fileInput: HTMLInputElement) {
-    const ajv = new Ajv();
-    const host = window.location.host;
+
+}
+
+export function validateNodes(nodes: Node<keyof NodeType>[]) {
 }
