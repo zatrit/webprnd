@@ -34,10 +34,10 @@ export function initNetwork(_container: HTMLCanvasElement) {
     HTML не имеет доступа к функциям, так что их
     можно указать из скрипта */
     [
-        { id: "btn_add", callback: addNode },
-        { id: "btn_delete", callback: deleteSelected },
-        { id: "btn_connect", callback: connectSelected },
-        { id: "btn_select_all", callback: selectAll },
+        { id: "btn-add", callback: addNode },
+        { id: "btn-delete", callback: deleteSelected },
+        { id: "btn-connect", callback: connectSelected },
+        { id: "btn-select_all", callback: selectAll },
     ].forEach(pair => {
         const element = document.getElementById(pair.id);
         element?.addEventListener("click", pair.callback);
@@ -76,8 +76,6 @@ export function initNetwork(_container: HTMLCanvasElement) {
     network = new vis.Network(container, data, options);
 
     document.addEventListener("keydown", e => {
-        console.log(e);
-
         if (e.code == "KeyN") {
             addNode();
         }

@@ -4,8 +4,8 @@ from flask import Blueprint, render_template, url_for
 blueprint = Blueprint(
     "pages",
     __name__,
-    template_folder="templates",
-    static_folder="static",
+    template_folder="web/templates/",
+    static_folder="static/",
 )
 
 static_folder: str = blueprint.static_url_path.lstrip("/")  # type: ignore
