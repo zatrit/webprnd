@@ -1,29 +1,28 @@
 /* Логотип отображается только если страница имеет достаточно места */
+
 #logo {
-	display: none;
+	display: block;
+    opacity: 0;
+    transition: opacity 0.5s;
+	position: fixed;
+	width: 200px;
+	height: 80px;
+	top: 4vh;
+	left: 4vh;
 }
 
-@media (min-width: 768px) {
+@media screen and (min-width: 768px) {
 	#logo {
-		display: block;
-		position: fixed;
-		width: 10%;
-		height: 10%;
-		top: 5vh;
-		left: 5vh;
+        opacity: 1;
 	}
 }
 
 #title {
-	/* WebPRND */
-
 	font-weight: 700;
 	color: var(--bs-gray-100);
 }
 
 #desc {
-	/* Реализация CoolPRND как веб-приложения с помощью Flask. */
-
 	font-weight: 400;
 	color: var(--bs-gray-200);
 }
