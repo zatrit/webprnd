@@ -37,7 +37,7 @@ export function initNetwork(_container: HTMLCanvasElement) {
         { id: "btn-add", callback: addNode },
         { id: "btn-delete", callback: deleteSelected },
         { id: "btn-connect", callback: connectSelected },
-        { id: "btn-select_all", callback: selectAll },
+        { id: "btn-select-all", callback: selectAll },
     ].forEach(pair => {
         const element = document.getElementById(pair.id);
         element?.addEventListener("click", pair.callback);

@@ -1,3 +1,11 @@
+{% macro button_class() -%}
+class="btn btn-info"
+{%- endmacro -%}
+
+{% macro button(text, id) -%}
+<button {{ button_class() }} id="{{ id }}">{{ text }}</button>
+{%- endmacro -%}
+
 <!doctype html>
 <html lang="ru">
 
@@ -16,8 +24,9 @@
 
     <!-- Исходный код: web/style/base.css -->
     <link href="{{ static('style/base.css') }}" rel="stylesheet" crossorigin="anonymous">
-    
-    <link href="https://fonts.googleapis.com/css2?family=Golos+Text:wght@400;700" rel="stylesheet" crossorigin="anonymous">
+
+    <link href="https://fonts.googleapis.com/css2?family=Golos+Text:wght@400;700" rel="stylesheet"
+        crossorigin="anonymous">
 
     {% block head %}{% endblock %}
 </head>

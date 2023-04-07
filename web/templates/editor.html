@@ -9,17 +9,19 @@
 {% endblock %}
 
 {% block content %}
+<input type="file" id="file-input" class="hidden" accept=".json, *.*">
+
 <div class="row">
     <div class="col-9">
         <div id="editor-container"></div>
     </div>
     <div class="col-3 bg-dark">
-        <button class="btn btn-info" id="btn-add">+</button>
-        <button class="btn btn-info" id="btn-delete">-</button>
-        <button class="btn btn-info" id="btn-connect">Соед.</button>
-        <button class="btn btn-info" id="btn-select_all">Все</button>
-
-        <input type="file" id="file-input" accept=".json, *.*">
+        {{ button("+", "btn-add") }}
+        {{ button("-", "btn-delete") }}
+        {{ button("Соед.", "btn-connect") }}
+        {{ button("Все", "btn-select-all") }}
+        <button {{ button_class() }} id="btn-open"
+            onclick="document.getElementById('file-input').click()">Открыть</button>
     </div>
 </div>
 {% endblock %}

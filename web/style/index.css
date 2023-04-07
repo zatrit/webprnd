@@ -3,7 +3,7 @@
 	display: none;
 }
 
-@media (min-width: 768px) and (min-height: 834px) {
+@media (min-width: 768px) {
 	#logo {
 		display: block;
 		position: fixed;
@@ -13,7 +13,6 @@
 		left: 5vh;
 	}
 }
-
 
 #title {
 	/* WebPRND */
@@ -44,13 +43,6 @@
 	top: 0;
 	left: 0;
 	filter: blur(8px);
-}
-
-.no-select {
-	/* Эти поля должны идти именно в таком порядке, так как
-	иначе сайт сломается, вероятно, странная особенность Firefox */
-	user-select: none;
-	pointer-events: none;
 }
 
 .line {
