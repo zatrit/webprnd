@@ -7,7 +7,8 @@
             "id": 0,
             "uses": [
                 1,
-                2
+                2,
+                3
             ],
             "props": {
                 "pretify": true
@@ -15,15 +16,24 @@
         },
         {
             "type": "seed",
+            "name": "urandom",
+            "id": 1,
+            "props": {
+                "nbytes": 8
+            }
+        },
+        {
+            "type": "seed",
             "name": "time",
-            "id": 1
+            "id": 2
         },
         {
             "type": "random",
             "name": "linear_congruential",
-            "id": 2,
+            "id": 3,
             "uses": [
-                1
+                1,
+                2
             ],
             "props": {
                 "a": 1664525,

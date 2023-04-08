@@ -1,12 +1,8 @@
-export class NodeType {
-    "random": string;
-    "output": string;
-    "seed": string;
-}
+export type NodeType = "random" | "output" | "seed";
 
-export class Node<T extends keyof NodeType> {
+export class Node {
     id: number;
-    type: T;
+    type: NodeType;
     name: string;
     uses?: number[];
     props?: Map<string, any>;
@@ -16,7 +12,9 @@ export class Project {
     nodes: Node<any>[];
 }
 
-export function initProject(fileInput: HTMLInputElement) {
+type SetProject = (p: Project) => void;
+
+export function initProject(fileInput: HTMLInputElement, setProject: SetProject) {
     fileInput.onchange = () => {
         const file = fileInput.files?.item(0)!;
 
@@ -33,7 +31,10 @@ export function initProject(fileInput: HTMLInputElement) {
 
                 const project: Project = JSON.parse(text);
 
-                validateNodes(project.nodes);
+                if (!validateNodes(project.nodes))
+                    throw "Неверный формат проекта";
+
+                setProject(project);
             } catch (err) {
                 alert(err);
             }
@@ -43,6 +44,6 @@ export function initProject(fileInput: HTMLInputElement) {
     };
 }
 
-export function validateNodes(nodes: Node<keyof NodeType>[]) {
-    nodes.forEach(console.log);
+export function validateNodes(nodes: Node<NodeType>[]): boolean {
+    return true;
 }

@@ -19,9 +19,7 @@ from os import path, makedirs
 import shutil
 import sys
 from argparse import ArgumentParser
-from subprocess import run, DEVNULL
 from typing import Callable
-from glob import glob
 
 parser = ArgumentParser()
 parser.add_argument("--node-bin", type=str, default="./node_modules/.bin/")
@@ -34,6 +32,7 @@ args = parser.parse_args()
 shell = sys.platform == "win32"
 
 BuildAction = Callable[[str, str], None]
+BytesAction = Callable[[bytes], bytes]
 
 
 def node_path(file: str):
@@ -41,6 +40,8 @@ def node_path(file: str):
 
 
 def esbuild(*additional_args: str):
+    from subprocess import run, DEVNULL
+
     def _build(source: str, out: str):
         esbuild_path = node_path("esbuild")
         proc_args = [esbuild_path, source, "--outfile="+out, *additional_args]
@@ -53,7 +54,14 @@ def esbuild(*additional_args: str):
     return _build
 
 
+def svg_scour(source: str, out: str):
+    from scour import scour
+    with open(source, "rb") as infile, open(out, "wb") as outfile:
+        scour.start({}, infile, outfile)
+
+
 def build(pattern: str, action: BuildAction, out_ext: str | None = None):
+    from glob import glob
     root_dir = args.root_dir
     for filename in glob(pattern, root_dir=root_dir, recursive=True):
         print(filename.replace(path.sep, "/"))
@@ -71,4 +79,5 @@ build("script/editor.ts", esbuild("--bundle",
       "--platform=browser", "--format=iife"), "js")
 build("**/*.css", esbuild())
 build("**/*.json", shutil.copy)
-build("**/*.svg", shutil.copy)
+build_svg = svg_scour if args.minify else shutil.copy
+build("**/*.svg", build_svg)

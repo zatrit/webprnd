@@ -14,31 +14,28 @@ static_folder: str = blueprint.static_url_path.lstrip("/")  # type: ignore
 @blueprint.route("/")
 @blueprint.route("/index")
 def index():
-    params = {
-        "title": "WebPRND",
-        "theme": get_theme()
-    }
-    return render_template("index.html", **params)
+    return render_template("index.html", title="WebPRND")
 
 
 @blueprint.route("/editor")
 def editor():
-    params = {
-        "title": "Редактор",
-        "theme": get_theme()
-    }
-    return render_template("editor.html", **params)
+    return render_template("editor.html", title="Редактор")
 
 
 @blueprint.app_errorhandler(404)
 def page_not_found(_):
-    return render_template('not_found.html', theme=get_theme()), 404
+    return render_template('not_found.html'), 404
 
 
 # Функция для упрощения доступа к статическому контенту страницы
 @blueprint.app_template_global()
 def static(file: str):
     return url_for("static", filename=file)
+
+
+@blueprint.app_template_global()
+def theme() -> str:
+    return "darkly"
 
 
 def content_check() -> bool:
@@ -50,7 +47,3 @@ def content_check() -> bool:
               "Вы можете скомпилировать веб-контент c помощью build.py, или же скачать:",
               "PLACEHOLDER", sep="\n")
     return exists
-
-
-def get_theme() -> str:
-    return "darkly"

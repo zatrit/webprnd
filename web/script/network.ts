@@ -2,17 +2,21 @@ import { DataSet } from "vis-data";
 import vis from "vis-network";
 import { Node, NodeType } from "./project";
 
-class VisProjectNode<T extends keyof NodeType> {
-    node: Node<T>;
+type ColorsDictionary = { [id in NodeType]: string };
+
+class VisProjectNode {
+    node: Node;
     id: number;
     label: string;
+    color: string;
     x?: number;
     y?: number;
 
-    constructor(node: Node<T>, x?: number, y?: number) {
+    constructor(node: Node, colors: ColorsDictionary, x?: number, y?: number) {
         this.node = node;
         this.label = node.name;
         this.id = node.id;
+        this.color = colors[node.type];
 
         if (x) { this.x = x; }
         if (y) { this.y = y; }
@@ -23,8 +27,9 @@ let nodeCounter: number = 0;
 let edgeCounter: number = 0;
 let network: vis.Network;
 let container: HTMLCanvasElement;
+let nodeColors: ColorsDictionary;
 
-const nodes = new DataSet<VisProjectNode<any>>([new VisProjectNode({ id: 0, name: "Вывод", type: "output" })]);
+const nodes = new DataSet<VisProjectNode>([]);
 const edges = new DataSet<vis.Edge>([]);
 
 export function initNetwork(_container: HTMLCanvasElement) {
@@ -45,6 +50,12 @@ export function initNetwork(_container: HTMLCanvasElement) {
 
     const style = getComputedStyle(document.body);
 
+    nodeColors = {
+        "seed": style.getPropertyValue("--bs-info"),
+        "random": style.getPropertyValue("--bs-success"),
+        "output": style.getPropertyValue("--bs-danger"),
+    };
+
     const data = { nodes, edges, };
     const options: vis.Options = {
         height: "100%",
@@ -63,7 +74,8 @@ export function initNetwork(_container: HTMLCanvasElement) {
             arrows: {
                 to: true,
             },
-            smooth: false
+            smooth: false,
+            color: style.getPropertyValue("--bs-secondary"),
         },
         interaction: {
             multiselect: true,
@@ -110,7 +122,7 @@ export function addNode() {
     container.addEventListener("mousedown", listener = e => {
         const { x, y } = network.DOMtoCanvas(e);
         nodeCounter++;
-        nodes.add(new VisProjectNode({ name: "Node " + nodeCounter, id: nodeCounter, type: "random" }, x, y));
+        nodes.add(new VisProjectNode({ name: "Node " + nodeCounter, id: nodeCounter, type: "random" }, nodeColors, x, y));
         if (!e.shiftKey) {
             container.removeEventListener("mousedown", listener);
             container.style.cursor = "default";
@@ -123,10 +135,6 @@ export function deleteSelected() {
     selection.nodes.map(n => {
         // По какой-то причине vis.js не удаляет сам соединения
         // поэтому это прописано здесь
-        // Нода с ID 0 не должна быть удалена, так как является выводом
-        if (n == 0) {
-            return;
-        }
         network.getConnectedEdges(n).forEach(e => edges.remove(e));
         nodes.remove(n);
     });
@@ -146,4 +154,16 @@ export function connectSelected() {
     });
 
     network.unselectAll();
+}
+
+export function setNodes(addedNodes: Node[]) {
+    console.log(addedNodes);
+
+    addedNodes.forEach(node => {
+        nodes.add(new VisProjectNode(node, nodeColors));
+
+        node.uses?.forEach(from => edges.add({ from, to: node.id }));
+    });
+
+    network.stabilize(addedNodes.length * 2);
 }
