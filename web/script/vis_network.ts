@@ -1,10 +1,11 @@
-import { DataSet } from "vis-data";
-import vis from "vis-network";
 import { Node, NodeType } from "./project";
+import { pairwise } from "./util";
+import vis from "vis-network";
+import { DataSet } from "vis-data";
 
 type ColorsDictionary = { [id in NodeType]: string };
 
-class VisProjectNode {
+class VisProjectNode implements vis.Node {
     node: Node;
     id: number;
     label: string;
@@ -23,8 +24,7 @@ class VisProjectNode {
     }
 }
 
-let nodeCounter: number = 0;
-let edgeCounter: number = 0;
+let counter = { nodes: 0, edges: 0 };
 let network: vis.Network;
 let container: HTMLCanvasElement;
 let nodeColors: ColorsDictionary;
@@ -106,13 +106,8 @@ export function initNetwork(_container: HTMLCanvasElement) {
             network.unselectAll();
         }
     });
-}
 
-/** https://stackoverflow.com/a/31973533/12245612 */
-function pairwise<T>(arr: T[], func: (cur: T, next: T) => void) {
-    for (let i = 0; i < arr.length - 1; i++) {
-        func(arr[i], arr[i + 1]);
-    }
+    window.onbeforeunload = () => nodes.length != 0;
 }
 
 export function addNode() {
@@ -121,8 +116,8 @@ export function addNode() {
     let listener: (e: MouseEvent) => void;
     container.addEventListener("mousedown", listener = e => {
         const { x, y } = network.DOMtoCanvas(e);
-        nodeCounter++;
-        nodes.add(new VisProjectNode({ name: "Node " + nodeCounter, id: nodeCounter, type: "random" }, nodeColors, x, y));
+        const id = ++counter.nodes;
+        nodes.add(new VisProjectNode({ name: "Node " + id, id, type: "random" }, nodeColors, x, y));
         if (!e.shiftKey) {
             container.removeEventListener("mousedown", listener);
             container.style.cursor = "default";
@@ -133,23 +128,21 @@ export function addNode() {
 export function deleteSelected() {
     const selection = network.getSelection();
     selection.nodes.map(n => {
-        // По какой-то причине vis.js не удаляет сам соединения
-        // поэтому это прописано здесь
+        /* По какой-то причине vis.js не удаляет сам соединения
+        поэтому это прописано здесь */
         network.getConnectedEdges(n).forEach(e => edges.remove(e));
         nodes.remove(n);
     });
     selection.edges.forEach(e => edges.remove(e));
 }
 
-export function selectAll() {
-    network.selectNodes(nodes.getIds());
-}
+export const selectAll = () => network.selectNodes(nodes.getIds());
+const connectNodes = (from: vis.IdType, to: vis.IdType) => edges.add({ from, to, id: counter.edges++ });
 
 export function connectSelected() {
     pairwise(network.getSelectedNodes(), (cur, next) => {
         if (!(network.getConnectedNodes(cur) as vis.IdType[]).some(i => i == next)) {
-            edgeCounter++;
-            edges.add({ id: edgeCounter, from: cur, to: next });
+            connectNodes(cur, next);
         }
     });
 
@@ -157,12 +150,12 @@ export function connectSelected() {
 }
 
 export function setNodes(addedNodes: Node[]) {
-    console.log(addedNodes);
+    [nodes, edges].forEach(d => d.clear());
+    counter = { nodes: addedNodes.length, edges: 0 };
 
     addedNodes.forEach(node => {
         nodes.add(new VisProjectNode(node, nodeColors));
-
-        node.uses?.forEach(from => edges.add({ from, to: node.id }));
+        node.uses?.forEach(from => connectNodes(from, node.id));
     });
 
     network.stabilize(addedNodes.length * 2);

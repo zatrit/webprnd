@@ -5,11 +5,11 @@ export class Node {
     type: NodeType;
     name: string;
     uses?: number[];
-    props?: Map<string, any>;
+    props?: Object;
 }
 
 export class Project {
-    nodes: Node<any>[];
+    nodes: Node[];
 }
 
 type SetProject = (p: Project) => void;
@@ -44,6 +44,6 @@ export function initProject(fileInput: HTMLInputElement, setProject: SetProject)
     };
 }
 
-export function validateNodes(nodes: Node<NodeType>[]): boolean {
-    return true;
+export function validateNodes(nodes: Node[]): boolean {
+    return Boolean(nodes);
 }

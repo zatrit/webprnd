@@ -1,4 +1,4 @@
-import { initNetwork, setNodes } from "./network";
+import { initNetwork, setNodes } from "./vis_network";
 import { initProject } from "./project";
 
 function initEditor() {
