@@ -5,8 +5,8 @@
     opacity: 0;
     transition: opacity 0.5s;
 	position: fixed;
-	width: 200px;
-	height: 80px;
+	width: 15vh;
+	height: 6vh;
 	top: 4vh;
 	left: 4vh;
 }
@@ -41,7 +41,7 @@
 	position: fixed;
 	top: 0;
 	left: 0;
-	filter: blur(8px);
+	filter: blur(1.4vh);
 }
 
 .line {

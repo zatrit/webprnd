@@ -1,9 +1,10 @@
 import { Node, NodeType } from "./project";
 import { pairwise } from "./util";
-import vis from "vis-network";
 import { DataSet } from "vis-data";
+import vis from "vis-network";
 
 type ColorsDictionary = { [id in NodeType]: string };
+type Style = { info: string, success: string, danger: string, body: string, secondary: string, font: string }
 
 class VisProjectNode implements vis.Node {
     node: Node;
@@ -18,9 +19,8 @@ class VisProjectNode implements vis.Node {
         this.label = node.name;
         this.id = node.id;
         this.color = colors[node.type];
-
-        if (x) { this.x = x; }
-        if (y) { this.y = y; }
+        this.x = x;
+        this.y = y;
     }
 }
 
@@ -32,7 +32,8 @@ let nodeColors: ColorsDictionary;
 const nodes = new DataSet<VisProjectNode>([]);
 const edges = new DataSet<vis.Edge>([]);
 
-export function initNetwork(_container: HTMLCanvasElement) {
+
+export function initNetwork(_container: HTMLCanvasElement, style: Style) {
     container = _container;
 
     /* Так как файл компилируется в формает IIFE, то
@@ -48,26 +49,31 @@ export function initNetwork(_container: HTMLCanvasElement) {
         element?.addEventListener("click", pair.callback);
     });
 
-    const style = getComputedStyle(document.body);
-
     nodeColors = {
-        "seed": style.getPropertyValue("--bs-info"),
-        "random": style.getPropertyValue("--bs-success"),
-        "output": style.getPropertyValue("--bs-danger"),
+        "seed": style.info,
+        "random": style.success,
+        "output": style.danger,
     };
 
     const data = { nodes, edges, };
+    const margin = 10;
     const options: vis.Options = {
         height: "100%",
         width: "100%",
         physics: false,
         nodes: {
-            color: style.getPropertyValue("--bs-info"),
+            color: style.info,
             shape: "box",
             borderWidth: 0,
             font: {
-                color: style.getPropertyValue("--bs-body-color"),
-                face: style.getPropertyValue("--bs-body-font-family"),
+                color: style.body,
+                face: style.font,
+            },
+            margin: {
+                top: margin,
+                left: margin,
+                right: margin,
+                bottom: margin
             },
         },
         edges: {
@@ -75,7 +81,7 @@ export function initNetwork(_container: HTMLCanvasElement) {
                 to: true,
             },
             smooth: false,
-            color: style.getPropertyValue("--bs-secondary"),
+            color: style.secondary,
         },
         interaction: {
             multiselect: true,
@@ -158,5 +164,5 @@ export function setNodes(addedNodes: Node[]) {
         node.uses?.forEach(from => connectNodes(from, node.id));
     });
 
-    network.stabilize(addedNodes.length * 2);
+    network.stabilize(addedNodes.length);
 }

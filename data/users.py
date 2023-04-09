@@ -1,12 +1,13 @@
-from sqlalchemy import Column, BINARY
+from sqlalchemy import Column, BINARY, String, Integer
 from .db_session import SqlAlchemyBase
 
 
 class User(SqlAlchemyBase):
     __tablename__ = 'users'
 
-    login = Column(BINARY, primary_key=True,
-                   comment="Хэш логина пользователя")
+    id = Column(Integer, primary_key=True)
+    login = Column(String, primary_key=True,
+                   comment="Логин пользователя")
     password = Column(BINARY,
                       comment="Хэш пароля пользователя")
 

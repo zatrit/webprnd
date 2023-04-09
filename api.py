@@ -1,5 +1,6 @@
 from flask import Blueprint
 from flask_restful import Api, Resource
+from auth import requires_auth_api
 
 blueprint = Blueprint(
     "api",
@@ -10,6 +11,7 @@ api = Api(blueprint)
 
 
 class Random(Resource):
+    @requires_auth_api
     def post(self):
         pass
 

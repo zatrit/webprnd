@@ -6,7 +6,15 @@ function initEditor() {
     initProject(fileInput, p => setNodes(p.nodes));
 
     const container = document.getElementById("editor-container")! as HTMLCanvasElement;
-    initNetwork(container);
+    const style = getComputedStyle(document.body);
+    initNetwork(container, {
+        info: style.getPropertyValue("--bs-info"),
+        success: style.getPropertyValue("--bs-success"),
+        danger: style.getPropertyValue("--bs-danger"),
+        secondary: style.getPropertyValue("--bs-secondary"),
+        body: style.getPropertyValue("--bs-body-color"),
+        font: style.getPropertyValue("--bs-body-font-family")
+    });
 }
 
 // Потенциально исправляет спонтанный вылет при загрузке страницы

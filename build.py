@@ -16,7 +16,6 @@
 # esbuild. Если передан параметр --minify, минимизирует их во время компиляции
 
 from os import path, makedirs
-import shutil
 import sys
 from argparse import ArgumentParser
 from typing import Callable
@@ -60,6 +59,19 @@ def svg_scour(source: str, out: str):
         scour.start({}, infile, outfile)
 
 
+def json(source: str, out: str):
+    import ujson
+    with open(source, "r") as infile, open(out, "w") as outfile:
+        ujson.dump(ujson.load(infile), outfile)
+
+
+def minify_or_copy(func: BuildAction):
+    """Способ оптимизации сборки, подразумевающий уменьшение
+    времени засчёт копирования контента, работающего без компиляции"""
+    import shutil
+    return func if args.minify else shutil.copy
+
+
 def build(pattern: str, action: BuildAction, out_ext: str | None = None):
     from glob import glob
     root_dir = args.root_dir
@@ -75,9 +87,8 @@ def build(pattern: str, action: BuildAction, out_ext: str | None = None):
         action(path.join(root_dir, filename), out_file)
 
 
-build("script/editor.ts", esbuild("--bundle",
-      "--platform=browser", "--format=iife"), "js")
-build("**/*.css", esbuild())
-build("**/*.json", shutil.copy)
-build_svg = svg_scour if args.minify else shutil.copy
-build("**/*.svg", build_svg)
+build_ts = esbuild("--bundle", "--platform=browser", "--format=iife")
+build("script/editor.ts", build_ts, "js")
+build("**/*.css", minify_or_copy(esbuild()))
+build("**/*.json", minify_or_copy(json))
+build("**/*.svg", minify_or_copy(svg_scour))
