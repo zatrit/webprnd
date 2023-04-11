@@ -1,5 +1,7 @@
 from pathlib import Path
-from flask import Blueprint, render_template, url_for
+from flask import Blueprint, render_template, url_for, redirect, session
+
+from auth import requires_auth
 
 blueprint = Blueprint(
     "pages",
@@ -18,13 +20,21 @@ def index():
 
 
 @blueprint.route("/editor")
+@requires_auth
 def editor():
     return render_template("editor.html", title="Редактор")
 
 
+@blueprint.route("/login")
+def login():
+    # Пока-что тест, нужно для работы editor'а
+    session["token"] = "TEST TOKEN"
+    return redirect("/editor")
+
+
 @blueprint.app_errorhandler(404)
 def page_not_found(_):
-    return render_template('not_found.html'), 404
+    return render_template('not_found.html', title="404"), 404
 
 
 # Функция для упрощения доступа к статическому контенту страницы
