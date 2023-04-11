@@ -2,21 +2,82 @@
 
 {% block head %}
 <link rel="stylesheet" href="{{ static('style/index.css') }}" type="text/css">
+<link rel="icon" href="{{ static('img/logo.svg') }}">
 {% endblock %}
 
 {% block content %}
-<img src="https://wallup.net/wp-content/uploads/2018/03/23/566310-sky-landscape-road-sunset.jpg" id="background"
+<img src="{{ static('img/background.png') }}" id="background_img"
   class="no-select" alt="">
-<img id="logo" class="no-select" src="{{ static('img/logo.svg') }}">
+<div id="background"></div>
+<div id="header">
+    <img id="logo" class="no-select" src="{{ static('img/logo_up.svg') }}" alt="header_left">
+    <img id="logo_back_right" class="no-select" src="{{ static('img/logo_up_back.svg') }}" alt="header_right">
+</div>
 
 <div class="row justify-content-md-center align-items-center">
   <div class="col col-lg-5">
-    <h1 id="title" class="display-1">{{ title }}</h1>
-    <p id="desc" class="display-4">Генератор псведо-случайных чисел на Flask.</p>
+    <h1 class="display-1 title">{{ title }}</h1>
+    <p id="desc" class="display-4">Генератор псевдо-случайных чисел на Flask.</p>
   </div>
   <div class="col col-lg-5">
     <img class="line no-select" id="line-top" src="{{ static('img/index_line.svg') }}">
     <img class="line no-select" id="line-bottom" src="{{ static('img/index_line.svg') }}">
+  </div>
+    <div id="about">
+        <img id="about_line" class="no-select" src="{{ static('img/index_line_ab.svg') }}">
+        <a id="about_text" href="#anchor">О проекте</a>
+    </div>
+  <div id="anchor" class="Instruction">
+      <div>
+          <h1 class="title_about">WebPRND</h1>
+          <p>
+              Реализация генератора псевдо-случайных чисел как веб-приложения с помощью Flask.
+          </p>
+      </div>
+      <div>
+          <h3 class="title_about">Обращение ко всем потенциальным разработчикам этого проекта</h3>
+          <p>
+              Обновляйте этот документ по мере необходимости, в нём расписана основная архитектура и суть проекта.
+          </p>
+      </div>
+      <div>
+          <h2 class="title_about">Изначальная задумка</h2>
+          <p>
+              У меня было желание сделать более удобный генератор псевдо-случайнах чисел, чтобы людям было приятно им пользоваться.
+              Таковым является этот проект.<br><br>
+              Для настройки генераторов псевдо-случайных чисел по моей задумке будет использоваться псевдо-визуальное программирование.
+              Проще говоря, построение логики из блоков.<br><br>
+              Как и в "классическом" CoolPRND, будет три типа блока: сид, генератор и вывод.
+              Так как генерация случайных чисел - это дорогая для компьютера операция, было решено ввести систему авторизации пользователей.<br><br>
+              Придумав такую классную идею, я перешёл к описанию архитектуры проекта.
+              Внизу текста я оставил ссылки, которые я или другой член команды посчитал полезными при работе над данным проектом.
+          </p>
+      </div>
+      <div>
+          <h2 class="title_about">Архитектура</h2>
+          <p>
+              Всё логика сайта состоит из сервисов, работающих с помощью
+              <a href="https://flask.palletsprojects.com/en/latest/blueprints/" rel="nofollow">flask.Blueprint</a>.
+              На данный момент выделены следующие сервисы:<br><br>
+              <a href="https://github.com/zatrit/webprnd/blob/master/pages.py">pages.py</a> - отвечает за страницы.<br>
+              <a href="https://github.com/zatrit/webprnd/blob/master/api.py">api.py</a> - отвечает за API. Так как API небольшое, то это всего один blueprint.<br><br>
+              Все модели для баз данных находятся в <em>data/</em>.<br>
+              <code># type: ignore</code> и прочие подобные комментарии нужны для
+              того, чтобы у меня не ругался <a href="https://ru.wikipedia.org/wiki/Lint" rel="nofollow">линтер</a>.
+              Благодаря ему я могу писать код без ошибок в VSCode.<br>
+              Для запуска всех тестов используйте команду <code>py test</code> или
+              <code>python test</code><br>
+              Для компиляции бэкэнда существует скрипт <a href="https://github.com/zatrit/webprnd/blob/master/build.py">build.py</a>
+              Желательно использовать явную типизацию в коде на Python и
+              TypeScript в страницах, чтобы не допускать некоторых ошибок.<br>
+              Для отрисовки редактора блочной логики используется библиотека
+              vis.js.<br>
+          </p>
+      </div>
+      <div>
+          <h2 class="title_about">Ссылки</h2>
+          <p>vis.js: <a href="https://visjs.org" rel="nofollow">https://visjs.org</a></p>
+      </div>
   </div>
 </div>
 {% endblock %}
