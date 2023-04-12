@@ -1,20 +1,39 @@
-from sqlalchemy import Column, BINARY, String, Integer
+from sqlalchemy import Column, String, BINARY
+from ecdsa import SigningKey, VerifyingKey
+from auth.crypto import fernet_for
 from .db_session import SqlAlchemyBase
+from werkzeug.security import generate_password_hash, check_password_hash
 
 
 class User(SqlAlchemyBase):
-    __tablename__ = 'users'
+    __tablename__ = "users"
 
-    id = Column(Integer, primary_key=True)
     login = Column(String, primary_key=True,
                    comment="Логин пользователя")
-    password = Column(BINARY,
-                      comment="Хэш пароля пользователя")
+    sign_key = Column(BINARY, comment="Зашифрованный " +
+                      "паролем ключ для подписи токена")
+    verify_key = Column(BINARY, comment="Ключ для " +
+                        "проверки подписи токена")
+    password_hash = Column(String, comment="Хэш пароля")
 
     @staticmethod
     def new(login: str, password: str):
-        from hashlib import sha256
+        fernet = fernet_for(password)
+        sign_key: SigningKey = SigningKey.generate()
+        verf_key: VerifyingKey = sign_key.verifying_key  # type: ignore
+        sk: bytes = fernet.encrypt(sign_key.to_string())
+        vk: bytes = verf_key.to_string()
 
-        login, password = (sha256(s.encode()).digest() for s in (login, password)) # type: ignore
+        return User(login=login, sign_key=sk, verify_key=vk,
+                    password_hash=generate_password_hash(password))
 
-        return User(login=login, password=password)
+    def decrypt_sign_key(self, password: str) -> bytes | None:
+        try:
+            fernet = fernet_for(password)
+            return fernet.decrypt(self.sign_key)  # type: ignore
+        except:
+            return None
+
+    def check_password(self, password: str) -> bool:
+        r = check_password_hash(self.password_hash, password)  # type: ignore
+        return r

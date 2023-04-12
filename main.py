@@ -6,11 +6,14 @@ from flask import Flask
 import mimetypes
 
 # Исправляет неверный MIME-тип для скриптов и стилей
-mimetypes.add_type('text/css', '.css')
-mimetypes.add_type('text/javascript', '.js')
+mimetypes.add_type("text/css", ".css")
+mimetypes.add_type("text/javascript", ".js")
 
 app = Flask(__name__)
-app.config.update(SESSION_COOKIE_SECURE=True)
+app.config.update({
+    "SESSION_COOKIE_SECURE": True,
+    "CONFIG_KEY": ""
+})
 app.config.from_file("config.toml", toml.load, True)
 
 app.register_blueprint(pages.blueprint)

@@ -19,6 +19,7 @@ from os import path, makedirs
 import sys
 from argparse import ArgumentParser
 from typing import Callable
+import shutil
 
 parser = ArgumentParser()
 parser.add_argument("--node-bin", type=str, default="./node_modules/.bin/")
@@ -66,29 +67,33 @@ def json(source: str, out: str):
 
 
 def minify_or_copy(func: BuildAction):
-    """Способ оптимизации сборки, подразумевающий уменьшение
-    времени засчёт копирования контента, работающего без компиляции"""
-    import shutil
+    """Способ оптимизации сборки, подразумевающий уменьшение времени
+    засчёт простого копирования контента, работающего без компиляции"""
     return func if args.minify else shutil.copy
 
 
-def build(pattern: str, action: BuildAction, out_ext: str | None = None):
+def build(pattern: str, action: BuildAction, out_ext: str | None = None,
+          root_dir: str = args.root_dir, out_dir: str = args.out_dir):
     from glob import glob
-    root_dir = args.root_dir
     for filename in glob(pattern, root_dir=root_dir, recursive=True):
         print(filename.replace(path.sep, "/"))
         *name, ext = filename.split(".")
         name = ".".join(name)
         if not out_ext:
             out_ext = ext
-        out_file = path.join(args.out_dir, name + "." + out_ext)
+        out_file = path.join(out_dir, name + "." + out_ext)
         makedirs(path.abspath(path.join(out_file, path.pardir)), exist_ok=True)
 
         action(path.join(root_dir, filename), out_file)
 
 
 build_ts = esbuild("--bundle", "--platform=browser", "--format=iife")
+md_dir = path.join(args.out_dir, "md")
+
 build("script/editor.ts", build_ts, "js")
+build("script/index.ts", build_ts, "js")
+
 build("**/*.css", minify_or_copy(esbuild()))
 build("**/*.json", minify_or_copy(json))
 build("**/*.svg", minify_or_copy(svg_scour))
+build("readme.md", shutil.copy, root_dir=".", out_dir=md_dir)

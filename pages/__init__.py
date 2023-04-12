@@ -1,40 +1,33 @@
 from pathlib import Path
-from flask import Blueprint, render_template, url_for, redirect, session
+from flask import Blueprint, render_template, url_for, redirect
+import auth as __auth
+from os import getcwd
 
-from auth import requires_auth
+
+def init_pages():
+    from . import auth, other
+
 
 blueprint = Blueprint(
     "pages",
     __name__,
     template_folder="web/templates/",
     static_folder="static/",
+    root_path=getcwd()
 )
+requires_auth = __auth.requires_auth("user")
 
-static_folder: str = blueprint.static_url_path.lstrip("/")  # type: ignore
-
-
-@blueprint.route("/")
-@blueprint.route("/index")
-def index():
-    return render_template("index.html", title="WebPRND")
+init_pages()
 
 
-@blueprint.route("/editor")
-@requires_auth
-def editor():
-    return render_template("editor.html", title="Редактор")
-
-
-@blueprint.route("/login")
-def login():
-    # Пока-что тест, нужно для работы editor'а
-    session["token"] = "TEST TOKEN"
-    return redirect("/editor")
+@__auth.error_handler("user")
+def auth_error_handler():
+    return redirect("/login")
 
 
 @blueprint.app_errorhandler(404)
 def page_not_found(_):
-    return render_template('not_found.html', title="404"), 404
+    return render_template("not_found.html", title="404"), 404
 
 
 # Функция для упрощения доступа к статическому контенту страницы

@@ -1,0 +1,25 @@
+{% extends "auth_form_base.html" %}
+
+{% block content %}
+<h1>{{ title }}</h1>
+<form action="" method="post" novalidate>
+    {{ form.hidden_tag() }}
+    <p>
+        {{ form.login.label }}<br>
+        {{ form.login(class="form-control", placeholder="Введите логин") }}<br>
+        {% for error in form.login.errors %}
+        {{ error_message(error) }}
+        {% endfor %}
+    </p>
+    <p>
+        {{ form.password.label }}<br>
+        {{ form.password(class="form-control", type="password", placeholder="Введите пароль") }}<br>
+        {% for error in form.password.errors %}
+        {{ error_message(error) }}
+        {% endfor %}
+    </p>
+    <div>{{ message }}</div>
+    <p>{{ form.submit(type="submit", class="btn btn-primary") }}</p>
+    <a href="/register">Ещё нету аккаунта?</a>
+</form>
+{% endblock %}

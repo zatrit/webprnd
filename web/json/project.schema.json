@@ -35,7 +35,7 @@
                         "type": "object",
                         "additionalProperties": true
                     },
-                    "uses": {
+                    "from": {
                         "type": "array",
                         "items": {
                             "type": "integer"
@@ -55,13 +55,13 @@
                 },
                 "then": {
                     "required": [
-                        "uses"
+                        "from"
                     ]
                 },
                 "else": {
                     "not": {
                         "required": [
-                            "uses"
+                            "from"
                         ]
                     }
                 },

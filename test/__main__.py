@@ -8,4 +8,4 @@ import pytest
 sys.path.append("..")
 os.chdir(os.path.split(__file__)[0])
 
-pytest.main()
+pytest.main(["--disable-warnings"])

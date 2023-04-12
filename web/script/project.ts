@@ -4,7 +4,7 @@ export class Node {
     id: number;
     type: NodeType;
     name: string;
-    uses?: number[];
+    from?: number[];
     props?: Object;
 }
 

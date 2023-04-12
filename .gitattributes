@@ -1,3 +1,4 @@
+# Нужно для удобной отладки и запуска под Linux
 *       text=auto
 *.py    text eol=lf
 *.md    text

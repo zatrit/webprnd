@@ -33,7 +33,7 @@ class="btn btn-info"
 
 <body>
     <!-- Контент страницы -->
-    <main role="main" class="container-fluid" id="container-main">
+    <main role="main" class="{{ container or 'container-fluid' }}" id="container-main">
         {% block content %}{% endblock %}
     </main>
 </body>
