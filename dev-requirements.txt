@@ -2,3 +2,4 @@ ujson
 scour
 pytest
 requests
+zopflipy

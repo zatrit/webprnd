@@ -60,6 +60,13 @@ def svg_scour(source: str, out: str):
         scour.start({}, infile, outfile)
 
 
+def png_zopfli(source: str, out: str):
+    from zopfli import ZopfliPNG
+    zopfli_png = ZopfliPNG(True)
+    with open(source, "rb") as infile, open(out, "wb") as outfile:
+        outfile.write(zopfli_png.optimize(infile.read()))
+
+
 def json(source: str, out: str):
     import ujson
     with open(source, "r") as infile, open(out, "w") as outfile:
@@ -92,7 +99,7 @@ md_dir = path.join(args.out_dir, "md")
 
 build("script/editor.ts", build_ts, "js")
 build("script/index.ts", build_ts, "js")
-
+build("**/*.png", minify_or_copy(png_zopfli))
 build("**/*.css", minify_or_copy(esbuild()))
 build("**/*.json", minify_or_copy(json))
 build("**/*.svg", minify_or_copy(svg_scour))
