@@ -1,5 +1,6 @@
 import { initNetwork, setNodes } from "./vis_network";
 import { initProject } from "./project";
+import { initEditorButtons } from "./editor_buttons";
 
 function initEditor() {
     const fileInput = document.getElementById("file-input") as HTMLInputElement;
@@ -16,11 +17,12 @@ function initEditor() {
         body: styleProp("--bs-body-color"),
         font: styleProp("--bs-body-font-family"),
     });
+    initEditorButtons();
 }
 
 // Потенциально исправляет спонтанный вылет при загрузке страницы
 if (document.readyState == "complete") {
-    initEditor()
+    initEditor();
 }
 else {
     document.addEventListener("DOMContentLoaded", initEditor);
