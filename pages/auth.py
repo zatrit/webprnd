@@ -22,6 +22,7 @@ def login():
                                        message="Неправильный логин или пароль")
 
             token = generate_token(user, password, 0, "user")
+            print(token)
         auth.store_token(token)
 
     return auth_page({

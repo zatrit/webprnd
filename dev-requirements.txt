@@ -3,3 +3,4 @@ scour
 pytest
 requests
 zopflipy
+autopep8

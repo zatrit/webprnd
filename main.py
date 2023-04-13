@@ -11,8 +11,9 @@ mimetypes.add_type("text/javascript", ".js")
 
 app = Flask(__name__)
 app.config.update({
+    "SESSION_COOKIE_SAMESITE": "Strict",
     "SESSION_COOKIE_SECURE": True,
-    "CONFIG_KEY": ""
+    "CONFIG_KEY": "",
 })
 app.config.from_file("config.toml", toml.load, True)
 

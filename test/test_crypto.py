@@ -11,7 +11,7 @@ invalid_cases = [
     "FIRST:SECOND:THIRD:AAA",
     "FIRST:SECOND:THIRD:AAA:BBB",
     "FcCx_VPCl_Xd0IMZNt0fgI9pOP5U3gT1D1Jy1Ce5kfvGai9Gz1f86UZ-0eKJj6yq:AAAAAGQ26FU=:YXBp:emF0cml0",
-    "NOT TOKEN AT ALL"
+    "NOT TOKEN AT ALL",
 ]
 
 
