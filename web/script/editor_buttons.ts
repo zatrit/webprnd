@@ -27,6 +27,7 @@ function deleteSelected() {
         network.getConnectedEdges(node).forEach(e => edges.remove(e));
         nodes.remove(node);
     });
+
     selection.edges.forEach(e => edges.remove(e));
 }
 

@@ -21,14 +21,14 @@ invalid_cases = [
 
 def test_validation():
     with create_session() as db_sess:
-        user = db_sess.query(User).first()
+        user: User | None = db_sess.query(User).first()
         token = generate_token(user, password, 0, role)
     assert validate_token(token, role)
 
 
 def test_expiration():
     with create_session() as db_sess:
-        user = db_sess.query(User).first()
+        user: User | None = db_sess.query(User).first()
         token = generate_token(user, password, 1, role)
     sleep(2)
     assert not validate_token(token, role)
@@ -36,14 +36,14 @@ def test_expiration():
 
 def test_wrong_password():
     with create_session() as db_sess:
-        user = db_sess.query(User).first()
+        user: User | None = db_sess.query(User).first()
         token = generate_token(user, "wrong password", 0, role)
     assert not validate_token(token, role)
 
 
 def test_role_invalidation():
     with create_session() as db_sess:
-        user = db_sess.query(User).first()
+        user: User | None = db_sess.query(User).first()
         token = generate_token(user, password, 0, role)
     assert not validate_token(token, "invalid role")
 

@@ -18,7 +18,9 @@
         {{ error_message(error) }}
         {% endfor %}
     </p>
-    <div>{{ message }}</div>
+    {% if message %}
+    {{ error_message(message) }}
+    {% endif %}
     <p>{{ form.submit(type="submit", class="btn btn-primary") }}</p>
     <a href="/register">Ещё нету аккаунта?</a>
 </form>

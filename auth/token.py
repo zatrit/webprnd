@@ -20,8 +20,10 @@ def validate_token(token: str | None, check_role: str) -> bool:
     return verify_token(token, check_role, int(time()), key_provider)
 
 
-def generate_token(user: User, password: str, lifetime: int = 0, role: str = "api") -> str | None:
+def generate_token(user: User | None, password: str, lifetime: int = 0, role: str = "api") -> str | None:
     try:
+        if not user:
+            return None
         expires = 0 if not lifetime else (int(time()) + lifetime)
         sign_key = SigningKey.from_string(user.decrypt_sign_key(password))
         return token_for(str(user.login), sign_key, expires, role)

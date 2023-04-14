@@ -36,8 +36,7 @@ cd webprnd
 python -m venv .venv 
 source .venv/bin/activate
 # Устанавливаем нужные пакеты
-pip install -r requirements.txt
-pip install -r dev-requirements.txt
+pip install -r requirements.txt -r dev-requirements.txt
 npm install
 # Компилируем фронт-энд проекта
 # --minify не обязателен, но способствует

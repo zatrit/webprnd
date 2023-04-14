@@ -1,92 +1,79 @@
+.absolute-cover {
+    width: 100%;
+    height: 100%;
+    position: absolute;
+    top: 0;
+    left: 0;
+}
+
 #background {
     z-index: -999;
-	min-height: 100%;
-	width: 100%;
-	height: auto;
-	position: fixed;
-	top: 0;
-	left: 0;
     background: linear-gradient(50deg, #1d01b2, #b90000, #09ac00, #b46900, #7703ac, #03a6a1, #01a52b, #a30072);
     background-size: 1600% 1600%;
-
-    -webkit-animation: AnimationName 90s ease infinite;
-    -moz-animation: AnimationName 90s ease infinite;
-    -o-animation: AnimationName 90s ease infinite;
-    animation: AnimationName 90s ease infinite;
+    animation: background-animation 90s ease infinite;
 }
 
-@-webkit-keyframes AnimationName {
-    0%{background-position:0% 88%}
-    50%{background-position:100% 13%}
-    100%{background-position:0% 88%}
+#background-image {
+    z-index: -998;
+    background-image: url("/static/img/background.png");
 }
-@-moz-keyframes AnimationName {
-    0%{background-position:0% 88%}
-    50%{background-position:100% 13%}
-    100%{background-position:0% 88%}
-}
-@-o-keyframes AnimationName {
-    0%{background-position:0% 88%}
-    50%{background-position:100% 13%}
-    100%{background-position:0% 88%}
-}
-@keyframes AnimationName {
-    0%{background-position:0% 88%}
-    50%{background-position:100% 13%}
-    100%{background-position:0% 88%}
+
+@keyframes background-animation {
+    0% {
+        background-position: 0% 88%
+    }
+
+    50% {
+        background-position: 100% 13%
+    }
+
+    100% {
+        background-position: 0% 88%
+    }
 }
 
 /* Логотип отображается только если страница имеет достаточно места */
 
 #logo {
-	display: block;
+    display: block;
     opacity: 0;
     transition: opacity 0.5s;
-	position: fixed;
-	width: 500px;
-	height: 130px;
-	top: 0px;
-	left: 0px;
+    position: fixed;
+    width: 500px;
+    height: 130px;
+    top: 0px;
+    left: 0px;
 }
 
 #logo_back_right {
-	display: block;
+    display: block;
     opacity: 0;
-	position: fixed;
-	transition: opacity 0.5s;
-	width: 500px;
-	height: 130px;
-	top: 0px;
-	right: 0px;
+    position: fixed;
+    transition: opacity 0.5s;
+    width: 500px;
+    height: 130px;
+    top: 0px;
+    right: 0px;
 }
 
 @media screen and (min-width: 768px) {
-	#logo {
+    #logo {
         opacity: 1;
-	}
-	#logo_back_right {
+    }
+
+    #logo_back_right {
         opacity: 1;
-	}
+    }
 }
 
 #desc {
-	font-weight: 700;
-	color: var(--bs-gray-200);
+    font-weight: 700;
+    color: var(--bs-gray-200);
 }
 
 .title {
     font-weight: 1000;
-	color: var(--bs-gray-100);
-}
-
-#background_img {
-	z-index: -998;
-	min-height: 100%;
-	width: 100%;
-	height: auto;
-	position: fixed;
-	top: 0;
-	left: 0;
+    color: var(--bs-gray-100);
 }
 
 .Instruction {
@@ -102,17 +89,17 @@
 
 .title_about {
     font-weight: 1000;
-	color: black;
+    color: black;
 }
 
 #line-bottom {
-	transform: scale(1, -1);
-	margin-top: 3vh;
+    transform: scale(1, -1);
+    margin-top: 3vh;
 }
 
 .line {
-	width: 44.5vh;
-	height: 44.5vh;
+    width: 44.5vh;
+    height: 44.5vh;
 }
 
 #about {
@@ -127,7 +114,7 @@
     left: 7vh;
     top: 4vh;
     width: 7vh;
-	height: 7vh;
+    height: 7vh;
 }
 
 #about_text {
@@ -137,5 +124,5 @@
     font-weight: 1000;
     text-decoration: none;
     font-size: 32px;
-	color: var(--bs-gray-100);
+    color: var(--bs-gray-100);
 }

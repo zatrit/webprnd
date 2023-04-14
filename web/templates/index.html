@@ -2,13 +2,12 @@
 
 {% block head %}
 <link rel="stylesheet" href="{{ static('style/index.css') }}" type="text/css">
-<link rel="icon" href="{{ static('img/logo.svg') }}">
 {% endblock %}
 
 {% block content %}
-<img src="{{ static('img/background.png') }}" id="background_img"
-  class="no-select" alt="">
-<div id="background"></div>
+<div id="background-image" class="absolute-cover"></div>
+<div id="background" class="absolute-cover"></div>
+
 <div id="header">
     <img id="logo" class="no-select" src="{{ static('img/logo_up.svg') }}" alt="header_left">
     <img id="logo_back_right" class="no-select" src="{{ static('img/logo_up_back.svg') }}" alt="header_right">

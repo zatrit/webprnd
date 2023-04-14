@@ -1,6 +1,7 @@
 from flask import render_template
 from . import blueprint, requires_auth
 
+
 @blueprint.route("/")
 @blueprint.route("/index")
 def index():
