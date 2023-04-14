@@ -1,7 +1,7 @@
 .absolute-cover {
     width: 100%;
     height: 100%;
-    position: absolute;
+    position: fixed;
     top: 0;
     left: 0;
 }
@@ -82,14 +82,13 @@
     top: 110vh;
     width: 170vh;
     font-weight: 700;
-    color: black;
-    background: white;
+    color: var(--bs-body-color);
+    background: var(--bs-body-bg);
     border-radius: 10vh 10vh 0px 0px;
 }
 
 .title_about {
     font-weight: 1000;
-    color: black;
 }
 
 #line-bottom {
@@ -102,7 +101,7 @@
     height: 44.5vh;
 }
 
-#about {
+#about-pointer {
     position: absolute;
     top: 90vh;
     height: 100px;
