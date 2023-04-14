@@ -6,7 +6,10 @@ function addNode() {
 
     let listener: (e: MouseEvent) => void;
     container.addEventListener("mousedown", listener = e => {
-        const { x, y } = network.DOMtoCanvas(e);
+        const { x, y } = network.DOMtoCanvas({
+            x: e.clientX - container.offsetLeft,
+            y: e.clientY - container.offsetTop
+        });
         const id = ++counter.nodes;
         createNode({ name: "Node " + id, id, type: "random" }, x, y);
         if (!e.shiftKey) {
@@ -18,11 +21,11 @@ function addNode() {
 
 function deleteSelected() {
     const selection = network.getSelection();
-    selection.nodes.map(n => {
+    selection.nodes.map(node => {
         /* По какой-то причине vis.js не удаляет сам соединения
         поэтому это прописано здесь */
-        network.getConnectedEdges(n).forEach(e => edges.remove(e));
-        nodes.remove(n);
+        network.getConnectedEdges(node).forEach(e => edges.remove(e));
+        nodes.remove(node);
     });
     selection.edges.forEach(e => edges.remove(e));
 }
