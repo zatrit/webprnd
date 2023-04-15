@@ -1,7 +1,4 @@
-#editor-container {
-    background: var(--bs-body-bg);
-}
-
 body {
+    /* Исправляет баг с выходом редактора за границы экрана */
     overflow: hidden;
 }
