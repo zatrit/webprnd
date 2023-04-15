@@ -98,7 +98,6 @@ build_ts = esbuild("--bundle", "--platform=browser", "--format=iife")
 md_dir = path.join(args.out_dir, "md")
 
 build("script/editor.ts", build_ts, "js")
-build("script/index.ts", build_ts, "js")
 build("**/*.png", minify_or_copy(png_zopfli))
 build("**/*.css", minify_or_copy(esbuild()))
 build("**/*.json", minify_or_copy(json))

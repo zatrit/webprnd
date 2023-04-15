@@ -1,0 +1,17 @@
+name: Run Python tests
+
+on: [push, pull_request]
+
+jobs:
+  build:
+    name: Run tests
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v3
+      - uses: actions/setup-python@v4
+        with:
+          python-version: '3.11'
+          cache: 'pip' # caching pip dependencies
+      - run: pip install -r test-requirements.txt
+      - run: python test

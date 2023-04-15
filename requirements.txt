@@ -5,5 +5,4 @@ ecdsa[gmpy2]
 flask
 flask-wtf
 flask-restful
-flask-httpauth
 cryptography

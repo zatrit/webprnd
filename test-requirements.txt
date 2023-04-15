@@ -1,0 +1,5 @@
+ecdsa
+flask
+pytest
+sqlalchemy
+cryptography
