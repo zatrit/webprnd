@@ -27,5 +27,4 @@ def global_init(db_file: str):
 
 
 def create_session() -> orm.Session:
-    global __factory
     return __factory()

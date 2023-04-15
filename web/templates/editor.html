@@ -13,16 +13,14 @@
 
 <div id="editor-container" class="fullscreen position-absolute top-0 start-0"></div>
 
-<div class="row">
-    <div class="col-md-3 sticky-top bg-dark p-2">
+<div class="row fixed-bottom sticky-md-top justify-content-end">
+    <div class="col-md-3 bg-dark p-2">
         {{ button("+", "btn-add") }}
         {{ button("-", "btn-delete") }}
         {{ button("Соед.", "btn-connect") }}
         {{ button("Все", "btn-select-all") }}
         <button {{ button_class() }} id="btn-open"
             onclick="document.getElementById('file-input').click()">Открыть</button>
-    </div>
-    <div class="col-md-9 ">
     </div>
 </div>
 {% endblock %}
