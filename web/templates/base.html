@@ -1,9 +1,10 @@
-{% macro button_class() -%}
-class="btn btn-primary"
+{% macro button_class(extra) -%}
+class="btn btn-primary m-1 {% for class in extra %} {{ class }} {%- endfor -%}"
 {%- endmacro -%}
 
 {% macro button(text, id) -%}
-<button {{ button_class() }} id="{{ id }}">{{ text }}</button>
+<button {{ button_class(varargs) }} id="{{ id }}" {% for k, v in kwargs.items() %} {{ k }}='{{ v }}' {%- endfor -%}>
+    {{ text }}</button>
 {%- endmacro -%}
 
 <!doctype html>

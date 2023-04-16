@@ -1,22 +1,26 @@
 import { connectNodes, container, counter, createNode, edges, network, nodes } from "./vis_network";
+import { Node } from "./project";
 import { pairwise } from "./util";
+import { Offcanvas } from "bootstrap";
 
-function addNode() {
+let offcanvas: Offcanvas;
+let addNodeListener: (e: MouseEvent) => void;
+
+function addNode(node: Node) {
     container.style.cursor = "cell";
 
-    let listener: (e: MouseEvent) => void;
-    container.addEventListener("mousedown", listener = e => {
-        const { x, y } = network.DOMtoCanvas({
-            x: e.clientX - container.offsetLeft,
-            y: e.clientY - container.offsetTop
-        });
-        const id = ++counter.nodes;
-        createNode({ name: "Node " + id, id, type: "random" }, x, y);
+    container.addEventListener("mousedown", addNodeListener = e => {
+        const { x, y } = network.DOMtoCanvas({ x: e.pageX, y: e.pageY });
+        createNode(node, x, y);
         if (!e.shiftKey) {
-            container.removeEventListener("mousedown", listener);
+            container.removeEventListener("mousedown", addNodeListener);
             container.style.cursor = "default";
         }
     });
+}
+
+function toggleNodesTab() {
+    offcanvas.toggle();
 }
 
 function deleteSelected() {
@@ -48,14 +52,17 @@ export function initEditorButtons() {
     HTML не имеет доступа к функциям, так что их
     можно указать из скрипта */
     const byId = (e: string) => document.getElementById(e);
-    byId("btn-add")!.onclick = addNode;
+    byId("btn-add")!.onclick = toggleNodesTab;
     byId("btn-delete")!.onclick = deleteSelected;
     byId("btn-connect")!.onclick = connectSelected;
     byId("btn-select-all")!.onclick = selectAll;
 
+    const offcanvasElement = document.getElementById("nodes-offcanvas")!;
+    offcanvas = new Offcanvas(offcanvasElement);
+
     document.addEventListener("keydown", e => {
         if (e.code == "KeyN") {
-            addNode();
+            toggleNodesTab();
         }
         else if (e.code == "Delete") {
             deleteSelected();

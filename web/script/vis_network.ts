@@ -90,5 +90,7 @@ export function setNodes(addedNodes: Node[]) {
 export const connectNodes = (from: vis.IdType, to: vis.IdType) =>
     edges.add({ from, to, id: counter.edges++ });
 
-export const createNode = (node: Node, x?: number, y?: number) =>
+export function createNode(node: Node, x?: number, y?: number) {
     nodes.add(new VisProjectNode(node, x, y));
+    network.selectNodes([node.id]);
+}

@@ -1,26 +1,34 @@
 {% extends "base.html" %}
 
 {% block head %}
-<!-- Исходный код: web/style/editor.css -->
-<link href="{{ static('style/editor.css') }}" rel="stylesheet" crossorigin="anonymous">
-
 <!-- Исходный код: web/script/editor.ts -->
 <script src="{{ static('script/editor.js') }}" type="module"></script>
 {% endblock %}
 
 {% block content %}
-<input type="file" id="file-input" class="hidden" accept=".json, *.*">
+<input type="file" id="file-input" class="invisible" accept=".json, *.*">
 
 <div id="editor-container" class="fullscreen position-absolute top-0 start-0"></div>
 
-<div class="row fixed-bottom sticky-md-top justify-content-end">
-    <div class="col-md-3 bg-dark p-2">
+<!-- visible/invisible тут нужны для того, чтобы редактор 
+    не перекрывался невидимыми элементами -->
+<!-- Только что понял, что visible/invisible переводится как
+    видимо-невидимо -->
+<div class="row fixed-bottom sticky-md-top justify-content-end p-2 invisible">
+    <div class="col-md-2 bg-dark rounded p-2 visible">
         {{ button("+", "btn-add") }}
         {{ button("-", "btn-delete") }}
         {{ button("Соед.", "btn-connect") }}
         {{ button("Все", "btn-select-all") }}
-        <button {{ button_class() }} id="btn-open"
-            onclick="document.getElementById('file-input').click()">Открыть</button>
+        {{ button("Открыть", "btn-open", onclick="document.getElementById('file-input').click()") }}
+    </div>
+</div>
+
+<div class="offcanvas offcanvas-end" id="nodes-offcanvas" aria-labelledby="offcanvasResponsiveLabel">
+    <div class="offcanvas-header">
+        <h5 class="offcanvas-title" id="offcanvasResponsiveLabel">Добавить элемент</h5>
+        <button type="button" class="btn-close" data-bs-dismiss="offcanvas" data-bs-target="#nodes-offcanvas"
+            aria-label="Закрыть"></button>
     </div>
 </div>
 {% endblock %}

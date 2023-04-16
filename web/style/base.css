@@ -2,20 +2,6 @@ body {
     --bs-body-font-family: "Golos Text", sans-serif;
 }
 
-/* https://stackoverflow.com/a/57037007/12245612 */
-.hidden {
-    visibility: hidden;
-    width: 1px;
-    height: 1px;
-}
-
-.no-select {
-    /* Эти поля должны идти именно в таком порядке, так как
-	иначе сайт сломается, вероятно, странная особенность Firefox */
-    user-select: none;
-    pointer-events: none;
-}
-
 .fullscreen {
     width: 100vw;
     height: 100vh;
