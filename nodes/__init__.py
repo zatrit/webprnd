@@ -1,6 +1,7 @@
+from dataclasses import dataclass
 from enum import Enum
 from functools import wraps
-from typing import Optional, Callable, Any
+from .types import Function, ParamType, OptParamDict
 
 
 class NodeType(Enum):
@@ -9,18 +10,19 @@ class NodeType(Enum):
     Output = "output"
 
 
-HardParamType = int | bool | float | str
-ParamType = HardParamType | Optional[HardParamType]
-ParamDict = dict[str, ParamType]
+@dataclass(repr=False, unsafe_hash=True)
+class NodeKey:
+    node_type: NodeType
+    name: str
 
-RandomFunction = Callable[[int, Any], tuple[float, Any]]
-SeedFunction = Callable[[], int]
+
+registry: dict[NodeKey, Function] = {}
 
 
 def node(node_type: NodeType, name: str, accepts_params: dict[str, type[ParamType]] = {}):
-    def decorator(fn):
+    def decorator(fn: Function):
         @wraps(fn)
-        def wrapper(*args, params: Optional[ParamDict], **kwargs, ):
+        def wrapper(*args, params: OptParamDict):
             # Тут идёт явная проверка типов
             # По сути является контрактом, гарантирующим,
             # что передаваемые параметры подходят под accepts_params
@@ -36,6 +38,9 @@ def node(node_type: NodeType, name: str, accepts_params: dict[str, type[ParamTyp
             elif accepts_params:
                 raise ValueError("Отсутствует поле params")
 
-            return fn(*args, **kwargs, params=params)
+            return fn(*args, params=params)
+        key = NodeKey(node_type, name)
+        registry[key] = wrapper
+
         return wrapper
     return decorator

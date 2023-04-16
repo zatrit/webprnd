@@ -1,4 +1,5 @@
-from nodes import ParamDict, node, NodeType
+from nodes import node, NodeType
+from nodes.types import OptParamDict
 import pytest
 
 
@@ -7,7 +8,7 @@ import pytest
     "b": str,
     "c": bool | None,
 })
-def const_seed(*, params: ParamDict) -> int:
+def const_seed(*, params: OptParamDict) -> int:
     return params["a"]  # type: ignore
 
 
