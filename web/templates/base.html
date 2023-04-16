@@ -15,15 +15,15 @@ class="btn btn-primary m-1 {% for class in extra %} {{ class }} {%- endfor -%}"
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
     <title>{{title}}</title>
 
+    {% if not bundled_bootstrap %}
     <script src="https://cdn.jsdelivr.net/npm/bootstrap/dist/js/bootstrap.bundle.min.js"
         crossorigin="anonymous"></script>
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap/dist/css/bootstrap.min.css" rel="stylesheet"
-        crossorigin="anonymous">
+    {% endif %}
 
     <link href="https://cdn.jsdelivr.net/npm/bootswatch/dist/{{ theme() }}/bootstrap.min.css" rel="stylesheet"
         crossorigin="anonymous">
 
-    <!-- Исходный код: web/style/base.css -->
+    {# Исходный код: web/style/base.css #}
     <link href="{{ static('style/base.css') }}" rel="stylesheet" crossorigin="anonymous">
 
     <link href="https://fonts.googleapis.com/css2?family=Golos+Text:wght@400;700" rel="stylesheet"

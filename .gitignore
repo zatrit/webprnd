@@ -163,7 +163,6 @@ cython_debug/
 db/
 config.toml
 static/**
-!static/favicon.ico
 
 # Файлы TypeScript
 package-lock.json

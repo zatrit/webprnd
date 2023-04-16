@@ -93,7 +93,6 @@ def build(pattern: str, action: BuildAction, out_ext: str | None = None,
 
         action(path.join(root_dir, filename), out_file)
 
-
 build_ts = esbuild("--bundle", "--platform=browser", "--format=iife")
 md_dir = path.join(args.out_dir, "md")
 

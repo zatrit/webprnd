@@ -21,10 +21,7 @@ def login():
             if not user or not user.check_password(password):
                 return render_template(**default_params, **auth_error)
 
-            token = generate_token(user, password, 0, "user")
-            print(token)
-
-            if not token:
+            if not (token := generate_token(user, password, 0, "user")):
                 return render_template(**default_params, **auth_error)
         auth.store_token(token)
 
