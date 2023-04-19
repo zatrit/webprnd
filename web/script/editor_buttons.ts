@@ -19,11 +19,11 @@ function addNode(node: Node) {
     });
 }
 
-function toggleNodesTab() {
+const toggleNodesTab = globalThis.toggleNodesTab = () => {
     offcanvas.toggle();
 }
 
-function deleteSelected() {
+const deleteSelected = globalThis.deleteSelected = () => {
     const selection = network.getSelection();
     selection.nodes.map(node => {
         /* По какой-то причине vis.js не удаляет сам соединения
@@ -33,11 +33,13 @@ function deleteSelected() {
     });
 
     selection.edges.forEach(e => edges.remove(e));
+    network.unselectAll();
 }
 
-const selectAll = () => network.selectNodes(nodes.getIds());
+const selectAll = globalThis.selectAll = () =>
+    network.selectNodes(nodes.getIds());
 
-function connectSelected() {
+const connectSelected = globalThis.connectSelected = () => {
     pairwise(network.getSelectedNodes(), (cur, next) => {
         if (!(network.getConnectedNodes(cur)).some(i => i == next)) {
             connectNodes(cur, next);
@@ -47,18 +49,11 @@ function connectSelected() {
     network.unselectAll();
 }
 
-export function initEditorButtons() {
-    /* Так как файл компилируется в формает IIFE, то
-    HTML не имеет доступа к функциям, так что их
-    можно указать из скрипта */
-    const byId = (e: string) => document.getElementById(e);
-    byId("btn-add")!.onclick = toggleNodesTab;
-    byId("btn-delete")!.onclick = deleteSelected;
-    byId("btn-connect")!.onclick = connectSelected;
-    byId("btn-select-all")!.onclick = selectAll;
+const generate = globalThis.generate = () => {
+}
 
-    const offcanvasElement = document.getElementById("nodes-offcanvas")!;
-    offcanvas = new Offcanvas(offcanvasElement);
+export function initEditorButtons(_offcanvas: Offcanvas) {
+    offcanvas = _offcanvas;
 
     document.addEventListener("keydown", e => {
         if (e.code == "KeyN") {
@@ -77,6 +72,9 @@ export function initEditorButtons() {
         }
         else if (e.code == "Escape") {
             network.unselectAll();
+        }
+        else if (e.code == "Enter") {
+            generate();
         }
     });
 }

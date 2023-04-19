@@ -4,6 +4,7 @@ import pages
 import api
 from flask import Flask
 import mimetypes
+from nodes import init_nodes
 
 # Исправляет неверный MIME-тип для скриптов и стилей
 mimetypes.add_type("text/css", ".css")
@@ -14,6 +15,7 @@ app.config.update({
     "SESSION_COOKIE_SAMESITE": "Strict",
     "SESSION_COOKIE_SECURE": True,
     "CONFIG_KEY": "",
+    "JSON_SORT_KEYS": False
 })
 app.config.from_file("config.toml", toml.load, True)
 
@@ -37,6 +39,7 @@ def main():
     from data.db_session import global_init
 
     global_init("db/users.db")
+    init_nodes()
 
     app.run(port=args.port)
 

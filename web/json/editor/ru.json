@@ -1,0 +1,12 @@
+{
+    "$schema": "../locale.schema.json",
+    "seed": {
+        "const": "Константный"
+    },
+    "random": {
+        "linear_congruential": "Линейный конгруэнтный"
+    },
+    "output": {
+        "json": "JSON"
+    }
+}

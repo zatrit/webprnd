@@ -1,6 +1,6 @@
 from pathlib import Path
 from flask import Blueprint, render_template, url_for, redirect
-import auth as __auth
+import auth as _auth
 from os import getcwd
 
 
@@ -15,12 +15,13 @@ blueprint = Blueprint(
     static_folder="static/",
     root_path=getcwd()
 )
-requires_auth = __auth.requires_auth("user")
+requires_auth = _auth.requires_auth(["user"])
 
 init_pages()
 
 
-@__auth.error_handler("user")
+@_auth.error_handler("user")
+@_auth.default_error_handler
 def auth_error_handler():
     return redirect("/login")
 
@@ -39,6 +40,11 @@ def static(file: str):
 @blueprint.app_template_global()
 def theme() -> str:
     return "darkly"
+
+
+@blueprint.app_template_global()
+def lang() -> str:
+    return "ru"
 
 
 def content_check() -> bool:

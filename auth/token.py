@@ -4,7 +4,7 @@ from data.users import User
 from time import time
 
 
-def validate_token(token: str | None, check_role: str) -> bool:
+def validate_token(token: str | None, roles: list[str]) -> bool:
     if not token:
         return False
 
@@ -17,7 +17,7 @@ def validate_token(token: str | None, check_role: str) -> bool:
                 return VerifyingKey.from_string(
                     user.verify_key)  # type: ignore
 
-    return verify_token(token, check_role, int(time()), key_provider)
+    return verify_token(token, roles, int(time()), key_provider)
 
 
 def generate_token(user: User | None, password: str, lifetime: int = 0, role: str = "api") -> str | None:

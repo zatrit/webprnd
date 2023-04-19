@@ -46,8 +46,8 @@ def esbuild(*additional_args: str):
         esbuild_path = node_path("esbuild")
         proc_args = [esbuild_path, source, "--outfile="+out, *additional_args]
         if args.minify:
-            proc_args += ["--minify", "--drop:console", "--drop:debugger",
-                          "--ignore-annotations", "--mangle-props=_$", "--tree-shaking=true"]
+            proc_args += ["--minify", "--drop:console",
+                          "--drop:debugger", "--tree-shaking=true"]
 
         run(proc_args, shell=shell, stdout=DEVNULL, check=True)
 
@@ -70,7 +70,9 @@ def png_zopfli(source: str, out: str):
 def json(source: str, out: str):
     import ujson
     with open(source, "r") as infile, open(out, "w") as outfile:
-        ujson.dump(ujson.load(infile), outfile)
+        data = ujson.load(infile)
+        del data["$schema"]
+        ujson.dump(data, outfile, ensure_ascii=False)
 
 
 def minify_or_copy(func: BuildAction):
@@ -93,7 +95,9 @@ def build(pattern: str, action: BuildAction, out_ext: str | None = None,
 
         action(path.join(root_dir, filename), out_file)
 
-build_ts = esbuild("--bundle", "--platform=browser", "--format=iife")
+
+build_ts = esbuild("--bundle", "--platform=browser",
+                   "--ignore-annotations", "--format=iife")
 md_dir = path.join(args.out_dir, "md")
 
 build("script/editor.ts", build_ts, "js")

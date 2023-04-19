@@ -1,5 +1,5 @@
 from nodes import node, NodeType
-from nodes.types import OptParamDict
+from nodes.types import ParamDict
 import pytest
 
 
@@ -8,7 +8,7 @@ import pytest
     "b": str,
     "c": bool | None,
 })
-def const_seed(*, params: OptParamDict) -> int:
+def const_seed(*, params: ParamDict) -> int:
     return params["a"]  # type: ignore
 
 
@@ -21,21 +21,21 @@ def test_valid_type():
 
 
 def test_nullable_type():
-    const_seed(params={
+    assert const_seed(params={
         "a": 5,
         "b": "String"
-    })
+    }) == 5
 
 
 def test_missing():
-    with pytest.raises(ValueError):
+    with pytest.raises(TypeError):
         const_seed(params={
             "a": 5
         })
 
 
 def test_invalid_type():
-    with pytest.raises(ValueError):
+    with pytest.raises(TypeError):
         const_seed(params={
             "a": "5",
             "b": "String"
@@ -43,7 +43,7 @@ def test_invalid_type():
 
 
 def test_invalid_nullable_type():
-    with pytest.raises(ValueError):
+    with pytest.raises(TypeError):
         const_seed(params={
             "a": 5,
             "b": "String",

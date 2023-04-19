@@ -1,22 +1,12 @@
 import { Node } from "./project";
 import { DataSet } from "vis-data";
 import vis from "vis-network";
+import { Colors } from "./editor";
+import { Locale } from "./api";
 
-type Style = { info: string, success: string, danger: string, body: string, secondary: string, font: string }
+type VisProjectNode = vis.Node & { props: Object };
 
-export class VisProjectNode implements vis.Node {
-    id: number;
-    label: string;
-    group: string;
-
-    constructor(node: Node, x?: number, y?: number) {
-        this.label = node.name;
-        this.id = node.id;
-        this.group = node.type;
-        // Короткое присвоение полей
-        Object.assign(this, { x, y })
-    }
-}
+let locale: Locale;
 
 export let network: vis.Network;
 export let container: HTMLCanvasElement;
@@ -26,8 +16,9 @@ export const edges = new DataSet<vis.Edge>([]);
 
 export let counter = { nodes: 0, edges: 0 };
 
-export function initNetwork(_container: HTMLCanvasElement, style: Style) {
+export function initNetwork(_container: HTMLCanvasElement, style: Colors, _locale: Locale) {
     container = _container;
+    locale = _locale;
 
     const data = { nodes, edges, };
     const margin = 10;
@@ -36,7 +27,7 @@ export function initNetwork(_container: HTMLCanvasElement, style: Style) {
         width: "100%",
         physics: false,
         nodes: {
-            color: style.info,
+            color: style.seed,
             shape: "box",
             borderWidth: 0,
             font: {
@@ -55,7 +46,7 @@ export function initNetwork(_container: HTMLCanvasElement, style: Style) {
                 to: true,
             },
             smooth: false,
-            color: style.secondary,
+            color: style.edges,
         },
         interaction: {
             multiselect: true,
@@ -64,9 +55,9 @@ export function initNetwork(_container: HTMLCanvasElement, style: Style) {
             keyboard: true
         },
         groups: {
-            "seed": { color: style.info },
-            "random": { color: style.success },
-            "output": { color: style.danger },
+            "seed": { color: style.seed },
+            "random": { color: style.random },
+            "output": { color: style.output },
         },
     };
 
@@ -91,6 +82,13 @@ export const connectNodes = (from: vis.IdType, to: vis.IdType) =>
     edges.add({ from, to, id: counter.edges++ });
 
 export function createNode(node: Node, x?: number, y?: number) {
-    nodes.add(new VisProjectNode(node, x, y));
-    network.selectNodes([node.id]);
+    const localizedName = locale[node.type][node.name] || node.name;
+
+    nodes.add({
+        x, y,
+        label: localizedName,
+        group: node.type,
+        id: node.id,
+        props: node.props!
+    });
 }

@@ -1,0 +1,32 @@
+{
+    "$schema": "http://json-schema.org/draft-07/schema",
+    "$id": "locale.schema.json",
+    "title": "Файл списка типов нод WebPRND",
+    "description": "Схема для валидации списка типов нод",
+    "type": "object",
+    "properties": {
+        "output": {
+            "type": "array",
+            "items": {
+                "type": "string"
+            }
+        },
+        "random": {
+            "type": "array",
+            "items": {
+                "type": "string"
+            }
+        },
+        "seed": {
+            "type": "array",
+            "items": {
+                "type": "string"
+            }
+        }
+    },
+    "required": [
+        "output",
+        "random",
+        "seed"
+    ]
+}

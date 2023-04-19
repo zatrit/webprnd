@@ -24,7 +24,7 @@ def token_for(login: str, sign_key: SigningKey, expires: int, role: str):
     return urlsafe_b64encode(signature).decode(ENCODING) + ":" + raw_token
 
 
-def verify_token(token: str, check_role: str, current_time: int, key_provider: KeyProvider) -> bool:
+def verify_token(token: str, roles: list[str], current_time: int, key_provider: KeyProvider) -> bool:
     try:
         sign, *parts = token.split(":")
         expires, *decodable = map(urlsafe_b64decode, parts)
@@ -35,7 +35,7 @@ def verify_token(token: str, check_role: str, current_time: int, key_provider: K
 
         role, login = map(bytes.decode, decodable)
 
-        if role != check_role:
+        if role not in roles:
             return False
 
         raw_token = ":".join(parts)
