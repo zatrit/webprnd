@@ -25,12 +25,12 @@ def node_types():
 
         for name, (_type, default) in params.items():
             node_params[name] = {
-                "type": _type,
+                "type": _type.__name__,
                 "default": default
             }
 
         result.append({
-            "type": key.node_type,
+            "type": key.node_type.value,
             "name": key.name,
             "props": node_params
         })

@@ -4,7 +4,7 @@ export class Node {
     id: number;
     type: NodeType;
     name: string;
-    from?: number[];
+    to?: number[];
     props?: Object;
 }
 
@@ -31,7 +31,7 @@ export function initProject(fileInput: HTMLInputElement, setProject: SetProject)
 
                 const project: Project = JSON.parse(text);
 
-                if (!validateNodes(project.nodes))
+                if (!project.nodes)
                     throw "Неверный формат проекта";
 
                 setProject(project);
@@ -42,8 +42,4 @@ export function initProject(fileInput: HTMLInputElement, setProject: SetProject)
 
         reader.readAsText(file);
     };
-}
-
-export function validateNodes(nodes: Node[]): boolean {
-    return Boolean(nodes);
 }

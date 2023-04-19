@@ -12,7 +12,8 @@
         "python": "Python random"
     },
     "output": {
-        "json": "JSON"
+        "json": "JSON",
+        "csv": "CSV"
     },
     "params": {
         "m": "Модуль",

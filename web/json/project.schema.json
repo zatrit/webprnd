@@ -35,7 +35,7 @@
                         "type": "object",
                         "additionalProperties": true
                     },
-                    "from": {
+                    "to": {
                         "type": "array",
                         "items": {
                             "type": "integer"
@@ -47,21 +47,21 @@
                     "properties": {
                         "type": {
                             "enum": [
-                                "random",
-                                "output"
+                                "seed",
+                                "random"
                             ]
                         }
                     }
                 },
                 "then": {
                     "required": [
-                        "from"
+                        "to"
                     ]
                 },
                 "else": {
                     "not": {
                         "required": [
-                            "from"
+                            "to"
                         ]
                     }
                 },

@@ -5,11 +5,6 @@
             "type": "output",
             "name": "json",
             "id": 0,
-            "from": [
-                1,
-                2,
-                3
-            ],
             "props": {
                 "pretify": true
             }
@@ -20,26 +15,33 @@
             "id": 1,
             "props": {
                 "n_bytes": 8
-            }
+            },
+            "to": [
+                0,
+                3
+            ]
         },
         {
             "type": "seed",
             "name": "time",
-            "id": 2
+            "id": 2,
+            "to": [
+                0,
+                3
+            ]
         },
         {
             "type": "random",
             "name": "linear_congruential",
             "id": 3,
-            "from": [
-                1,
-                2
-            ],
             "props": {
                 "a": 1664525,
                 "c": 1013904223,
                 "m": 2147483647
-            }
+            },
+            "to": [
+                0
+            ]
         }
     ]
 }

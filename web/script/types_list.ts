@@ -1,5 +1,5 @@
 import { Locale, NodeTypes } from "./api";
-import { addNode } from "./editor_buttons";
+import { NodeInit, addNode } from "./editor_buttons";
 import { NodeType } from "./project";
 
 type NodeLists = {
@@ -13,25 +13,17 @@ export function initTypesList(locale: Locale, types: NodeTypes, lists: NodeLists
         "output": "btn-danger",
     };
 
-    ["seed", "random", "output"].forEach(type => {
-        const groupData = types[type];
-        const list = lists[type];
-        if (groupData instanceof Array<string>) {
-            groupData.forEach((node: string, _: number) => {
-                const name = locale[type][node] || node;
-                const button = document.createElement("li");
+    types.forEach(type => {
+        const list = lists[type.type];
 
-                button.classList.add("p-2", "m-2", "rounded", "btn", styles[type]);
-                button.innerHTML = name;
+        const name = locale[type.type][type.name] || type.name;
+        const button = document.createElement("li");
 
-                const nodeInit = {
-                    type,
-                    name: node
-                };
-                button.onclick = () => addNode(nodeInit);
+        button.classList.add("p-2", "m-2", "rounded", "btn", styles[type.type]);
+        button.innerHTML = name;
 
-                list.appendChild(button);
-            });
-        }
+        button.onclick = () => addNode(type as NodeInit);
+
+        list.appendChild(button);
     });
 }

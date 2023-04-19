@@ -7,3 +7,8 @@ from . import node, NodeType
 })
 def json(data: OutputData, *, params: ParamDict):
     print(params)
+
+
+@node(NodeType.Output, "csv")
+def csv(data: OutputData, *, params: ParamDict):
+    print(params)

@@ -1,8 +1,8 @@
 import { connectNodes, container, counter, createNode, edges, network, nodes } from "./vis_network";
-import { Node } from "./project";
+import { Node, NodeType } from "./project";
 import { pairwise } from "./util";
 
-type NodeInit = {
+export type NodeInit = {
     name: string,
     type: string,
 };
@@ -44,7 +44,7 @@ const selectAll = globalThis.selectAll = () =>
 const connectSelected = globalThis.connectSelected = () => {
     pairwise(network.getSelectedNodes(), (cur, next) => {
         if (!(network.getConnectedNodes(cur)).some(i => i == next)) {
-            connectNodes(cur, next);
+            connectNodes(cur, next, id => nodes.get(id)?.group! as NodeType);
         }
     });
 

@@ -1,20 +1,20 @@
 /* Я не придумал, как можно сделать более масштабируемый способ
 отделить ID нод от их видимых имён, поэтому сделал так */
-import { Node } from "./project";
+import { Node, NodeType } from "./project";
 
 type LocaleDict = { [id: string]: string; };
-export class Locale {
-    seed: LocaleDict;
-    random: LocaleDict;
-    output: LocaleDict;
+export type Locale = {
+    seed: LocaleDict,
+    random: LocaleDict,
+    output: LocaleDict,
+    props: LocaleDict,
 }
 
-type TypeArray = string[];
-export class NodeTypes {
-    seed: TypeArray;
-    random: TypeArray;
-    output: TypeArray;
-}
+export type NodeTypes = {
+    type: NodeType,
+    name: string,
+    params: { [id: string]: any; }
+}[];
 
 const credFetchProps: RequestInit = {
     credentials: "include",

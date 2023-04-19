@@ -1,4 +1,4 @@
-import { Node } from "./project";
+import { Node, NodeType } from "./project";
 import { DataSet } from "vis-data";
 import vis from "vis-network";
 import { Colors } from "./editor";
@@ -70,14 +70,32 @@ export function setNodes(addedNodes: Node[]) {
 
     addedNodes.forEach(node => {
         createNode(node);
-        node.from?.forEach(from => connectNodes(from, node.id));
+        node.to?.forEach(to => connectNodes(node.id, to, id =>
+            addedNodes.filter(node => node.id == id)[0].type));
     });
 
     network.stabilize();
 }
 
-export const connectNodes = (from: vis.IdType, to: vis.IdType) =>
-    edges.add({ from, to, id: counter.edges++ });
+const connectable: { [id in NodeType]: Array<string> } = {
+    "random": ["random", "output"],
+    "seed": ["random", "output"],
+    "output": []
+}
+
+export function connectNodes(from: vis.IdType, to: vis.IdType, getGroup: (id: vis.IdType) => NodeType) {
+    const tryConnect = (from: vis.IdType, to: vis.IdType, fromGroup: NodeType, toGroup: NodeType) => {
+        if (connectable[fromGroup].includes(toGroup)) {
+            return edges.add({ from, to, id: counter.edges++ });
+        }
+    };
+
+    const fromGroup = getGroup(from);
+    const toGroup = getGroup(to);
+
+    if (!tryConnect(from, to, fromGroup, toGroup))
+        tryConnect(to, from, toGroup, fromGroup);
+}
 
 export function createNode(node: Node, x?: number, y?: number) {
     const localizedName = locale[node.type][node.name] || node.name;
