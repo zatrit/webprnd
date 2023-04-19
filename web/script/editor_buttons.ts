@@ -2,8 +2,6 @@ import { connectNodes, container, counter, createNode, edges, network, nodes } f
 import { Node } from "./project";
 import { pairwise } from "./util";
 
-let addNodeListener: (e: MouseEvent) => void;
-
 type NodeInit = {
     name: string,
     type: string,
@@ -12,7 +10,7 @@ type NodeInit = {
 export function addNode(nodeInit: NodeInit) {
     container.style.cursor = "cell";
 
-    container.addEventListener("mousedown", addNodeListener = e => {
+    container.onmousedown = e => {
         const { x, y } = network.DOMtoCanvas({ x: e.pageX, y: e.pageY });
 
         const _node: Node = Object.assign({
@@ -21,10 +19,10 @@ export function addNode(nodeInit: NodeInit) {
         createNode(_node, x, y);
 
         if (!e.shiftKey) {
-            container.removeEventListener("mousedown", addNodeListener);
+            container.onmousedown = null;
             container.style.cursor = "default";
         }
-    });
+    };
 }
 
 const deleteSelected = globalThis.deleteSelected = () => {

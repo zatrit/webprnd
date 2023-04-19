@@ -1,7 +1,7 @@
 from dataclasses import dataclass
 from enum import Enum
 from functools import wraps
-from .types import Function, ParamType, ParamDict, WrapperFunction
+from .types import Function, ParamDict, ParamTypes, WrapperFunction
 
 
 class NodeType(Enum):
@@ -16,10 +16,10 @@ class NodeKey:
     name: str
 
 
-registry: dict[NodeKey, Function | WrapperFunction] = {}
+registry: dict[NodeKey, tuple[ParamTypes, Function | WrapperFunction]] = {}
 
 
-def node(node_type: NodeType, name: str, accepts_params: dict[str, type[ParamType]] = {}):
+def node(node_type: NodeType, name: str, accepts_params: ParamTypes = {}):
     def decorator(fn: Function):
         @wraps(fn)
         def wrapper(*args, params: ParamDict):
@@ -27,12 +27,12 @@ def node(node_type: NodeType, name: str, accepts_params: dict[str, type[ParamTyp
             # По сути является контрактом, гарантирующим,
             # что передаваемые параметры подходят под accepts_params
             if params:
-                for key, value in params.items():
+                for key, _ in params.items():
                     if key not in accepts_params:
                         raise ValueError("Неизвестный параметр " + key)
 
-                for key, value in accepts_params.items():
-                    if not isinstance(params.get(key, None), value):
+                for key, (_type, default) in accepts_params.items():
+                    if not isinstance(params.get(key, default), _type):
                         raise TypeError(
                             "Неверный тип или отсутсвующий параметр " + key)
             elif accepts_params:
@@ -40,7 +40,7 @@ def node(node_type: NodeType, name: str, accepts_params: dict[str, type[ParamTyp
 
             return fn(*args, params=params)
         key = NodeKey(node_type, name)
-        registry[key] = wrapper
+        registry[key] = (accepts_params, wrapper)
 
         return wrapper
     return decorator

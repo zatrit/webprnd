@@ -40,6 +40,7 @@ def store_token(token: str | None):
     session["TOKEN"] = token
 
 
-def get_token():
-    json = (request.json if request.method == "POST" else {}) or {}
-    return session.get("TOKEN") or json.get("token")
+def get_token() -> str:
+    has_json = request.method == "POST" and request.content_type == "application/json"
+    json = (request.json if has_json else {}) or {}
+    return session.get("TOKEN") or json.get("token") or ""

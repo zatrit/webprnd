@@ -1,5 +1,4 @@
 from flask import Blueprint, jsonify
-from flask_restful import Api, Resource
 import auth
 import nodes
 
@@ -9,25 +8,30 @@ blueprint = Blueprint(
 )
 
 requires_auth = auth.requires_auth(["api", "user"])
-api = Api(blueprint)
 
 
-class Random(Resource):
-    @requires_auth
-    def post(self):
-        pass
+@blueprint.route("/api/v1/random", methods=["POST"])
+@requires_auth
+def random():
+    return []
 
 
 @blueprint.route("/api/v1/types", methods=["GET"])
 @requires_auth
 def node_types():
-    result = {}
-    for key in nodes.registry.keys():
-        _type = key.node_type.value
-        if _type not in result:
-            result[_type] = []
-        result[_type].append(key.name)
+    result = []
+    for key, (params, _) in nodes.registry.items():
+        node_params = {}
+
+        for name, (_type, default) in params.items():
+            node_params[name] = {
+                "type": _type,
+                "default": default
+            }
+
+        result.append({
+            "type": key.node_type,
+            "name": key.name,
+            "props": node_params
+        })
     return jsonify(result)
-
-
-api.add_resource(Random, "/api/v1/random")

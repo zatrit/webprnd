@@ -3,30 +3,42 @@
     "$id": "locale.schema.json",
     "title": "Файл списка типов нод WebPRND",
     "description": "Схема для валидации списка типов нод",
-    "type": "object",
-    "properties": {
-        "output": {
-            "type": "array",
-            "items": {
+    "type": "array",
+    "items": {
+        "type": "object",
+        "properties": {
+            "type": {
+                "type": "string",
+                "enum": [
+                    "seed",
+                    "random",
+                    "output"
+                ]
+            },
+            "name": {
                 "type": "string"
+            },
+            "props": {
+                "type": "array",
+                "items": {
+                    "type": "object",
+                    "properties": {
+                        "type": {
+                            "type": "string"
+                        },
+                        "default": {}
+                    },
+                    "required": [
+                        "type",
+                        "default"
+                    ]
+                }
             }
         },
-        "random": {
-            "type": "array",
-            "items": {
-                "type": "string"
-            }
-        },
-        "seed": {
-            "type": "array",
-            "items": {
-                "type": "string"
-            }
-        }
-    },
-    "required": [
-        "output",
-        "random",
-        "seed"
-    ]
+        "required": [
+            "type",
+            "name",
+            "props"
+        ]
+    }
 }

@@ -13,11 +13,15 @@
         },
         "seed": {
             "type": "object"
+        },
+        "params": {
+            "type": "object"
         }
     },
     "required": [
         "output",
         "random",
         "seed"
-    ]
+    ],
+    "additionalProperties": false
 }

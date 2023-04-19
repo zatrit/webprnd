@@ -4,5 +4,4 @@ toml
 ecdsa[gmpy2]
 flask
 flask-wtf
-flask-restful
 cryptography

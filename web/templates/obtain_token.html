@@ -1,0 +1,31 @@
+{% extends "auth_form_base.html" %}
+
+{% block content %}
+<h1>{{ title }}</h1>
+<form action="" method="post" novalidate>
+    {{ form.hidden_tag() }}
+    <p>
+        {{ form.expires.label }}<br>
+        {{ form.expires(class="form-control") }}<br>
+        {% for error in form.expires.errors %}
+        {{ error_message(error) }}
+        {% endfor %}
+    </p>
+    <p>
+        {{ form.password.label }}<br>
+        {{ form.password(class="form-control", type="password", placeholder="Введите пароль") }}<br>
+        {% for error in form.password.errors %}
+        {{ error_message(error) }}
+        {% endfor %}
+    </p>
+    {% if message %}
+    {{ error_message(message) }}
+    {% endif %}
+    {% if token %}
+    <div class="alert alert-success" role="alert">
+        Ваш токен: {{ token }}
+    </div>
+    {% endif %}
+    <p>{{ form.submit(type="submit", class="btn btn-primary") }}</p>
+</form>
+{% endblock %}

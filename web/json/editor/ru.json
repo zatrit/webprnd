@@ -2,14 +2,26 @@
     "$schema": "../locale.schema.json",
     "seed": {
         "const": "Константный",
-        "time": "Время (нс.)",
-        "python": "Python random"
+        "time": "Время (нс.)"
     },
     "random": {
         "linear_congruential": "Линейный конгруэнтный",
-        "quadratic_congruential": "Квадратичный конгруэнтный"
+        "quadratic_congruential": "Квадратичный конгруэнтный",
+        "blum_blum_shub": "Алгоритм Блюм-Блюма-Шуба",
+        "lfsr_xorshift": "Xorshift LFSR",
+        "python": "Python random"
     },
     "output": {
         "json": "JSON"
+    },
+    "params": {
+        "m": "Модуль",
+        "a": "Множитель",
+        "c": "Приращение",
+        "d": "Ещё множитель",
+        "pretify": "Красивый вывод",
+        "n_bytes": "Количество байт",
+        "p": "Первое большое простое число",
+        "q": "Второе большое простое число"
     }
 }
