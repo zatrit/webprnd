@@ -10,3 +10,13 @@ def linear_congruential(seed: int, state: Any, *, params: ParamDict) -> tuple[fl
         state = seed
     result: int = (state * params["a"] + params["c"]) & params["m"]
     return result / params["m"], result
+
+
+@node(NodeType.Random, "quadratic_congruential",
+      accepts_params={"m": int, "a": int, "c": int, "d": int})
+def quadratic_congruential(seed: int, state: Any, *, params: ParamDict) -> tuple[float, int]:
+    if not state:
+        state = seed
+    result: int = (state ** 2 * params["d"] + params["a"] *
+                   state + params["c"]) & params["m"]
+    return result / params["m"], result

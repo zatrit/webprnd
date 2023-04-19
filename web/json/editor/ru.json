@@ -1,10 +1,13 @@
 {
     "$schema": "../locale.schema.json",
     "seed": {
-        "const": "Константный"
+        "const": "Константный",
+        "time": "Время (нс.)",
+        "python": "Python random"
     },
     "random": {
-        "linear_congruential": "Линейный конгруэнтный"
+        "linear_congruential": "Линейный конгруэнтный",
+        "quadratic_congruential": "Квадратичный конгруэнтный"
     },
     "output": {
         "json": "JSON"

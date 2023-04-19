@@ -1,11 +1,9 @@
 {
   "dependencies": {
-    "bootstrap": "^5.2.3",
     "vis-data": "^7.1.6",
     "vis-network": "^9.1.6"
   },
   "devDependencies": {
-    "@types/bootstrap": "^5.2.6",
     "esbuild": "^0.17.14"
   }
 }

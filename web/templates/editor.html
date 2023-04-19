@@ -16,7 +16,8 @@
 видимо-невидимо #}
 <div class="row fixed-bottom sticky-md-top justify-content-end p-2 invisible">
     <div class="col-md-2 bg-dark rounded p-2 visible">
-        {{ button("+", "btn-add", onclick="toggleNodesTab()") }}
+        <button {{ button_class() }} type="button" data-bs-toggle="offcanvas" data-bs-target="#nodes-offcanvas"
+            aria-controls="nodes-offcanvas" id="btn-toggle-offcanvas">+</button>
         {{ button("-", "btn-delete", onclick="deleteSelected()") }}
         {{ button("Соед.", "btn-connect", onclick="connectSelected()") }}
         {{ button("Все", "btn-select-all", onclick="selectAll()") }}
@@ -25,14 +26,20 @@
     </div>
 </div>
 
-<div class="offcanvas offcanvas-end" id="nodes-offcanvas" aria-labelledby="offcanvasResponsiveLabel">
+<div class="offcanvas offcanvas-start show" id="nodes-offcanvas" data-bs-scroll="true" data-bs-backdrop="false">
     <div class="offcanvas-header">
         <h5 class="offcanvas-title" id="offcanvasResponsiveLabel">Добавить элемент</h5>
         <button type="button" class="btn-close" data-bs-dismiss="offcanvas" data-bs-target="#nodes-offcanvas"
             aria-label="Закрыть"></button>
+    </div>
 
-        <ul class="list-group" id="nodes-list">
-        </ul>
+    <div class="offcanvas-body">
+        <p class="m-2">Сиды</p>
+        <div class="btn-group m-1 d-block" role="group" id="seed-nodes-list"></div>
+        <p class="m-2">Генераторы</p>
+        <div class="btn-group m-1 d-block" role="group" id="random-nodes-list"></div>
+        <p class="m-2">Выводы</p>
+        <div class="btn-group m-1 d-block" role="group" id="output-nodes-list"></div>
     </div>
 </div>
 {% endblock %}

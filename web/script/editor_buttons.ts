@@ -1,26 +1,30 @@
 import { connectNodes, container, counter, createNode, edges, network, nodes } from "./vis_network";
 import { Node } from "./project";
 import { pairwise } from "./util";
-import { Offcanvas } from "bootstrap";
 
-let offcanvas: Offcanvas;
 let addNodeListener: (e: MouseEvent) => void;
 
-function addNode(node: Node) {
+type NodeInit = {
+    name: string,
+    type: string,
+};
+
+export function addNode(nodeInit: NodeInit) {
     container.style.cursor = "cell";
 
     container.addEventListener("mousedown", addNodeListener = e => {
         const { x, y } = network.DOMtoCanvas({ x: e.pageX, y: e.pageY });
-        createNode(node, x, y);
+
+        const _node: Node = Object.assign({
+            id: ++counter.nodes,
+        }, nodeInit) as Node;
+        createNode(_node, x, y);
+
         if (!e.shiftKey) {
             container.removeEventListener("mousedown", addNodeListener);
             container.style.cursor = "default";
         }
     });
-}
-
-const toggleNodesTab = globalThis.toggleNodesTab = () => {
-    offcanvas.toggle();
 }
 
 const deleteSelected = globalThis.deleteSelected = () => {
@@ -52,12 +56,10 @@ const connectSelected = globalThis.connectSelected = () => {
 const generate = globalThis.generate = () => {
 }
 
-export function initEditorButtons(_offcanvas: Offcanvas) {
-    offcanvas = _offcanvas;
-
+export function initEditorButtons() {
     document.addEventListener("keydown", e => {
         if (e.code == "KeyN") {
-            toggleNodesTab();
+            document.getElementById("btn-toggle-offcanvas")?.click()
         }
         else if (e.code == "Delete") {
             deleteSelected();

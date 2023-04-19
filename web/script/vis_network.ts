@@ -62,8 +62,6 @@ export function initNetwork(_container: HTMLCanvasElement, style: Colors, _local
     };
 
     network = new vis.Network(container, data, options);
-
-    window.onbeforeunload = () => nodes.length != 0;
 }
 
 export function setNodes(addedNodes: Node[]) {

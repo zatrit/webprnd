@@ -2,7 +2,6 @@ import { initNetwork, setNodes } from "./vis_network";
 import { initProject } from "./project";
 import { initEditorButtons } from "./editor_buttons";
 import { loadLocale, loadTypes } from "./api";
-import { Offcanvas } from "bootstrap";
 import { initTypesList } from "./types_list";
 
 export type Colors = { seed: string, random: string, output: string, body: string, edges: string, font: string };
@@ -18,9 +17,7 @@ async function initEditor() {
     const container = document.getElementById("editor-container")! as HTMLCanvasElement;
     const style = getComputedStyle(document.body);
 
-    const offcanvasElement = document.getElementById("nodes-offcanvas")!;
-    const offcanvas = new Offcanvas(offcanvasElement);
-    initEditorButtons(offcanvas);
+    initEditorButtons();
 
     const nodesList = document.getElementById("nodes-list")! as HTMLUListElement;
     const styleProp = (prop: string) => style.getPropertyValue(prop);
@@ -30,7 +27,11 @@ async function initEditor() {
 
     console.log(locale, types);
 
-    initTypesList(locale, types, nodesList);
+    initTypesList(locale, types, {
+        seed: document.getElementById("seed-nodes-list")!,
+        random: document.getElementById("random-nodes-list")!,
+        output: document.getElementById("output-nodes-list")!,
+    });
     initNetwork(container, {
         seed: styleProp("--bs-info"),
         random: styleProp("--bs-success"),

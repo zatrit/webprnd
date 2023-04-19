@@ -5,4 +5,4 @@ from . import blueprint, requires_auth
 @blueprint.route("/editor")
 @requires_auth
 def editor():
-    return render_template("editor.html", title="Редактор", bundled_bootstrap=True)
+    return render_template("editor.html", title="Редактор")
