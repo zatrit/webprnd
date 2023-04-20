@@ -31,8 +31,8 @@ def node(node_type: NodeType, name: str, accepts_params: ParamTypes = {}):
                     if key not in accepts_params:
                         raise ValueError("Неизвестный параметр " + key)
 
-                for key, (_type, default) in accepts_params.items():
-                    if not isinstance(params.get(key, default), _type):
+                for key, param in accepts_params.items():
+                    if not param.validate(params.get(key, param.default)):
                         raise TypeError(
                             "Неверный тип или отсутсвующий параметр " + key)
             elif accepts_params:

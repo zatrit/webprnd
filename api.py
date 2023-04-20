@@ -23,11 +23,8 @@ def node_types():
     for key, (params, _) in nodes.registry.items():
         node_params = {}
 
-        for name, (_type, default) in params.items():
-            node_params[name] = {
-                "type": _type.__name__,
-                "default": default
-            }
+        for name, param in params.items():
+            node_params[name] = param.serialize()
 
         result.append({
             "type": key.node_type.value,

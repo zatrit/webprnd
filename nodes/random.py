@@ -1,10 +1,16 @@
 from typing import Any
-from .types import ParamDict
+
+from .param_types import Plain
+from .types import ParamTypes, ParamDict
 from . import node, NodeType
 
+ModuloParams: ParamTypes = {"m": Plain(0x7FFFFFFF)}
+LCGParams: ParamTypes = ModuloParams | {"a": Plain(
+    1664525), "c": Plain(1013904223)}
+CCGParams: ParamTypes = LCGParams | {"d": Plain(1664524)}
 
-@node(NodeType.Random, "linear_congruential",
-      accepts_params={"m": (int, 0x7FFFFFFF), "a": (int, 1664525), "c": (int, 1013904223)})
+
+@node(NodeType.Random, "linear_congruential", accepts_params=LCGParams)
 def linear_congruential(seed: int, state: int, *, params: ParamDict) -> tuple[float, int]:
     if not state:
         state = seed
@@ -12,9 +18,7 @@ def linear_congruential(seed: int, state: int, *, params: ParamDict) -> tuple[fl
     return result / params["m"], result
 
 
-@node(NodeType.Random, "quadratic_congruential",
-      accepts_params={"m": (int, 0x7FFFFFFF), "a": (int, 1664525),
-                      "c": (int, 1013904223), "d": (int, 1664524)})
+@node(NodeType.Random, "quadratic_congruential", accepts_params=CCGParams)
 def quadratic_congruential(seed: int, state: int, *, params: ParamDict) -> tuple[float, int]:
     if not state:
         state = seed
@@ -31,7 +35,7 @@ def python_random(seed: int, state: Any, *, params: ParamDict) -> tuple[float, i
     return state.random(), state
 
 
-@node(NodeType.Random, "lfsr_xorshift", accepts_params={"m": (int, 0x7FFFFFFF)})
+@node(NodeType.Random, "lfsr_xorshift", accepts_params=ModuloParams)
 def lfsr_xorshift(seed: int, state: int, *, params: ParamDict) -> tuple[float, int]:
     if not state:
         state = seed
@@ -42,7 +46,8 @@ def lfsr_xorshift(seed: int, state: int, *, params: ParamDict) -> tuple[float, i
     return state / params["m"], state
 
 
-@node(NodeType.Random, "blum_blum_shub", accepts_params={"p": (int, 1664543), "q": (int, 1013904223)})
+@node(NodeType.Random, "blum_blum_shub",
+      accepts_params={"p": Plain(1664543), "q": Plain(1013904223)})
 def blum_blum_shub(seed: int, state: int, *, params: ParamDict) -> tuple[float, int]:
     if not state:
         state = seed

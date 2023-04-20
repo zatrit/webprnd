@@ -1,4 +1,4 @@
-ujson
+jsoncomment[ujson]
 scour
 requests
 zopflipy

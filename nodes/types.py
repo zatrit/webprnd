@@ -1,9 +1,10 @@
 from typing import Protocol, Any, Optional
+from .param_types import Param
 
 HardParamType = int | bool | float | str
 ParamType = HardParamType | Optional[HardParamType]
 ParamDict = dict
-ParamTypes = dict[str, tuple[type[ParamType], Any]]
+ParamTypes = dict[str, Param]
 OutputData = dict
 
 

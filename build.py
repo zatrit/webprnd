@@ -20,6 +20,7 @@ import sys
 from argparse import ArgumentParser
 from typing import Callable
 import shutil
+from jsoncomment import JsonComment
 
 parser = ArgumentParser()
 parser.add_argument("--node-bin", type=str, default="./node_modules/.bin/")
@@ -30,6 +31,7 @@ parser.add_argument("--out-dir", type=str, default="static/")
 args = parser.parse_args()
 
 shell = sys.platform == "win32"
+_json = JsonComment()
 
 BuildAction = Callable[[str, str], None]
 BytesAction = Callable[[bytes], bytes]
@@ -68,11 +70,10 @@ def png_zopfli(source: str, out: str):
 
 
 def json(source: str, out: str):
-    import ujson
     with open(source, "r") as infile, open(out, "w") as outfile:
-        data = ujson.load(infile)
+        data = _json.load(infile)
         del data["$schema"]
-        ujson.dump(data, outfile, ensure_ascii=False)
+        _json.dump(data, outfile, ensure_ascii=False)
 
 
 def minify_or_copy(func: BuildAction):
@@ -103,5 +104,5 @@ md_dir = path.join(args.out_dir, "md")
 build("script/editor.ts", build_ts, "js")
 build("**/*.png", minify_or_copy(png_zopfli))
 build("**/*.css", minify_or_copy(esbuild()))
-build("**/*.json", minify_or_copy(json))
+build("**/*.json", json)
 build("**/*.svg", minify_or_copy(svg_scour))
