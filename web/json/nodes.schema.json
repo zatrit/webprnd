@@ -18,7 +18,7 @@
             "name": {
                 "type": "string"
             },
-            "props": {
+            "params": {
                 "type": "array",
                 "items": {
                     "type": "object",
@@ -38,7 +38,7 @@
         "required": [
             "type",
             "name",
-            "props"
+            "params"
         ]
     }
 }

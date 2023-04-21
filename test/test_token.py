@@ -27,25 +27,25 @@ def create_token(password: str, expires: int):
 
 def test_validation():
     token = create_token(password, 0)
-    assert validate_token(token, role)
+    assert validate_token(token, [role])
 
 
 def test_expiration():
     token = create_token(password, 1)
     sleep(2)
-    assert not validate_token(token, role)
+    assert not validate_token(token,  [role])
 
 
 def test_wrong_password():
     token = create_token("wrong password", 0)
-    assert not validate_token(token, role)
+    assert not validate_token(token,  [role])
 
 
 def test_role_invalidation():
     token = create_token(password, 0)
-    assert not validate_token(token, "invalid role")
+    assert not validate_token(token, ["invalid role"])
 
 
 def test_role_and_token_invalidation():
     for token in invalid_cases:
-        assert not validate_token(token, role)
+        assert not validate_token(token,  [role])

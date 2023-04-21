@@ -5,7 +5,7 @@
             "type": "output",
             "name": "json",
             "id": 0,
-            "props": {
+            "params": {
                 "pretify": true
             }
         },
@@ -13,7 +13,7 @@
             "type": "seed",
             "name": "urandom",
             "id": 1,
-            "props": {
+            "params": {
                 "n_bytes": 8
             },
             "to": [
@@ -34,7 +34,7 @@
             "type": "random",
             "name": "linear_congruential",
             "id": 3,
-            "props": {
+            "params": {
                 "a": 1664525,
                 "c": 1013904223,
                 "m": 2147483647

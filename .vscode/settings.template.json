@@ -1,5 +1,8 @@
 {
     "python.analysis.typeCheckingMode": "basic",
     "js/ts.implicitProjectConfig.strictNullChecks": true,
-    "js/ts.implicitProjectConfig.strictFunctionTypes": true
+    "js/ts.implicitProjectConfig.strictFunctionTypes": true,
+    "explorer.autoRevealExclude": {
+        "static/": true
+    }
 }

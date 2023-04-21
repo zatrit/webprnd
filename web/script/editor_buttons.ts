@@ -1,6 +1,7 @@
-import { connectNodes, container, counter, createNode, edges, network, nodes } from "./vis_network";
+import { connectNodes, container, counter, createNode, edges, network, nodes, updateParams } from "./vis_network";
 import { Node, NodeType } from "./project";
 import { pairwise } from "./util";
+import { unselectButton } from "./types_list";
 
 export type NodeInit = {
     name: string,
@@ -17,6 +18,7 @@ export function addNode(nodeInit: NodeInit) {
             id: ++counter.nodes,
         }, nodeInit) as Node;
         createNode(_node, x, y);
+        unselectButton();
 
         if (!e.shiftKey) {
             container.onmousedown = null;
@@ -38,20 +40,24 @@ const deleteSelected = globalThis.deleteSelected = () => {
     network.unselectAll();
 }
 
-const selectAll = globalThis.selectAll = () =>
+const selectAll = globalThis.selectAll = () => {
     network.selectNodes(nodes.getIds());
+
+    updateParams(network.getSelectedNodes());
+};
 
 const connectSelected = globalThis.connectSelected = () => {
     pairwise(network.getSelectedNodes(), (cur, next) => {
         if (!(network.getConnectedNodes(cur)).some(i => i == next)) {
-            connectNodes(cur, next, id => nodes.get(id)?.group! as NodeType);
+            connectNodes(cur, next, id => nodes.get(id)?.group as NodeType);
         }
     });
 
     network.unselectAll();
 }
 
-const generate = globalThis.generate = () => {
+const generate = globalThis.generate = () => { 
+    console.log("Генерируем");
 }
 
 export function initEditorButtons() {
@@ -72,9 +78,6 @@ export function initEditorButtons() {
         }
         else if (e.code == "Escape") {
             network.unselectAll();
-        }
-        else if (e.code == "Enter") {
-            generate();
         }
     });
 }

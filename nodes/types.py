@@ -1,11 +1,10 @@
-from typing import Protocol, Any, Optional
-from .param_types import Param
+from typing import Protocol, Any
+from .param_types import Param, Range
 
-HardParamType = int | bool | float | str
-ParamType = HardParamType | Optional[HardParamType]
 ParamDict = dict
 ParamTypes = dict[str, Param]
 OutputData = dict
+random_params: ParamTypes = {"iter": Range(1, _min=1, _max=50)}
 
 
 class RandomFunction(Protocol):

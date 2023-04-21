@@ -4,13 +4,13 @@ from .param_types import Plain
 from .types import ParamTypes, ParamDict
 from . import node, NodeType
 
-ModuloParams: ParamTypes = {"m": Plain(0x7FFFFFFF)}
-LCGParams: ParamTypes = ModuloParams | {"a": Plain(
+modulo_params: ParamTypes = {"m": Plain(0x7FFFFFFF)}
+lcg_params: ParamTypes = modulo_params | {"a": Plain(
     1664525), "c": Plain(1013904223)}
-CCGParams: ParamTypes = LCGParams | {"d": Plain(1664524)}
+ccg_params: ParamTypes = lcg_params | {"d": Plain(1664524)}
 
 
-@node(NodeType.Random, "linear_congruential", accepts_params=LCGParams)
+@node(NodeType.Random, "linear_congruential", accepts_params=lcg_params)
 def linear_congruential(seed: int, state: int, *, params: ParamDict) -> tuple[float, int]:
     if not state:
         state = seed
@@ -18,7 +18,7 @@ def linear_congruential(seed: int, state: int, *, params: ParamDict) -> tuple[fl
     return result / params["m"], result
 
 
-@node(NodeType.Random, "quadratic_congruential", accepts_params=CCGParams)
+@node(NodeType.Random, "quadratic_congruential", accepts_params=ccg_params)
 def quadratic_congruential(seed: int, state: int, *, params: ParamDict) -> tuple[float, int]:
     if not state:
         state = seed
@@ -35,7 +35,7 @@ def python_random(seed: int, state: Any, *, params: ParamDict) -> tuple[float, i
     return state.random(), state
 
 
-@node(NodeType.Random, "lfsr_xorshift", accepts_params=ModuloParams)
+@node(NodeType.Random, "lfsr_xorshift", accepts_params=modulo_params)
 def lfsr_xorshift(seed: int, state: int, *, params: ParamDict) -> tuple[float, int]:
     if not state:
         state = seed

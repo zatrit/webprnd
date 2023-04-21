@@ -28,6 +28,8 @@ def main():
 
     parser = ArgumentParser()
     parser.add_argument("--port", type=int, default=5000)
+    # Я не знаю, зачем это нужно тут,
+    # но на всякий случай оставлю это тут
     parser.add_argument("--no-content-check", dest="content_check",
                         action="store_false", default=True)
 

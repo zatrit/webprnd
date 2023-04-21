@@ -1,9 +1,14 @@
 {
   "dependencies": {
+    "jsx-dom": "^8.0.5",
     "vis-data": "^7.1.6",
     "vis-network": "^9.1.6"
   },
   "devDependencies": {
-    "esbuild": "^0.17.14"
+    "@typescript-eslint/eslint-plugin": "^5.59.0",
+    "@typescript-eslint/parser": "^5.59.0",
+    "esbuild": "^0.17.14",
+    "eslint": "^8.38.0",
+    "typescript": "^5.0.4"
   }
 }

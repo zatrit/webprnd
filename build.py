@@ -70,6 +70,10 @@ def png_zopfli(source: str, out: str):
 
 
 def json(source: str, out: str):
+    """Убирает комментарии, пробелы, табуляцию и концы строк из JSON.
+
+    minify_or_copy не целесообразен в этом случае, так как JSON не понимает
+    комментарии"""
     with open(source, "r") as infile, open(out, "w") as outfile:
         data = _json.load(infile)
         del data["$schema"]

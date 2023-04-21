@@ -1,10 +1,11 @@
-import { Node, NodeType } from "./project";
+import { Node, NodeKey, NodeType } from "./project";
 import { DataSet } from "vis-data";
 import vis from "vis-network";
 import { Colors } from "./editor";
 import { Locale } from "./api";
+import * as params from "./params";
 
-type VisProjectNode = vis.Node & { props: Object };
+export type VisProjectNode = vis.Node & NodeKey & params.HasParams;
 
 let locale: Locale;
 
@@ -15,6 +16,21 @@ export const nodes = new DataSet<VisProjectNode>([]);
 export const edges = new DataSet<vis.Edge>([]);
 
 export let counter = { nodes: 0, edges: 0 };
+
+export const updateParams = (selectNodes: vis.IdType[]) => {
+    const firstNode = nodes.get(selectNodes[0] as vis.IdType);
+
+    if (!firstNode)
+        return;
+
+    const onlyOneNode = selectNodes.length === 1 && params.hasParams(firstNode);
+
+    params.setVisibility(onlyOneNode);
+
+    if (onlyOneNode) {
+        params.selectNode(firstNode);
+    }
+};
 
 export function initNetwork(_container: HTMLCanvasElement, style: Colors, _locale: Locale) {
     container = _container;
@@ -62,6 +78,11 @@ export function initNetwork(_container: HTMLCanvasElement, style: Colors, _local
     };
 
     network = new vis.Network(container, data, options);
+
+    const nodesEventHandler = (e: { nodes: vis.IdType[] }) => updateParams(e.nodes);
+
+    network.on("selectNode", nodesEventHandler);
+    network.on("deselectNode", nodesEventHandler);
 }
 
 export function setNodes(addedNodes: Node[]) {
@@ -105,6 +126,8 @@ export function createNode(node: Node, x?: number, y?: number) {
         label: localizedName,
         group: node.type,
         id: node.id,
-        props: node.props!
+        name: node.name,
+        type: node.type,
+        params: {}
     });
 }

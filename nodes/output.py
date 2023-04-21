@@ -12,7 +12,6 @@ def json(data: OutputData, *, params: ParamDict):
 
 @node(NodeType.Output, "csv", accepts_params={
     "delimiter": Plain(";"),
-    "line_terminator": Plain("\n"),
 })
 def csv(data: OutputData, *, params: ParamDict):
     print(params)

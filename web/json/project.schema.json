@@ -31,7 +31,7 @@
                     "name": {
                         "type": "string"
                     },
-                    "props": {
+                    "params": {
                         "type": "object",
                         "additionalProperties": true
                     },
