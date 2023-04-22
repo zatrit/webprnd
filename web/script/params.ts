@@ -1,5 +1,5 @@
 import { Locale, NodeTypes, ParamType, ParamTypes, ParamValue } from "./api";
-import { BooleanInput, InputField, RangeInput } from "./input_field";
+import { BooleanInput, InputField, RangeInput, StringInput } from "./input_field";
 import { NodeType } from "./project";
 import { VisProjectNode } from "./vis_network";
 
@@ -34,8 +34,8 @@ export function selectNode(node: VisProjectNode) {
 
     Object.entries(params).forEach(
         ([key, param]) => {
-            const value = node.params[key] || param.default;
-            const title = locale.params[key] || key;
+            const value = node.params[key] ?? param.default;
+            const title = locale.params[key] ?? key;
             const id = key + "-param";
 
             const field = createInputField(id, title, param);
@@ -65,6 +65,8 @@ function createInputField(id: string, title: string, param: ParamType): InputFie
         }
         case "bool":
             return new BooleanInput(id, title);
+        case "str":
+            return new StringInput(id, title);
     }
 }
 

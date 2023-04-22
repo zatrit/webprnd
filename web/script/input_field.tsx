@@ -89,14 +89,14 @@ export class RangeInput extends LineInput<number> {
     constructor(id: string, title: string, numberType: NumberType, min?: number, max?: number) {
         super(id, title);
         this.numberType = numberType;
-        this.input.min = (this.min = (min || Number.MIN_SAFE_INTEGER)).toString();
-        this.input.max = (this.max = (max || Number.MAX_SAFE_INTEGER)).toString();
+        this.input.min = (this.min = (min ?? Number.MIN_SAFE_INTEGER)).toString();
+        this.input.max = (this.max = (max ?? Number.MAX_SAFE_INTEGER)).toString();
     }
 }
 
 export class StringInput extends LineInput<string> {
     addCallback(callback: (value: string) => void): void {
-        this.input.addEventListener("click", e => callback((e.target as HTMLInputElement).value));
+        this.input.addEventListener("change", e => callback((e.target as HTMLInputElement).value));
     }
 
     getInputType(): string {

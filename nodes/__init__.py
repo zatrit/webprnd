@@ -23,7 +23,7 @@ class NodeKey:
     __str__ = __repr__
 
 
-registry: dict[NodeKey, tuple[ParamTypes, Function | WrapperFunction]] = {}
+functions: dict[NodeKey, tuple[ParamTypes, Function | WrapperFunction]] = {}
 
 
 def node(node_type: NodeType, name: str, accepts_params: ParamTypes | None = None):
@@ -42,7 +42,7 @@ def node(node_type: NodeType, name: str, accepts_params: ParamTypes | None = Non
 
             return fn(*args, params=fill_defaults(params, accepts_params))
         key = NodeKey(node_type, name)
-        registry[key] = (accepts_params, wrapper)
+        functions[key] = (accepts_params, wrapper)
 
         return wrapper
     return decorator

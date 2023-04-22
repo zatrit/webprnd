@@ -1,6 +1,7 @@
 /* Я не придумал, как можно сделать более масштабируемый способ
 отделить ID нод от их видимых имён, поэтому сделал так */
 import { NodeType, Project } from "./project";
+import { saveAs } from "file-saver";
 
 type LocaleDict = { [id: string]: string; };
 export type ParamValue = boolean | number | string;
@@ -54,13 +55,37 @@ export async function generate(project: Project) {
         headers: {
             "Content-Type": "application/json",
         },
-        body: JSON.stringify(project),
+        body: JSON.stringify(Object.assign({
+            format: "7z"
+        }, project)),
     };
 
-    const request = await fetch(randomUrl, Object.assign(props, credFetchProps));
-    const result = await request.json();
+    const response = await fetch(randomUrl, Object.assign(props, credFetchProps));
+    const contentType = response.headers.get("Content-Type");
 
-    if ("message" in result) {
-        alert(result["message"]);
+    switch (contentType) {
+        case "application/json":
+        case "text/json": {
+            const json = await response.json();
+
+            if ("message" in json) {
+                alert(json["message"])
+            }
+
+            break;
+        }
+
+        case "application/x-7z-compressed": {
+            const bodyReadResult = await response.body?.getReader().read();
+
+            if (!bodyReadResult || !bodyReadResult.value) {
+                return;
+            }
+
+            const body = bodyReadResult.value;
+
+            saveAs(new Blob([body],
+                { type: contentType + ";charset=utf-8" }), "result.7z");
+        }
     }
 }

@@ -1,14 +1,23 @@
+from dataclasses import dataclass
 from typing import Protocol, Any
 from .param_types import Param, Plain, Range
 
 ParamDict = dict
 ParamTypes = dict[str, Param]
-OutputData = dict
 random_params: ParamTypes = {
     "iter": Range(1, _min=1, _max=50),
-    "min": Plain(-100),
-    "max": Plain(100)
+    "max": Plain(1000),
+    "min": Plain(-1000),
+    "round": Plain(True)
 }
+# Содержит контент и расширение
+OutputResult = tuple[str | bytes, str]
+
+
+@dataclass
+class ChainResult:
+    value: int | float
+    passed_nodes: list[int]
 
 
 class RandomFunction(Protocol):
@@ -22,7 +31,7 @@ class SeedFunction(Protocol):
 
 
 class OutputFunction(Protocol):
-    def __call__(self, data: OutputData, *, params: ParamDict) -> None:
+    def __call__(self, result:  list[ChainResult], *, params: ParamDict) -> OutputResult:
         ...
 
 

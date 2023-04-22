@@ -17,7 +17,7 @@ export const edges = new DataSet<vis.Edge>([]);
 
 export let counter = { nodes: 0, edges: 0 };
 
-export const updateParams = (selectNodes: vis.IdType[]) => {
+export function updateParams(selectNodes: vis.IdType[]) {
     const firstNode = nodes.get(selectNodes[0] as vis.IdType);
 
     if (!firstNode)
@@ -30,7 +30,7 @@ export const updateParams = (selectNodes: vis.IdType[]) => {
     if (onlyOneNode) {
         params.selectNode(firstNode);
     }
-};
+}
 
 export function initNetwork(_container: HTMLCanvasElement, style: Colors, _locale: Locale) {
     container = _container;
@@ -66,9 +66,7 @@ export function initNetwork(_container: HTMLCanvasElement, style: Colors, _local
         },
         interaction: {
             multiselect: true,
-            navigationButtons: false,
             selectConnectedEdges: false,
-            keyboard: true
         },
         groups: {
             "seed": { color: style.seed },
@@ -119,7 +117,7 @@ export function connectNodes(from: vis.IdType, to: vis.IdType, getGroup: (id: vi
 }
 
 export function createNode(node: Node, x?: number, y?: number) {
-    const localizedName = locale[node.type][node.name] || node.name;
+    const localizedName = locale[node.type][node.name] ?? node.name;
 
     nodes.add({
         x, y,

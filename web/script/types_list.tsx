@@ -18,7 +18,7 @@ export function initTypesList(locale: Locale, types: NodeTypes, lists: NodeLists
     types.forEach(type => {
         const list = lists[type.type];
 
-        const name = locale[type.type][type.name] || type.name;
+        const name = locale[type.type][type.name] ?? type.name;
         const classes = ["p-2", "m-2", "rounded", "btn", styles[type.type]];
 
         const button = <li class={classes}>{name}</li> as HTMLElement;

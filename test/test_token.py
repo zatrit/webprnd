@@ -3,6 +3,9 @@ from data.db_session import create_session, global_init
 from auth.token import validate_token, generate_token
 from data.users import User
 
+# База данных находится в памяти, так как я не хочу
+# выполнять тесты на главной базе и не знаю, куда
+# сохранять тестовую
 global_init(":memory:")
 with create_session() as db_sess:
     password, role = "123456", "api"

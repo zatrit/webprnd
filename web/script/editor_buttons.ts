@@ -3,6 +3,7 @@ import { Node, NodeType } from "./project";
 import { pairwise } from "./util";
 import { unselectButton } from "./types_list";
 import * as api from "./api";
+import * as params from "./params";
 
 export type NodeInit = {
     name: string,
@@ -39,6 +40,7 @@ const deleteSelected = globalThis.deleteSelected = () => {
 
     selection.edges.forEach(e => edges.remove(e));
     network.unselectAll();
+    params.setVisibility(false);
 };
 
 const selectAll = globalThis.selectAll = () => {

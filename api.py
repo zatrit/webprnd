@@ -1,5 +1,5 @@
 from functools import lru_cache
-from flask import Blueprint, jsonify, request
+from flask import Blueprint, jsonify, request, Response
 from api_error import ApiError, ApiMessage
 import auth
 from generation import Project, generate_project
@@ -21,12 +21,16 @@ def random():
     try:
         if request.json:
             project = Project.from_json(request.json)
-            generate_project(project)
-            return []
+            content, mime = generate_project(project)
+            return Response(content, content_type=mime)
     except ApiError as error:
         return error.json(), 400
     except TypeError as error:
         return ApiError(ApiMessage.WRONG_TYPE, {"details": str(error)}).json(), 400
+    except Exception as error:
+        import traceback
+        traceback.print_exc()
+        return ApiError(ApiMessage.UNKNOWN).json(), 500
     return ApiError(ApiMessage.NO_DATA).json(), 400
 
 
@@ -41,7 +45,7 @@ def random():
 @lru_cache(1)
 def node_types():
     result = []
-    for key, (params, _) in nodes.registry.items():
+    for key, (params, _) in nodes.functions.items():
         node_params = {}
 
         for name, param in params.items():
