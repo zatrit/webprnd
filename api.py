@@ -1,6 +1,8 @@
 from functools import lru_cache
-from flask import Blueprint, jsonify
+from flask import Blueprint, jsonify, request
+from api_error import ApiError, ApiMessage
 import auth
+from generation import Project, generate_project
 import nodes
 
 blueprint = Blueprint(
@@ -16,7 +18,16 @@ requires_auth = auth.requires_auth(["api", "user"])
 @blueprint.route("/api/v1/random", methods=["POST"])
 @requires_auth
 def random():
-    return []
+    try:
+        if request.json:
+            project = Project.from_json(request.json)
+            generate_project(project)
+            return []
+    except ApiError as error:
+        return error.json(), 400
+    except TypeError as error:
+        return ApiError(ApiMessage.WRONG_TYPE, {"details": str(error)}).json(), 400
+    return ApiError(ApiMessage.NO_DATA).json(), 400
 
 
 # POST тут нужен для обращения к API без лишней боли
@@ -38,7 +49,7 @@ def node_types():
 
         # Прописано в nodes.schema.json
         result.append({
-            "type": key.node_type.value,
+            "type": key._type.value,
             "name": key.name,
             "params": node_params
         })

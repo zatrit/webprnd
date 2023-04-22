@@ -38,7 +38,7 @@ export function selectNode(node: VisProjectNode) {
             const title = locale.params[key] || key;
             const id = key + "-param";
 
-            let field = createInputField(id, title, param);
+            const field = createInputField(id, title, param);
 
             // На всякий случай, если требуемый тип не найден
             if (!field) {
@@ -54,14 +54,15 @@ export function selectNode(node: VisProjectNode) {
     );
 }
 
-function createInputField(id: string, title: string, param: ParamType): InputField<any> | undefined {
+function createInputField(id: string, title: string, param: ParamType): InputField<ParamValue> | undefined {
     switch (param.type) {
         case "int":
         case "float":
             return new RangeInput(id, title, param.type);
-        case "range":
+        case "range": {
             const rangeParam = param as RangeParam;
             return new RangeInput(id, title, "int", rangeParam.min, rangeParam.max);
+        }
         case "bool":
             return new BooleanInput(id, title);
     }

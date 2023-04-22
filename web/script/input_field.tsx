@@ -66,8 +66,10 @@ export class RangeInput extends LineInput<number> {
                 switch (this.numberType) {
                     case "float":
                         parsed = Number.parseFloat(strValue);
+                        break;
                     case "int":
                         parsed = Number.parseInt(strValue);
+                        break;
                 }
 
                 parsed = Math.max(Math.min(parsed, this.max), this.min);
@@ -123,6 +125,6 @@ export class BooleanInput extends BaseInput<boolean> {
 
     constructor(id: string, title: string) {
         super(id, title);
-        this.element.classList.add("form-check", "form-switch")
+        this.element.classList.add("form-check", "form-switch");
     }
 }

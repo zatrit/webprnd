@@ -1,6 +1,8 @@
 from dataclasses import dataclass
 from enum import Enum
 from functools import wraps
+
+from nodes.params import fill_defaults
 from .types import Function, ParamDict, ParamTypes, WrapperFunction, random_params
 
 
@@ -12,8 +14,13 @@ class NodeType(Enum):
 
 @dataclass(repr=False, unsafe_hash=True)
 class NodeKey:
-    node_type: NodeType
+    _type: NodeType
     name: str
+
+    def __repr__(self) -> str:
+        return self._type.value + "." + self.name
+
+    __str__ = __repr__
 
 
 registry: dict[NodeKey, tuple[ParamTypes, Function | WrapperFunction]] = {}
@@ -32,19 +39,8 @@ def node(node_type: NodeType, name: str, accepts_params: ParamTypes | None = Non
             # Тут идёт явная проверка типов
             # По сути является контрактом, гарантирующим,
             # что передаваемые параметры подходят под accepts_params
-            forward_params = {}
 
-            for key, _ in (params or {}).items():
-                if key not in accepts_params:
-                    raise ValueError("Неизвестный параметр " + key)
-
-            for key, param in accepts_params.items():
-                value = params.get(key, param.default)
-                if not param.validate(value):
-                    raise ValueError("Неверный тип или значение " + key)
-                forward_params[key] = value
-
-            return fn(*args, params=forward_params)
+            return fn(*args, params=fill_defaults(params, accepts_params))
         key = NodeKey(node_type, name)
         registry[key] = (accepts_params, wrapper)
 

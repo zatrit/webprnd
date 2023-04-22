@@ -1,6 +1,6 @@
 /* Я не придумал, как можно сделать более масштабируемый способ
 отделить ID нод от их видимых имён, поэтому сделал так */
-import { Node, NodeType } from "./project";
+import { NodeType, Project } from "./project";
 
 type LocaleDict = { [id: string]: string; };
 export type ParamValue = boolean | number | string;
@@ -46,7 +46,7 @@ export async function loadTypes(): Promise<NodeTypes> {
     return request.json();
 }
 
-export async function generate(nodes: Node[]) {
+export async function generate(project: Project) {
     const randomUrl = urlFor("/api/v1/random");
 
     const props: RequestInit = {
@@ -54,12 +54,13 @@ export async function generate(nodes: Node[]) {
         headers: {
             "Content-Type": "application/json",
         },
-        body: JSON.stringify({
-            nodes
-        })
+        body: JSON.stringify(project),
     };
 
     const request = await fetch(randomUrl, Object.assign(props, credFetchProps));
+    const result = await request.json();
 
-    console.log(request);
+    if ("message" in result) {
+        alert(result["message"]);
+    }
 }

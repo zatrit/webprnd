@@ -1,7 +1,8 @@
-import { connectNodes, container, counter, createNode, edges, network, nodes, updateParams } from "./vis_network";
+import { buildProject, connectNodes, container, counter, createNode, edges, network, nodes, updateParams } from "./vis_network";
 import { Node, NodeType } from "./project";
 import { pairwise } from "./util";
 import { unselectButton } from "./types_list";
+import * as api from "./api";
 
 export type NodeInit = {
     name: string,
@@ -15,7 +16,7 @@ export function addNode(nodeInit: NodeInit) {
         const { x, y } = network.DOMtoCanvas({ x: e.pageX, y: e.pageY });
 
         const _node: Node = Object.assign({
-            id: ++counter.nodes,
+            id: counter.nodes++,
         }, nodeInit) as Node;
         createNode(_node, x, y);
         unselectButton();
@@ -38,7 +39,7 @@ const deleteSelected = globalThis.deleteSelected = () => {
 
     selection.edges.forEach(e => edges.remove(e));
     network.unselectAll();
-}
+};
 
 const selectAll = globalThis.selectAll = () => {
     network.selectNodes(nodes.getIds());
@@ -54,16 +55,17 @@ const connectSelected = globalThis.connectSelected = () => {
     });
 
     network.unselectAll();
-}
+};
 
-const generate = globalThis.generate = () => { 
-    console.log("Генерируем");
-}
+const generate = globalThis.generate = async () => {
+    const project = buildProject();
+    await api.generate(project);
+};
 
 export function initEditorButtons() {
     document.addEventListener("keydown", e => {
         if (e.code == "KeyN") {
-            document.getElementById("btn-toggle-offcanvas")?.click()
+            document.getElementById("btn-toggle-offcanvas")?.click();
         }
         else if (e.code == "Delete") {
             deleteSelected();
@@ -78,6 +80,10 @@ export function initEditorButtons() {
         }
         else if (e.code == "Escape") {
             network.unselectAll();
+        }
+        else if (e.code == "KeyG" && e.ctrlKey) {
+            e.preventDefault();
+            generate();
         }
     });
 }

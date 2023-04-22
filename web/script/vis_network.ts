@@ -1,4 +1,4 @@
-import { Node, NodeKey, NodeType } from "./project";
+import { Node, NodeKey, NodeType, Project } from "./project";
 import { DataSet } from "vis-data";
 import vis from "vis-network";
 import { Colors } from "./editor";
@@ -102,7 +102,7 @@ const connectable: { [id in NodeType]: Array<string> } = {
     "random": ["random", "output"],
     "seed": ["random", "output"],
     "output": []
-}
+};
 
 export function connectNodes(from: vis.IdType, to: vis.IdType, getGroup: (id: vis.IdType) => NodeType) {
     const tryConnect = (from: vis.IdType, to: vis.IdType, fromGroup: NodeType, toGroup: NodeType) => {
@@ -130,4 +130,27 @@ export function createNode(node: Node, x?: number, y?: number) {
         type: node.type,
         params: {}
     });
+}
+
+export function buildProject(): Project {
+    const projectNodes = nodes.map(node => <Node>{
+        type: node.type,
+        name: node.name,
+        id: node.id,
+        to: [],
+        params: node.params,
+    });
+
+    projectNodes.forEach(node => {
+        network.getConnectedEdges(node.id)
+            .map(id => edges.get(id))
+            .filter(e => e != undefined)
+            .forEach(edge => {
+                if (edge?.from == node.id) {
+                    node.to?.push(edge?.to as number);
+                }
+            });
+    });
+
+    return { nodes: projectNodes };
 }

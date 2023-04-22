@@ -1,3 +1,5 @@
+import { Params } from "./params";
+
 export type NodeType = "random" | "output" | "seed";
 
 export type NodeKey = {
@@ -8,9 +10,10 @@ export type NodeKey = {
 export type Node = NodeKey & {
     id: number,
     to?: number[],
+    params: Params
 }
 
-type Project = {
+export type Project = {
     nodes: Node[],
 }
 
