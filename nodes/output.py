@@ -24,16 +24,11 @@ def json(result: list[ChainResult], *, params: ParamDict) -> OutputResult:
 })
 def csv(result: list[ChainResult], *, params: ParamDict) -> OutputResult:
     import csv
-    quotes = (params["qoute"], ) * 2
-    initial = "# " + "результат".join(quotes) + \
-        params["delimiter"] + \
-        "пройденные ноды".join(quotes) + "\n" if params["header"] else ""
-
-    with StringIO(initial) as io:
-        io.seek(len(initial))
+    with StringIO() as io:
         writer = csv.writer(
             io, delimiter=params["delimiter"], quotechar=params["qoute"],
             quoting=csv.QUOTE_ALL)
+        writer.writerow(("result", "passed nodes"))
         for res in result:
             writer.writerow((res.value, str(res.passed_nodes)))
         return io.getvalue(), "csv"
