@@ -35,7 +35,7 @@
 /* Логотип отображается только если страница имеет достаточно места */
 
 #logo {
-    opacity: 0;
+    opacity: 1;
     transition: opacity 0.5s;
     position: fixed;
     width: 30vh;
@@ -44,9 +44,28 @@
     left: 2vh;
 }
 
-@media screen and (min-width: 992px) {
+.icons {
+    width: 25vh;
+    height: auto;
+}
+
+.flex-container {
+    display: flex;
+    flex-direction: column;
+}
+
+@media screen and (max-width: 992px) {
     #logo {
-        opacity: 1;
+        opacity: 0;
+    }
+    #contacts {
+        display: flex;
+        flex-direction: column;
+    }
+
+    .icons {
+        width: 20vw;
+        height: auto;
     }
 }
 
@@ -76,6 +95,14 @@ code{
     justify-content: center;
 }
 
+#middle {
+    z-index: -998;
+    position: absolute;
+    top: 30vh;
+    left: 10vw;
+    right: 10vw;
+}
+
 #about-group {
     z-index: -998;
     position: absolute;
@@ -84,34 +111,23 @@ code{
     right: 0px;
     min-height: 100vh;
     height: auto;
-    background-color: var(--bs-body-bg);
+    background: var(--bs-body-bg);
 }
 
 #about-title {
     z-index: -997;
-    position: absolute;
-    top: 5vh;
+    margin-top: 5vh;
     left: 0px;
     right: 0px;
     text-align: center;
-    background: blue;
 }
 
 #about-info {
     z-index: -997;
-    position: absolute;
-    top: 15vh;
+    margin: 2vh 3vw 0 3vw;
     left: 3vw;
     right: 3vw;
     height: auto;
-}
-
-#middle {
-    z-index: -998;
-    position: absolute;
-    top: 30vh;
-    left: 10vw;
-    right: 10vw;
 }
 
 #button_img {
@@ -122,19 +138,19 @@ code{
 
 #contacts {
     z-index: -997;
+    margin: 3vh auto 0 auto;
+    min-height: 20vh;
+    height: auto;
+    width: 90vw;
+}
+
+#background-bottom-image {
+    z-index: -995;
+    background-image: url("/static/img/waves_bottom.svg");
+    background-repeat: repeat-x;
     position: absolute;
     bottom: 0px;
     left: 0px;
+    right: 0px;
     height: 20vh;
-    width: 100vw;
-    background: green;
-}
-
-.icons {
-    width: 25vh;
-    height: auto;
-}
-
-#middle {
-    background: yellow;
 }
