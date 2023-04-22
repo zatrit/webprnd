@@ -69,7 +69,7 @@ export async function generate(project: Project) {
             const json = await response.json();
 
             if ("message" in json) {
-                alert(json["message"])
+                alert(json["message"]);
             }
 
             break;
