@@ -68,13 +68,13 @@ class Node:
 
 @dataclass
 class Project:
-    output_format: str
+    _format: str
     nodes: list[Node] = field(default_factory=list)
 
     @classmethod
     def from_json(cls: type[Self], json_dict: dict):
         return cls(
-            output_format=json_dict.get("output_format", "7z"),
+            _format=json_dict.get("format", "7z"),
             nodes=[Node.from_json(n) for n in json_dict["nodes"]])
 
 
@@ -99,14 +99,14 @@ def generate_project(project: Project):
     if not seed_nodes:
         raise ApiError(ApiMessage.NO_SEED)
 
-    if project.output_format not in output_format.formats:
+    if project._format not in output_format.formats:
         raise ApiError(ApiMessage.INVALID_OUTPUT_TYPE)
 
     for node in seed_nodes:
         data = ForwardData(nodes, output_buffer, node._id)
         node.forward(data)
 
-    output = output_format.formats[project.output_format]()
+    output = output_format.formats[project._format]()
 
     for _id, result in output_buffer.items():
         node = node_by_id(nodes, _id)

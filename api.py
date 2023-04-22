@@ -23,6 +23,7 @@ def random():
             project = Project.from_json(request.json)
             content, mime = generate_project(project)
             return Response(content, content_type=mime)
+        # Сложная логика обработки ошибок
     except ApiError as error:
         return error.json(), 400
     except TypeError as error:

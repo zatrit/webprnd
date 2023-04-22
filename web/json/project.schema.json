@@ -9,7 +9,7 @@
             "description": "Токен для авторизации в API, при использовании на сайте не имеет смысла",
             "type": "string"
         },
-        "output_format": {
+        "format": {
             "description": "Формат выходных данный",
             "type": "string",
             "enum": ["7z"]
