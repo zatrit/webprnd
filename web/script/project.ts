@@ -27,17 +27,20 @@ export function initProject(fileInput: HTMLInputElement, setProject: SetProject)
             try {
                 let text = e.target?.result;
 
-                if (!text)
+                if (!text) {
                     throw "Не удалось прочитать файл";
+                }
 
                 // Конвертируем text в string, по необходимости
-                if (text instanceof ArrayBuffer)
+                if (text instanceof ArrayBuffer) {
                     text = decoder.decode(text);
+                }
 
                 const project: Project = JSON.parse(text);
 
-                if (!project.nodes)
+                if (!project.nodes) {
                     throw "Неверный формат проекта";
+                }
 
                 setProject(project);
             } catch (err) {
@@ -45,8 +48,9 @@ export function initProject(fileInput: HTMLInputElement, setProject: SetProject)
             }
         };
 
-        if (!file)
+        if (!file) {
             return;
+        }
 
         reader.readAsText(file);
     };

@@ -1,5 +1,5 @@
 import { Locale, NodeTypes, ParamType, ParamTypes, ParamValue } from "./api";
-import { BooleanInput } from "./input_field";
+import { BooleanInput, InputField, RangeInput } from "./input_field";
 import { NodeType } from "./project";
 import { VisProjectNode } from "./vis_network";
 
@@ -38,14 +38,33 @@ export function selectNode(node: VisProjectNode) {
             const title = locale.params[key] || key;
             const id = key + "-param";
 
-            const field = new BooleanInput(id, title);
-            field.setValue(value as boolean);
-            field.addCallback(console.log);
+            let field = createInputField(id, title, param);
 
-            paramsElements.push(field.element);
-            parent.append(field.element);
+            // На всякий случай, если требуемый тип не найден
+            if (!field) {
+                return;
+            }
+
+            field.setValue(value);
+            field.addCallback(value => node.params[key] = value);
+
+            paramsElements.push(field.getElement());
+            parent.append(field.getElement());
         }
     );
+}
+
+function createInputField(id: string, title: string, param: ParamType): InputField<any> | undefined {
+    switch (param.type) {
+        case "int":
+        case "float":
+            return new RangeInput(id, title, param.type);
+        case "range":
+            const rangeParam = param as RangeParam;
+            return new RangeInput(id, title, "int", rangeParam.min, rangeParam.max);
+        case "bool":
+            return new BooleanInput(id, title);
+    }
 }
 
 export const setVisibility = (visible: boolean) =>

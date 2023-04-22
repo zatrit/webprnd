@@ -1,10 +1,14 @@
 import React from "jsx-dom";
 import { ParamValue } from "./api";
 
-interface InputField<T extends ParamValue> {
-    setValue(value: T): void;
+/*Тут прописаны разные виды полей для ввода данных для параметров.
+Реализация в функциональной парадигме выглядит запутанной, поэтому
+я реализовал в объектной*/
 
+export interface InputField<T extends ParamValue> {
+    setValue(value: T): void;
     addCallback(callback: (value: T) => void): void;
+    getElement(): HTMLElement;
 }
 
 abstract class BaseInput<T extends ParamValue> implements InputField<T> {
@@ -16,10 +20,14 @@ abstract class BaseInput<T extends ParamValue> implements InputField<T> {
     abstract createInput(id: string): HTMLInputElement;
     abstract createLabel(inputId: string, title: string): HTMLLabelElement;
 
+    getElement(): HTMLElement {
+        return this.element;
+    }
+
     constructor(id: string, title: string) {
         this.element = <fieldset>
-            {this.input = this.createInput(id)}
             {this.createLabel(id, title)}
+            {this.input = this.createInput(id)}
         </fieldset> as HTMLElement;
     }
 }
@@ -34,7 +42,7 @@ abstract class LineInput<T extends (number | string)> extends BaseInput<T> {
     }
 
     createInput(id: string): HTMLInputElement {
-        return <input type={this.getInputType()} class="form-control" id={id}></input> as HTMLInputElement;
+        return <input type={this.getInputType()} class="form-control mb-2" id={id}></input> as HTMLInputElement;
     }
 
     createLabel(id: string, title: string): HTMLLabelElement {
@@ -62,8 +70,8 @@ export class RangeInput extends LineInput<number> {
                         parsed = Number.parseInt(strValue);
                 }
 
-                if (this.min > parsed || this.max < parsed)
-                    throw "Число вне диапазона";
+                parsed = Math.max(Math.min(parsed, this.max), this.min);
+                this.input.value = parsed.toString();
 
                 callback(parsed);
             } catch (e) {
