@@ -4,10 +4,17 @@
 {% endblock %}
 
 {% block content %}
-<div class="d-flex align-items-center justify-content-center" style="height: 82vh;">
+<div id="header">
+    <a href="/index">
+      <img id="logo" class="user-select-none" src="{{ static('img/logo.svg') }}" alt="logo">
+    </a>
+</div>
+
+<div class="bebra d-flex align-items-center justify-content-center" style="height: 82vh;">
   <div class="text-center">
     <p class="fs-1"><b>404</b></p>
     <p class="fs-5">Тут ничего нет :(</p>
   </div>
 </div>
+<div class="waves"></div>
 {% endblock %}

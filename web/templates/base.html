@@ -28,6 +28,8 @@ class="btn btn-primary m-1 {% for class in extra %} {{ class }} {%- endfor -%}"
 
     <link rel="icon" href="{{ static('img/logo.svg') }}">
 
+    <link rel="stylesheet" href="{{ static('style/base.css') }}" type="text/css">
+
     {# Нужно тут исключительно для объявления шрифта,
     чтобы не запрашивать base.css отдельно. Если вдруг
     понадобится base.css, то пожалуйста, вынесите это туда же #}

@@ -1,27 +1,42 @@
 {% extends "auth_form_base.html" %}
 
 {% block content %}
-<h1>{{ title }}</h1>
-<form action="" method="post" novalidate>
-    {{ form.hidden_tag() }}
-    <p>
-        {{ form.login.label }}<br>
-        {{ form.login(class="form-control", placeholder="Введите логин") }}<br>
-        {% for error in form.login.errors %}
-        {{ error_message(error) }}
-        {% endfor %}
-    </p>
-    <p>
-        {{ form.password.label }}<br>
-        {{ form.password(class="form-control", type="password", placeholder="Введите пароль") }}<br>
-        {% for error in form.password.errors %}
-        {{ error_message(error) }}
-        {% endfor %}
-    </p>
-    {% if message %}
-    {{ error_message(message) }}
-    {% endif %}
-    <p>{{ form.submit(type="submit", class="btn btn-primary") }}</p>
-    <a href="/register">Ещё нет аккаунта?</a>
-</form>
+<div class="background-image top-0 start-0 w-100 h-100 position-fixed"></div>
+<div class="background top-0 start-0 w-100 h-100 position-fixed"></div>
+<div class="blur top-0 start-0 w-100 h-100 position-fixed"></div>
+
+<div id="header">
+    <a href="/index">
+      <img id="logo" class="user-select-none" src="{{ static('img/logo.svg') }}" alt="logo">
+    </a>
+</div>
+
+<div id="login" class="reg-window">
+    <div class="reg-content items">
+        <h1 class="title">{{ title }}</h1>
+        <form action="" method="post" novalidate>
+            {{ form.hidden_tag() }}
+            <p>
+                {{ form.login.label }}<br>
+                {{ form.login(class="form-control", placeholder="Введите логин") }}<br>
+                {% for error in form.login.errors %}
+                {{ error_message(error) }}
+                {% endfor %}
+            </p>
+            <p>
+                {{ form.password.label }}<br>
+                {{ form.password(class="form-control", type="password", placeholder="Введите пароль") }}<br>
+                {% for error in form.password.errors %}
+                {{ error_message(error) }}
+                {% endfor %}
+            </p>
+            {% if message %}
+            {{ error_message(message) }}
+            {% endif %}
+            <p>{{ form.submit(type="submit", class="btn btn-primary") }}</p>
+            <a href="/register">Ещё нет аккаунта?</a>
+        </form>
+    </div>
+    <div class="reg-waves"></div>
+</div>
 {% endblock %}
