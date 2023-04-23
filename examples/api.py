@@ -12,10 +12,12 @@ parser.add_argument("token", type=str)
 parser.add_argument("--host", type=str, help="Адрес сервера",
                     default="https://zatrit156.pythonanywhere.com/")
 parser.add_argument("--format", type=str, default="base64json")
+parser.add_argument("--project", type=str,
+                    default="./web/json/example.project.json")
 args = parser.parse_args()
 
 # Дабы не переписывать файл каждый раз, просто напишу так
-data = ujson.loads(Path("./web/json/default.project.json").read_text())
+data = ujson.loads(Path("./web/json/example.project.json").read_text())
 data["token"] = args.token
 data["format"] = args.format
 
