@@ -1,5 +1,10 @@
 {% extends "base.html" %}
 
+{% block head %}
+{# Исходный код: web/style/auth.css #}
+<link rel="stylesheet" href="{{ static('style/auth.css') }}" type="text/css">
+{% endblock %}
+
 {% macro error_message(msg) -%}
 <div class="alert alert-danger" role="alert">
     {{ msg }}
