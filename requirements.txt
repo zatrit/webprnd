@@ -3,6 +3,7 @@ argparse
 toml
 ecdsa[gmpy2]
 flask
+py7zr
 flask-wtf
 flask-caching
 cryptography

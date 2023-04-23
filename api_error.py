@@ -1,8 +1,7 @@
-from abc import abstractmethod
-from enum import StrEnum
+from enum import Enum
 
 
-class ApiMessage(StrEnum):
+class ApiMessage(Enum):
     INVALID_OUTPUT_TYPE = "Формат выходных данных не найден"
     INVALID_NODE_TYPE = "Неверный тип ноды"
     INFINITE_LOOP = "Да, тут есть проверка на бесконечные циклы"
