@@ -8,7 +8,7 @@ from form.obtain_token import ObtainTokenForm
 from form.register import RegisterForm
 from flask import request, redirect, render_template
 import auth
-from . import blueprint
+from . import blueprint, requires_auth
 
 
 @blueprint.route("/login", methods=["GET", "POST"])
@@ -62,6 +62,7 @@ def register():
 
 
 @blueprint.route("/obtain", methods=["GET", "POST"])
+@requires_auth
 def obtain_token():
     def post(default_params):
         login = decode_token(auth.get_token())[4]

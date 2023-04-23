@@ -27,19 +27,21 @@
             {{ button("Генерировать", "btn-generate", onclick="generate()") }}
         </div>
 
-        <div class="w-100 bg-dark rounded p-2 mt-2 form-group overflow-auto" style="max-height: 25vh;" id="params-editor">
+        <div class="w-100 bg-dark rounded p-2 mt-2 form-group overflow-auto" style="max-height: 25vh;"
+            id="params-editor">
         </div>
     </div>
 </div>
 
 <div class="offcanvas offcanvas-start show" id="nodes-offcanvas" data-bs-scroll="true" data-bs-backdrop="false">
     <div class="offcanvas-header">
-        <h5 class="offcanvas-title" id="offcanvasResponsiveLabel">Добавить элемент</h5>
+        <h5 class="offcanvas-title" id="offcanvasResponsiveLabel">WebPRND</h5>
         <button type="button" class="btn-close" data-bs-dismiss="offcanvas" data-bs-target="#nodes-offcanvas"
             aria-label="Закрыть"></button>
     </div>
 
     <div class="offcanvas-body">
+        <a {{ button_class(["m-1", "d-block", "p-2"]) }} href="/index">На главную</a>
         <p class="m-2">Сиды</p>
         <div class="btn-group m-1 d-block" role="group" id="seed-nodes-list"></div>
         <p class="m-2">Генераторы</p>

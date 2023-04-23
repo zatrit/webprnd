@@ -1,16 +1,73 @@
+#background {
+    z-index: -999;
+    background: linear-gradient(50deg, #1d01b2, #b90000, #09ac00, #b46900, #7703ac, #03a6a1, #01a52b, #a30072);
+    background-size: 1600% 1600%;
+    animation: background-animation 90s ease infinite;
+}
+
+#background-image {
+    z-index: -998;
+    background-image: url("/static/img/background.png");
+}
+
+@keyframes background-animation {
+    0% {
+        background-position: 0% 88%
+    }
+
+    50% {
+        background-position: 100% 13%
+    }
+
+    100% {
+        background-position: 0% 88%
+    }
+}
+
+/* Логотип отображается только если страница имеет достаточно места */
+
+#logo {
+    opacity: 1;
+    transition: opacity 0.5s;
+    position: fixed;
+    width: 30vh;
+    height: auto;
+    top: 2vh;
+    left: 2vh;
+}
+
 .icons {
     width: 25vh;
 }
 
 @media screen and (max-width: 992px) {
-    #contacts {
-        display: flex;
-        flex-direction: column;
+    #logo {
+        opacity: 0;
     }
 
     .icons {
         width: 20vw;
     }
+}
+
+.desc {
+    font-weight: 700;
+    color: var(--bs-gray-200);
+}
+
+.title {
+    font-weight: 1000;
+    color: var(--bs-gray-100);
+}
+
+a {
+    text-decoration: none;
+    color: var(--bs-success);
+}
+
+code {
+    font-weight: 700;
+    color: var(--bs-info);
 }
 
 .items {

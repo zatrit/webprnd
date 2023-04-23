@@ -5,8 +5,8 @@
 {% endblock %}
 
 {% block content %}
-<div class="background-image top-0 start-0 w-100 h-100 position-fixed"></div>
-<div class="background top-0 start-0 w-100 h-100 position-fixed"></div>
+<div id="background-image" class="top-0 start-0 w-100 h-100 position-fixed"></div>
+<div id="background" class="top-0 start-0 w-100 h-100 position-fixed"></div>
 
 <div id="header">
     <img id="logo" class="user-select-none" src="{{ static('img/logo.svg') }}" alt="logo">
@@ -18,7 +18,7 @@
     <p id="main-title" class="display-4 desc">Генератор псевдо-случайных чисел на Flask.</p>
   </div>
   <div class="col items">
-    <a href="/editor">
+    <a href="/editor" target="_blank">
       <img class="user-select-none h-auto editor-button" src="{{ static('img/start_button.svg') }}"/>
     </a>
   </div>
