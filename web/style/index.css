@@ -1,11 +1,3 @@
-.absolute-cover {
-    width: 100%;
-    height: 100%;
-    position: fixed;
-    top: 0;
-    left: 0;
-}
-
 #background {
     z-index: -999;
     background: linear-gradient(50deg, #1d01b2, #b90000, #09ac00, #b46900, #7703ac, #03a6a1, #01a52b, #a30072);
@@ -46,26 +38,15 @@
 
 .icons {
     width: 25vh;
-    height: auto;
-}
-
-.flex-container {
-    display: flex;
-    flex-direction: column;
 }
 
 @media screen and (max-width: 992px) {
     #logo {
         opacity: 0;
     }
-    #contacts {
-        display: flex;
-        flex-direction: column;
-    }
 
     .icons {
         width: 20vw;
-        height: auto;
     }
 }
 
@@ -84,7 +65,7 @@ a {
     color: var(--bs-success);
 }
 
-code{
+code {
     font-weight: 700;
     color: var(--bs-info);
 }
@@ -114,33 +95,24 @@ code{
     background: var(--bs-body-bg);
 }
 
-#about-title {
+#contacts, #about-title, #about-info {
     z-index: -997;
-    margin-top: 5vh;
-    left: 0px;
-    right: 0px;
-    text-align: center;
 }
 
 #about-info {
-    z-index: -997;
     margin: 2vh 3vw 0 3vw;
     left: 3vw;
     right: 3vw;
-    height: auto;
 }
 
-#button_img {
+#button-img {
     max-width: 400px;
     width: 80vw;
-    height: auto;
 }
 
 #contacts {
-    z-index: -997;
     margin: 3vh auto 0 auto;
     min-height: 20vh;
-    height: auto;
     width: 90vw;
 }
 

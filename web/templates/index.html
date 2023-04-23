@@ -5,11 +5,11 @@
 {% endblock %}
 
 {% block content %}
-<div id="background-image" class="absolute-cover"></div>
-<div id="background" class="absolute-cover"></div>
+<div id="background-image" class="top-0 start-0 w-100 h-100 position-fixed"></div>
+<div id="background" class="top-0 start-0 w-100 h-100 position-fixed"></div>
 
 <div id="header">
-    <img id="logo" class="no-select" src="{{ static('img/logo.svg') }}" alt="logo">
+    <img id="logo" class="user-select-none" src="{{ static('img/logo.svg') }}" alt="logo">
 </div>
 
 <div id="middle" class="row">
@@ -17,17 +17,17 @@
     <h1 class="display-1 title">{{ title }}</h1>
     <p id="main-title" class="display-4 desc">Генератор псевдо-случайных чисел на Flask.</p>
   </div>
-  <div id="start_button" class="col items">
+  <div id="start-button" class="col items">
     <a href="/editor" target="_blank">
-      <img id="button_img" class="no-select" src="{{ static('img/start_button.svg') }}"/>
+      <img id="button-img" class="user-select-none h-auto" src="{{ static('img/start_button.svg') }}"/>
     </a>
   </div>
 </div>
 <div id="about-group" class="">
     <div>
-      <h1 id="about-title" class="display-2 title">О проекте</h1>
+      <h1 id="about-title" class="display-2 title start-0 end-0 text-center mt-5">О проекте</h1>
     </div>
-    <div id="about-info" class="row">
+    <div id="about-info" class="row h-auto">
       <div id="initial-idea" class="col">
         <h1 class="title ">Изначальная задумка</h1>
         <p class="desc">
@@ -68,21 +68,21 @@
         </ol>
       </div>
     </div>
-    <div id="contacts" class="row">
-      <div id="logo_bot" class="col items">
+    <div id="contacts" class="row h-auto">
+      <div class="col items">
         <a href="https://www.youtube.com/watch?v=xm3YgoEiEDc" target="_blank">
-        <img id="logo_bottom" class="no-select icons" src="{{ static('img/logo.svg') }}" alt="logo">
+        <img class="user-select-none icons h-auto" src="{{ static('img/logo.svg') }}" alt="logo">
         </a>
       </div>
-      <div id="rights" class="col desc items">
+      <div class="col desc items">
         <a class="link" href="https://www.youtube.com/watch?v=KBu-6pLXCoA" target="_blank">Никакие права не защищены!</a>
       </div>
-      <div id="get_api" class="col desc items">
+      <div class="col desc items">
         <a class="link" href="/obtain" target="_blank">Получить ключ API</a>
       </div>
       <div id="github" class="col items">
         <a href="https://github.com/zatrit/webprnd/" target="_blank">
-        <img id="github_logo" class="icons" src="{{ static('img/github_logo.svg') }}"/>
+        <img id="github-logo" class="icons h-auto" src="{{ static('img/github_logo.svg') }}"/>
         </a>
       </div>
     </div>

@@ -6,3 +6,9 @@ from . import blueprint, requires_auth
 @requires_auth
 def editor():
     return render_template("editor.html", title="Редактор")
+
+
+@blueprint.route("/")
+@blueprint.route("/index")
+def index():
+    return render_template("index.html", title="WebPRND")
