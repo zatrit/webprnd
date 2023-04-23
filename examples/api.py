@@ -10,7 +10,7 @@ import ujson
 parser = ArgumentParser()
 parser.add_argument("token", type=str)
 parser.add_argument("--host", type=str, help="Адрес сервера",
-                    default="https://zatrit.pythonanywhere.com/")
+                    default="https://zatrit156.pythonanywhere.com/")
 parser.add_argument("--format", type=str, default="base64json")
 args = parser.parse_args()
 

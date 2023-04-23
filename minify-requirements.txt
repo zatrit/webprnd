@@ -1,5 +1,4 @@
 jsoncomment[ujson]
 scour
-requests
 zopflipy
 autopep8

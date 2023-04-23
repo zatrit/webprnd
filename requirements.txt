@@ -5,6 +5,7 @@ ecdsa[gmpy2]
 flask
 ujson
 py7zr
+requests
 flask-wtf
 flask-caching
 cryptography
