@@ -63,7 +63,8 @@ class Node:
     def from_json(cls, json_dict: dict):
         key = NodeKey(NodeType(json_dict["type"]), json_dict["name"])
         return cls(_id=json_dict["id"], key=key,
-                   to=json_dict["to"], params=json_dict["params"])
+                   to=json_dict.get("to", {}),
+                   params=json_dict.get("params", {}))
 
 
 @dataclass
@@ -128,10 +129,10 @@ def get_random(node: Node, seed: int) -> int | float:
     random: RandomFunction = function_for(node.key)  # type: ignore
 
     value, state = 0, None
-    params: dict[str, int] = fill_defaults(node.params, random_params)
+    params = fill_defaults(node.params, random_params, False)
 
     for _ in range(params["iter"]):
-        value, state = random(seed, state, params=params)
+        value, state = random(seed, state, params=node.params)
 
     value *= (params["max"] - params["min"])
     value += params["min"]

@@ -4,6 +4,7 @@ import { pairwise } from "./util";
 import { unselectButton } from "./types_list";
 import * as api from "./api";
 import * as params from "./params";
+import { saveAs } from "file-saver";
 
 export type NodeInit = {
     name: string,
@@ -64,6 +65,12 @@ const generate = globalThis.generate = async () => {
     await api.generate(project);
 };
 
+const saveProject = globalThis.saveProject = () => {
+    const project = JSON.stringify(buildProject());
+    saveAs(new Blob([project],
+        { type: "application/json;charset=utf-8" }), "project.json");
+}
+
 export function initEditorButtons() {
     document.addEventListener("keydown", e => {
         if (e.code == "KeyN") {
@@ -86,6 +93,10 @@ export function initEditorButtons() {
         else if (e.code == "KeyG" && e.ctrlKey) {
             e.preventDefault();
             generate();
+        }
+        else if (e.code == "KeyS" && e.ctrlKey) {
+            e.preventDefault();
+            saveProject();
         }
     });
 }

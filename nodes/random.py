@@ -5,8 +5,8 @@ from .types import ParamTypes, ParamDict
 from . import node, NodeType
 
 modulo_params: ParamTypes = {"m": Plain(0x7FFFFFFF)}
-lcg_params: ParamTypes = modulo_params | {"a": Plain(
-    1664525), "c": Plain(1013904223)}
+lcg_params: ParamTypes = modulo_params | \
+    {"a": Plain(1664525), "c": Plain(1013904223)}
 ccg_params: ParamTypes = lcg_params | {"d": Plain(1664524)}
 
 
