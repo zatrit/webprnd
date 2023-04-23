@@ -95,7 +95,9 @@ code {
     background: var(--bs-body-bg);
 }
 
-#contacts, #about-title, #about-info {
+#contacts,
+#about-title,
+#about-info {
     z-index: -997;
 }
 
@@ -105,9 +107,17 @@ code {
     right: 3vw;
 }
 
-#button-img {
+.editor-button {
     max-width: 400px;
     width: 80vw;
+    transition: 0.25s;
+    opacity: 0.75;
+    scale: 1;
+}
+
+.editor-button:hover {
+    scale: 1.25;
+    opacity: 1;
 }
 
 #contacts {

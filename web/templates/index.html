@@ -13,13 +13,13 @@
 </div>
 
 <div id="middle" class="row">
-  <div id="start_title" class="col">
+  <div id="start-title" class="col">
     <h1 class="display-1 title">{{ title }}</h1>
     <p id="main-title" class="display-4 desc">Генератор псевдо-случайных чисел на Flask.</p>
   </div>
-  <div id="start-button" class="col items">
+  <div class="col items">
     <a href="/editor" target="_blank">
-      <img id="button-img" class="user-select-none h-auto" src="{{ static('img/start_button.svg') }}"/>
+      <img class="user-select-none h-auto editor-button" src="{{ static('img/start_button.svg') }}"/>
     </a>
   </div>
 </div>
@@ -68,7 +68,7 @@
         </ol>
       </div>
     </div>
-    <div id="contacts" class="row h-auto">
+    <div id="contacts" class="row h-auto d-flex flex-column flex-md-row">
       <div class="col items">
         <a href="https://www.youtube.com/watch?v=xm3YgoEiEDc" target="_blank">
         <img class="user-select-none icons h-auto" src="{{ static('img/logo.svg') }}" alt="logo">
