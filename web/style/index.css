@@ -70,12 +70,6 @@ code {
     color: var(--bs-info);
 }
 
-.items {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-}
-
 #middle {
     z-index: -998;
     position: absolute;
@@ -86,12 +80,8 @@ code {
 
 #about-group {
     z-index: -998;
-    position: absolute;
     top: 110vh;
-    left: 0px;
-    right: 0px;
     min-height: 100vh;
-    height: auto;
     background: var(--bs-body-bg);
 }
 
@@ -112,11 +102,10 @@ code {
     width: 80vw;
     transition: 0.25s;
     opacity: 0.75;
-    scale: 1;
 }
 
 .editor-button:hover {
-    scale: 1.25;
+    scale: 1.125;
     opacity: 1;
 }
 
@@ -126,9 +115,6 @@ code {
     width: 90vw;
 }
 
-#background-bottom-image {
-    z-index: -995;
-    background-image: url("/static/img/waves_bottom.svg");
-    background-repeat: repeat-x;
-    height: 20vh;
+.display-8 {
+    font-size: 1.5rem;
 }

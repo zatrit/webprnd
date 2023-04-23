@@ -4,12 +4,16 @@
 <link rel="stylesheet" href="{{ static('style/index.css') }}" type="text/css">
 {% endblock %}
 
+{% macro centrized() %}
+d-flex align-items-center justify-content-center
+{%- endmacro -%}
+
 {% block content %}
 <div id="background-image" class="top-0 start-0 w-100 h-100 position-fixed"></div>
 <div id="background" class="top-0 start-0 w-100 h-100 position-fixed"></div>
 
 <div id="header">
-    <img id="logo" class="user-select-none" src="{{ static('img/logo.svg') }}" alt="logo">
+  <img id="logo" class="user-select-none" src="{{ static('img/logo.svg') }}" alt="logo">
 </div>
 
 <div id="middle" class="row">
@@ -17,75 +21,86 @@
     <h1 class="display-1 title">{{ title }}</h1>
     <p id="main-title" class="display-4 desc">Генератор псевдо-случайных чисел на Flask.</p>
   </div>
-  <div class="col items">
+  <div class="col {{ centrized() }}">
     <a href="/editor" target="_blank">
-      <img class="user-select-none h-auto editor-button" src="{{ static('img/start_button.svg') }}"/>
+      <img class="user-select-none h-auto editor-button" src="{{ static('img/start_button.svg') }}" />
     </a>
   </div>
 </div>
-<div id="about-group" class="">
-    <div>
-      <h1 id="about-title" class="display-2 title start-0 end-0 text-center mt-5">О проекте</h1>
+<div id="about-group" class="position-absolute h-auto start-0 end-0">
+  <div>
+    <h1 id="about-title" class="display-2 title start-0 end-0 text-center mt-5">О проекте</h1>
+  </div>
+  <div id="about-info" class="row h-auto">
+    <div id="initial-idea" class="col">
+      <h1 class="title ">Изначальная задумка</h1>
+      <p class="desc">
+        У меня было желание сделать более удобный генератор псевдо-случайнах чисел, чтобы людям было приятно им
+        пользоваться. Таковым является этот проект.<br><br>
+        Для настройки генераторов псевдо-случайных чисел по моей задумке будет использоваться псевдо-визуальное
+        программирование. Проще говоря, построение логики из блоков.<br><br>
+        Как и в "классическом" CoolPRND, будет три типа блока: сид, генератор и вывод. Так как генерация случайных чисел
+        - это дорогая для компьютера операция, было решено ввести систему авторизации пользователей.<br><br>
+        Придумав такую классную идею, я перешёл к описанию архитектуры проекта. Внизу текста я оставил ссылки, которые я
+        или другой член команды посчитал полезными при работе над данным проектом.
+      </p>
     </div>
-    <div id="about-info" class="row h-auto">
-      <div id="initial-idea" class="col">
-        <h1 class="title ">Изначальная задумка</h1>
-        <p class="desc">
-          У меня было желание сделать более удобный генератор псевдо-случайнах чисел, чтобы людям было приятно им пользоваться. Таковым является этот проект.<br><br>
-          Для настройки генераторов псевдо-случайных чисел по моей задумке будет использоваться псевдо-визуальное программирование. Проще говоря, построение логики из блоков.<br><br>
-          Как и в "классическом" CoolPRND, будет три типа блока: сид, генератор и вывод. Так как генерация случайных чисел - это дорогая для компьютера операция, было решено ввести систему авторизации пользователей.<br><br>
-          Придумав такую классную идею, я перешёл к описанию архитектуры проекта. Внизу текста я оставил ссылки, которые я или другой член команды посчитал полезными при работе над данным проектом.
-        </p>
-      </div>
-      <div id="architecture" class="col">
-        <h1 class="title">Архитектура</h1>
-        <ol class="desc">
-          <li>
-            Всё логика сайта состоит из сервисов, работающих с помощью <a class="link" href="https://flask.palletsprojects.com/en/latest/blueprints/" target="_blank">flask.Blueprint</a>. На данный момент выделены следующие сервисы:
-            <ul>
-              <li><a class="link" href="https://github.com/zatrit/webprnd/tree/master/pages" target="_blank">pages/</a> - отвечает за страницы, разделён на несколько модулей.</li>
-              <li><a class="link" href="https://github.com/zatrit/webprnd/blob/master/api.py" target="_blank">api.py/</a> - отвечает за API. Так как API небольшое, то это всего один blueprint.</li>
-            </ul>
-          </li>
-          <li>
-            Все модели для баз данных находятся в data/.
-          </li>
-          <li>
-            <code># type: ignore</code> и прочие подобные комментарии нужны для того, чтобы у меня не ругался линтер. Благодаря ему я могу писать код без ошибок в VSCode.
-          </li>
-          <li>
-            Для запуска всех тестов используйте команду <code>py test</code> или <code>python test</code>
-          </li>
-          <li>
-            Для компиляции фронт-энда существует скрипт <a class="link" href="https://github.com/zatrit/webprnd/blob/master/api.py" target="_blank">build.py/</a>
-          </li>
-          <li>
-            Желательно использовать явную типизацию в коде на Python и TypeScript в страницах, чтобы не допускать некоторых ошибок
-          </li>
-          <li>
-            Для отрисовки редактора блочной логики используется библиотека vis.js.
-          </li>
-        </ol>
-      </div>
+    <div id="architecture" class="col">
+      <h1 class="title">Архитектура</h1>
+      <ol class="desc">
+        <li>
+          Всё логика сайта состоит из сервисов, работающих с помощью <a class="link"
+            href="https://flask.palletsprojects.com/en/latest/blueprints/" target="_blank">flask.Blueprint</a>. На
+          данный момент выделены следующие сервисы:
+          <ul>
+            <li><a class="link" href="https://github.com/zatrit/webprnd/tree/master/pages" target="_blank">pages/</a> -
+              отвечает за страницы, разделён на несколько модулей.</li>
+            <li><a class="link" href="https://github.com/zatrit/webprnd/blob/master/api.py" target="_blank">api.py/</a>
+              - отвечает за API. Так как API небольшое, то это всего один blueprint.</li>
+          </ul>
+        </li>
+        <li>
+          Все модели для баз данных находятся в data/.
+        </li>
+        <li>
+          <code># type: ignore</code> и прочие подобные комментарии нужны для того, чтобы у меня не ругался линтер.
+          Благодаря ему я могу писать код без ошибок в VSCode.
+        </li>
+        <li>
+          Для запуска всех тестов используйте команду <code>py test</code> или <code>python test</code>
+        </li>
+        <li>
+          Для компиляции фронт-энда существует скрипт <a class="link"
+            href="https://github.com/zatrit/webprnd/blob/master/api.py" target="_blank">build.py/</a>
+        </li>
+        <li>
+          Желательно использовать явную типизацию в коде на Python и TypeScript в страницах, чтобы не допускать
+          некоторых ошибок
+        </li>
+        <li>
+          Для отрисовки редактора блочной логики используется библиотека vis.js.
+        </li>
+      </ol>
     </div>
-    <div id="contacts" class="row h-auto d-flex flex-column flex-md-row">
-      <div class="col items">
-        <a href="https://www.youtube.com/watch?v=xm3YgoEiEDc" target="_blank">
+  </div>
+  <div id="contacts" class="row h-auto flex-column flex-md-row {{ centrized() }}">
+    <div class="col {{ centrized() }}">
+      <a href="https://www.youtube.com/watch?v=xm3YgoEiEDc" target="_blank">
         <img class="user-select-none icons h-auto" src="{{ static('img/logo.svg') }}" alt="logo">
-        </a>
-      </div>
-      <div class="col desc items">
-        <a class="link" href="https://www.youtube.com/watch?v=KBu-6pLXCoA" target="_blank">Никакие права не защищены!</a>
-      </div>
-      <div class="col desc items">
-        <a class="link" href="/obtain" target="_blank">Получить ключ API</a>
-      </div>
-      <div id="github" class="col items">
-        <a href="https://github.com/zatrit/webprnd/" target="_blank">
-        <img id="github-logo" class="icons h-auto" src="{{ static('img/github_logo.svg') }}"/>
-        </a>
-      </div>
+      </a>
     </div>
-    <div id="background-bottom-image" class="bottom-0 start-0 end-0 position-absolute"></div>
+    <div class="col desc {{ centrized() }}">
+      <a class="link display-8" href="https://www.youtube.com/watch?v=KBu-6pLXCoA" target="_blank">Никакие права не
+        защищены!</a>
+    </div>
+    <div class="col desc {{ centrized() }}">
+      <a class="link display-8" href="/obtain" target="_blank">Получить ключ API</a>
+    </div>
+    <div class="col {{ centrized() }}">
+      <a href="https://github.com/zatrit/webprnd/" target="_blank">
+        <img id="github-logo" class="icons h-auto" src="{{ static('img/github_logo.svg') }}" />
+      </a>
+    </div>
+  </div>
 </div>
 {% endblock %}
