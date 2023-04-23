@@ -81,6 +81,13 @@ export function initNetwork(_container: HTMLCanvasElement, style: Colors, _local
 
     network.on("selectNode", nodesEventHandler);
     network.on("deselectNode", nodesEventHandler);
+
+    window.onbeforeunload = () => {
+        // По какой-то причине просто return nodes.length > 0 не работает
+        if (nodes.length > 0) {
+            return true;
+        }
+    };
 }
 
 export function setNodes(addedNodes: Node[]) {
