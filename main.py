@@ -15,7 +15,7 @@ app = Flask(__name__)
 app.config.update({
     "SESSION_COOKIE_SAMESITE": "Strict",
     "SESSION_COOKIE_SECURE": True,
-    "CONFIG_KEY": "",
+    "SECRET_KEY": "test_key",
     "JSON_SORT_KEYS": False
 })
 app.config.from_file("config.toml", toml.load, True)
