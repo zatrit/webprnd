@@ -17,4 +17,4 @@ def time_ns(*, params: ParamDict) -> int:
 @node(NodeType.Seed, "urandom", accepts_params={"n_bytes": Plain(8)})
 def urandom(*, params: ParamDict) -> int:
     from os import urandom as _urandom
-    return int.from_bytes(_urandom(params["n_bytes"]))
+    return int.from_bytes(_urandom(params["n_bytes"]), "big")

@@ -15,7 +15,7 @@ def fernet_for(key: str) -> Fernet:
 
 
 def token_for(login: str, sign_key: SigningKey, expires: int, role: str):
-    expires_bytes = expires.to_bytes(TIME_BYTES)
+    expires_bytes = expires.to_bytes(TIME_BYTES, "big")
     parts = expires_bytes, role.encode(), login.encode(ENCODING)
 
     raw_token: str = ":".join(map(bytes.decode, map(urlsafe_b64encode, parts)))
@@ -27,7 +27,7 @@ def token_for(login: str, sign_key: SigningKey, expires: int, role: str):
 def decode_token(token: str):
     sign, *parts = token.split(":")
     expires, *decodable = map(urlsafe_b64decode, parts)
-    expires = int.from_bytes(expires)
+    expires = int.from_bytes(expires, "big")
     role, login = map(bytes.decode, decodable)
     raw_token = ":".join(parts)
 
