@@ -1,4 +1,5 @@
 #!/usr/bin/env python
+from data.db_session import global_init
 import toml
 import pages
 import api
@@ -22,6 +23,9 @@ app.config.from_file("config.toml", toml.load, True)
 app.register_blueprint(pages.blueprint)
 app.register_blueprint(api.blueprint)
 
+global_init("db/users.db")
+init_nodes()
+
 
 def main():
     from argparse import ArgumentParser
@@ -37,11 +41,6 @@ def main():
 
     if args.content_check and not pages.content_check():
         exit()
-
-    from data.db_session import global_init
-
-    global_init("db/users.db")
-    init_nodes()
 
     app.run(port=args.port)
 
