@@ -54,5 +54,5 @@ def content_check() -> bool:
               "Чтобы запустить сервер, игнорируя это сообщение, используйте --no-content-check.",
               "(но вероятно, ничего не будет работать)",
               "Вы можете скомпилировать веб-контент c помощью build.py, или же скачать:",
-              "PLACEHOLDER", sep="\n")
+              "https://disk.yandex.ru/d/ocXUoe4aSiOMTA", sep="\n")
     return exists
