@@ -1,5 +1,4 @@
 from dataclasses import dataclass, field
-from typing import Self
 from api_error import ApiError, ApiMessage
 from nodes import NodeKey, NodeType, functions
 from nodes.params import fill_defaults
@@ -49,7 +48,7 @@ class Node:
 
         for node_id in self.to:
             data.route = data.route[:initial_len]
-            node: Self = node_by_id(data.nodes, node_id)
+            node = node_by_id(data.nodes, node_id)
 
             data = ForwardData(
                 data.nodes, data.output_buffer,
@@ -73,7 +72,7 @@ class Project:
     nodes: list[Node] = field(default_factory=list)
 
     @classmethod
-    def from_json(cls: type[Self], json_dict: dict):
+    def from_json(cls: type, json_dict: dict):
         return cls(
             _format=json_dict.get("format", "7z"),
             nodes=[Node.from_json(n) for n in json_dict["nodes"]])
