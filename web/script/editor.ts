@@ -11,6 +11,7 @@ const lang = document.documentElement.lang;
 const localeLoading = loadLocale(lang);
 const typesLoading = loadTypes();
 
+/** Главная точка входа, инициализирует всё, что можно */
 async function initEditor() {
     const fileInput = document.getElementById("file-input") as HTMLInputElement;
     initProject(fileInput, p => setNodes(p.nodes));

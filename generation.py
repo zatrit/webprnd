@@ -9,9 +9,9 @@ import output_format
 @dataclass
 class ForwardData:
     nodes: list
+    # Содержит все выходные данные
     output_buffer: dict[int, list[ChainResult]]
     value: int | float | None = None
-    previous: int | None = None
     route: list[int] = field(default_factory=list)
 
 
@@ -26,7 +26,7 @@ class Node:
         if self._id in data.route:
             raise ApiError(ApiMessage.INFINITE_LOOP)
 
-        if self.key._type == NodeType.Seed and data.previous != None:
+        if self.key._type == NodeType.Seed and data.value != None:
             raise ApiError(ApiMessage.SEED_INPUT)
 
         data.route.append(self._id)
@@ -52,8 +52,7 @@ class Node:
 
             data = ForwardData(
                 data.nodes, data.output_buffer,
-                value, previous=self._id,
-                route=data.route,
+                value, route=data.route,
             )
             node.forward(data)
 
@@ -73,9 +72,8 @@ class Project:
 
     @classmethod
     def from_json(cls: type, json_dict: dict):
-        return cls(
-            _format=json_dict.get("format", "7z"),
-            nodes=[Node.from_json(n) for n in json_dict["nodes"]])
+        return cls(_format=json_dict.get("format", "7z"),
+                   nodes=[Node.from_json(n) for n in json_dict["nodes"]])
 
 
 def node_by_id(nodes: list[Node], id: int):
@@ -96,9 +94,11 @@ def generate_project(project: Project):
     seed_nodes = [n for n in nodes if n.key._type == NodeType.Seed]
     output_buffer = {}
 
+    # Если нету сидов, выдаём ошибку
     if not seed_nodes:
         raise ApiError(ApiMessage.NO_SEED)
 
+    # Если нету выходного формата, возвращаем ошибку
     if project._format not in output_format.formats:
         raise ApiError(ApiMessage.INVALID_OUTPUT_TYPE)
 

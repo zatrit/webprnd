@@ -23,12 +23,18 @@ def random():
             project = Project.from_json(request.json)
             content, mime = generate_project(project)
             return Response(content, content_type=mime)
-        # Сложная логика обработки ошибок
     except ApiError as error:
+        # Если есть ошибка API, возвращаем её
         return error.json(), 400
     except TypeError as error:
+        # Если есть ошибка типизации, которая скорее
+        # всего вызвана входными параметрами,
+        # возвращаем WRONG_TYPE
         return ApiError(ApiMessage.WRONG_TYPE, {"details": str(error)}).json(), 400
     except Exception as error:
+        # Скорее всего, это не произойдёт просто так
+        # но на всякий случай, я добавил обработчик
+        # всех остальных ошибок
         import traceback
         traceback.print_exc()
         return ApiError(ApiMessage.UNKNOWN).json(), 500

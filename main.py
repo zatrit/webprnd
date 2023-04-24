@@ -1,11 +1,11 @@
 #!/usr/bin/env python
 from data.db_session import global_init
-import toml
-import pages
-import api
+from nodes import init_nodes
 from flask import Flask
 import mimetypes
-from nodes import init_nodes
+import pages
+import toml
+import api
 
 # Исправляет неверный MIME-тип для скриптов и стилей
 mimetypes.add_type("text/css", ".css")
@@ -18,11 +18,14 @@ app.config.update({
     "SECRET_KEY": "test_key",
     "JSON_SORT_KEYS": False
 })
+# Загружаем config.toml
 app.config.from_file("config.toml", toml.load, True)
 
 app.register_blueprint(pages.blueprint)
 app.register_blueprint(api.blueprint)
 
+# Я не использую Flask-SQLAlchemy, так как не
+# хочу делать всё приложение зависимым от Flask
 global_init("db/users.db")
 init_nodes()
 

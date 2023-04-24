@@ -2,6 +2,8 @@ from enum import Enum
 
 
 class ApiMessage(Enum):
+    """Разные сообщения об ошибках для обработки их в API"""
+
     INVALID_OUTPUT_TYPE = "Формат выходных данных не найден"
     INVALID_NODE_TYPE = "Неверный тип ноды"
     INFINITE_LOOP = "Да, тут есть проверка на бесконечные циклы"
@@ -15,6 +17,8 @@ class ApiMessage(Enum):
 
 
 class ApiError(Exception):
+    """Ошибка API, содержащая ApiMessage как сообщение"""
+
     error: ApiMessage
     data: dict[str, str]
 

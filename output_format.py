@@ -19,6 +19,7 @@ class OutputFormat(Protocol):
         ...
 
 
+# Базовый формат, частично реалзиющий протокол OutputFormat
 class BaseOutputFormat():
     def __init__(self) -> None:
         self.items: dict[tuple[int, str], bytes] = {}
@@ -36,6 +37,8 @@ class Output7zArchive(BaseOutputFormat, OutputFormat):
         from io import BytesIO
 
         with BytesIO() as io:
+            # Создаём архив в памяти и записываем в
+            # него все выходные файлы
             archive = SevenZipFile(io, mode="w")
 
             for (_id, ext), content in self.items.items():
@@ -64,6 +67,8 @@ class OutputPlain(BaseOutputFormat, OutputFormat):
         return content, _type
 
 
+# В целом, этот формат может пригодиться для использования
+# в других приложениях
 class OutputBase64Json(BaseOutputFormat, OutputFormat):
     def get_content(self) -> tuple[bytes, str]:
         import base64
@@ -73,7 +78,7 @@ class OutputBase64Json(BaseOutputFormat, OutputFormat):
         for (_id, ext), content in self.items.items():
             name = ".".join((str(_id), ext))
             result[name] = base64.encodebytes(content).decode("utf8")
-        
+
         return ujson.dumps(result).encode("utf8"), "application/json"
 
 

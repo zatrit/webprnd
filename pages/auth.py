@@ -88,6 +88,7 @@ def obtain_token():
 
 
 def auth_page(default_params: dict, on_post: Callable[[dict], Any], _next: str):
+    # Я не знаю, как ещё уменьшить этот код с соблюдением DRY
     if request.method == "POST" and default_params["form"].validate_on_submit():
         return on_post(default_params) or redirect(_next)
     else:

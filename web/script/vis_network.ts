@@ -5,8 +5,10 @@ import { Colors } from "./editor";
 import { Locale } from "./api";
 import * as params from "./params";
 
+/** Тип для элемента ноды Vis.js, имеющий id, тип и параметры */
 export type VisProjectNode = vis.Node & NodeKey & params.HasParams;
 
+/** Локализация, объявленная в initNetwork */
 let locale: Locale;
 
 export let network: vis.Network;
@@ -37,6 +39,7 @@ export function initNetwork(_container: HTMLCanvasElement, style: Colors, _local
     locale = _locale;
 
     const data = { nodes, edges, };
+    // Внутренний отступ текста со всех сторон
     const margin = 10;
     const options: vis.Options = {
         height: "100%",
@@ -69,6 +72,7 @@ export function initNetwork(_container: HTMLCanvasElement, style: Colors, _local
             selectConnectedEdges: false,
         },
         groups: {
+            // Цвета для нод
             "seed": { color: style.seed },
             "random": { color: style.random },
             "output": { color: style.output },
@@ -90,7 +94,12 @@ export function initNetwork(_container: HTMLCanvasElement, style: Colors, _local
     };
 }
 
+/**
+ * Задаёт ноды для сети
+ * @param addedNodes список добавляемых нод
+ */
 export function setNodes(addedNodes: Node[]) {
+
     [nodes, edges].forEach(d => d.clear());
     counter = { nodes: addedNodes.length, edges: 0 };
 
@@ -103,12 +112,14 @@ export function setNodes(addedNodes: Node[]) {
     network.stabilize();
 }
 
+/** Определяет, какие типы нод можно соединять */
 const connectable: { [id in NodeType]: Array<string> } = {
     "random": ["random", "output"],
     "seed": ["random", "output"],
     "output": []
 };
 
+/** Соединяет две ноды. Если нету такой возможности, меняет их порядок и пробует ещё раз */
 export function connectNodes(from: vis.IdType, to: vis.IdType, getGroup: (id: vis.IdType) => NodeType) {
     const tryConnect = (from: vis.IdType, to: vis.IdType, fromGroup: NodeType, toGroup: NodeType) => {
         if (connectable[fromGroup].includes(toGroup)) {

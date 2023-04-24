@@ -4,6 +4,7 @@ from nodes.types import ParamDict
 import pytest
 
 
+# Тестовая функция, принимающая все возможные параметры
 @node(NodeType.Seed, "testing_test", accepts_params={
     "a": Plain(5),
     "b": Plain("string!"),
