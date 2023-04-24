@@ -26,14 +26,11 @@ class Node:
         if self._id in data.route:
             raise ApiError(ApiMessage.INFINITE_LOOP)
 
-        if self.key._type == NodeType.Seed and data.value != None:
-            raise ApiError(ApiMessage.SEED_INPUT)
-
         data.route.append(self._id)
         initial_len = len(data.route)
 
         if self.key._type == NodeType.Output:
-            if data.value == None:
+            if data.value is None:
                 raise ApiError(ApiMessage.NO_OUTPUT)
 
             result = ChainResult(data.value, data.route)

@@ -27,7 +27,7 @@ functions: dict[NodeKey, tuple[ParamTypes, Function | WrapperFunction]] = {}
 
 
 def node(node_type: NodeType, name: str, accepts_params: ParamTypes | None = None):
-    if accepts_params == None:
+    if accepts_params is None:
         accepts_params = {}
 
     if node_type == NodeType.Random:
