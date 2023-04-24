@@ -2,6 +2,7 @@
 from data.db_session import global_init
 from nodes import init_nodes
 from flask import Flask
+import flask_ujson
 import mimetypes
 import pages
 import toml
@@ -27,6 +28,7 @@ app.register_blueprint(api.blueprint)
 # Я не использую Flask-SQLAlchemy, так как не
 # хочу делать всё приложение зависимым от Flask
 global_init("db/users.db")
+flask_ujson.init_app(app)
 init_nodes()
 
 
